@@ -16,14 +16,14 @@ knitr::opts_chunk$set(
 # sigshared
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/sigshared)](https://CRAN.R-project.org/package=sigshared)
+
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![CRAN status](https://www.r-pkg.org/badges/version/sigshared)](https://CRAN.R-project.org/package=sigshared)
+
 <!-- badges: end -->
 
 **sigshared** contains general utilities used in many other R packages in the [sigverse](https://github.com/selkamand/sigverse)
 
 Unless you're developing / maintaining a sigverse package, there is probably very little reason to ever download this package explicitly. We reccomend just installing the full sigverse as described [here](https://github.com/selkamand/sigverse)
-
 
 ## Installation
 
@@ -34,15 +34,73 @@ You can install the development version of sigshared from [GitHub](https://githu
 devtools::install_github("selkamand/sigshared")
 ```
 
-## Toolkits
+## Sigverse Data Types
 
-### Assertions for key data structures
++---------------------------------------+-------------------------------------------------------------------+
+| Data Structure                        | Requirements                                                      |
++=======================================+===================================================================+
+| **Signature**                         | data.frames with 3 columns                                        |
+|                                       |                                                                   |
+|                                       | 1.  **channel**                                                   |
+|                                       | 2.  **type**                                                      |
+|                                       | 3.  **fraction**                                                  |
++---------------------------------------+-------------------------------------------------------------------+
+| **Signature Collections**             | Lists of signature data.frames, where name of                     |
+|                                       | list entry is the name of the signature                           |
++---------------------------------------+-------------------------------------------------------------------+
+| **Signature Annotations**             | Signature level annotations. data.frames with 2 required columns: |
+|                                       |                                                                   |
+|                                       | 1.  **signature**                                                 |
+|                                       | 2.  **aetiology**                                                 |
++---------------------------------------+-------------------------------------------------------------------+
+| **Decompositions**                    | data.frames with 4 columns                                        |
+|                                       |                                                                   |
+|                                       | 1.  **channel**                                                   |
+|                                       | 2.  **type**                                                      |
+|                                       | 3.  **fraction**                                                  |
+|                                       | 4.  **count**                                                     |
++---------------------------------------+-------------------------------------------------------------------+
+| **Decomposition Collections**         | Lists of decomposition data.frames (1 per                         |
+|                                       | sample) where name represents a sample identifier.                |
++---------------------------------------+-------------------------------------------------------------------+
+| **Cohort Signature Analysis Results** | data.frame with 4 columns:                                        |
+|                                       |                                                                   |
+|                                       | 1.  **sample**                                                    |
+|                                       |                                                                   |
+|                                       | 2.  **signature**                                                 |
+|                                       |                                                                   |
+|                                       | 3.  **contribution_absolute**                                     |
+|                                       |                                                                   |
+|                                       | 4.  **contribution (**percentage**)**                             |
+|                                       |                                                                   |
+|                                       | 5.  **bootstraps** (colon separated string)                       |
++---------------------------------------+-------------------------------------------------------------------+
+
+You can assert an object belongs to each of data types
 
 ```{r, eval = FALSE}
-assert_signature()
-assert_signature_collection()
-assert_decomposition()
-assert_decomposition_collection()
-assert_cohort_analysis()
-```
+library(sigshared)
 
+# Generate Example Datatypes
+
+# Signatures
+signature = example_valid_signature()
+signature_collection = example_valid_signature_collection()
+signature_annotations = example_valid_signature_annotations()
+
+# Decompositions
+decomposition = example_valid_decomposition()
+decomposition_collection = example_valid_decomposition_collection()
+
+# Cohort Analysis Results
+cohort_analysis = example_valid_cohort_analysis()
+
+
+# Run Assertions
+assert_signature(signature)
+assert_signature_collection(signature_collection)
+assert_decomposition(decomposition)
+assert_decomposition_collection(decomposition_collection)
+assert_cohort_analysis(cohort_analysis)
+assert_signature_aetiology_collection(decomposition_collection)
+```
