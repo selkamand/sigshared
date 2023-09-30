@@ -78,7 +78,38 @@ devtools::install_github("selkamand/sigshared")
 |                                       | 5.  **bootstraps** (colon separated string)                                                                                                                                                     |
 +---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-### Signature Aetiology Classes
+### Assertions
+
+You can assert an object belongs to each of data types
+
+```{r, eval = FALSE}
+library(sigshared)
+
+# Generate Example Datatypes
+
+# Signatures
+signature = example_valid_signature()
+signature_collection = example_valid_signature_collection()
+signature_annotations = example_valid_signature_annotations()
+
+# Decompositions
+decomposition = example_valid_decomposition()
+decomposition_collection = example_valid_decomposition_collection()
+
+# Cohort Analysis Results
+cohort_analysis = example_valid_cohort_analysis()
+
+
+# Run Assertions
+assert_signature(signature)
+assert_signature_collection(signature_collection)
+assert_decomposition(decomposition)
+assert_decomposition_collection(decomposition_collection)
+assert_cohort_analysis(cohort_analysis)
+signature_annotations(decomposition_collection)
+```
+
+### Signature Aetiology Classes {data-link="Signature Aetiology Classes"}
 
 | Class                         | Subclass                            |
 |-------------------------------|-------------------------------------|
@@ -117,33 +148,4 @@ devtools::install_github("selkamand/sigshared")
 | ploidy                        | tetraploid                          |
 | unknown                       | unknown                             |
 
-### Assertions
-
-You can assert an object belongs to each of data types
-
-```{r, eval = FALSE}
-library(sigshared)
-
-# Generate Example Datatypes
-
-# Signatures
-signature = example_valid_signature()
-signature_collection = example_valid_signature_collection()
-signature_annotations = example_valid_signature_annotations()
-
-# Decompositions
-decomposition = example_valid_decomposition()
-decomposition_collection = example_valid_decomposition_collection()
-
-# Cohort Analysis Results
-cohort_analysis = example_valid_cohort_analysis()
-
-
-# Run Assertions
-assert_signature(signature)
-assert_signature_collection(signature_collection)
-assert_decomposition(decomposition)
-assert_decomposition_collection(decomposition_collection)
-assert_cohort_analysis(cohort_analysis)
-signature_annotations(decomposition_collection)
-```
+### 
