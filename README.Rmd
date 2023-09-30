@@ -36,45 +36,88 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-+---------------------------------------+-------------------------------------------------------------------+
-| Data Structure                        | Requirements                                                      |
-+=======================================+===================================================================+
-| **Signature**                         | data.frames with 3 columns                                        |
-|                                       |                                                                   |
-|                                       | 1.  **channel**                                                   |
-|                                       | 2.  **type**                                                      |
-|                                       | 3.  **fraction**                                                  |
-+---------------------------------------+-------------------------------------------------------------------+
-| **Signature Collections**             | Lists of signature data.frames, where name of                     |
-|                                       | list entry is the name of the signature                           |
-+---------------------------------------+-------------------------------------------------------------------+
-| **Signature Annotations**             | Signature level annotations. data.frames with 2 required columns: |
-|                                       |                                                                   |
-|                                       | 1.  **signature**                                                 |
-|                                       | 2.  **aetiology**                                                 |
-+---------------------------------------+-------------------------------------------------------------------+
-| **Decompositions**                    | data.frames with 4 columns                                        |
-|                                       |                                                                   |
-|                                       | 1.  **channel**                                                   |
-|                                       | 2.  **type**                                                      |
-|                                       | 3.  **fraction**                                                  |
-|                                       | 4.  **count**                                                     |
-+---------------------------------------+-------------------------------------------------------------------+
-| **Decomposition Collections**         | Lists of decomposition data.frames (1 per                         |
-|                                       | sample) where name represents a sample identifier.                |
-+---------------------------------------+-------------------------------------------------------------------+
-| **Cohort Signature Analysis Results** | data.frame with 4 columns:                                        |
-|                                       |                                                                   |
-|                                       | 1.  **sample**                                                    |
-|                                       |                                                                   |
-|                                       | 2.  **signature**                                                 |
-|                                       |                                                                   |
-|                                       | 3.  **contribution_absolute**                                     |
-|                                       |                                                                   |
-|                                       | 4.  **contribution (**percentage**)**                             |
-|                                       |                                                                   |
-|                                       | 5.  **bootstraps** (colon separated string)                       |
-+---------------------------------------+-------------------------------------------------------------------+
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Data Structure                        | Requirements                                                                                                                                                                                    |
++=======================================+=================================================================================================================================================================================================+
+| **Signature**                         | data.frames with 3 columns                                                                                                                                                                      |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 1.  **type**                                                                                                                                                                                    |
+|                                       | 2.  **channel**                                                                                                                                                                                 |
+|                                       | 3.  **fraction**                                                                                                                                                                                |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Signature Collections**             | Lists of signature data.frames, where name of list entry is the name of the signature                                                                                                           |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Signature Annotations**             | Signature level annotations. data.frames with 4 required columns:                                                                                                                               |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 1.  **signature**                                                                                                                                                                               |
+|                                       | 2.  **aetiology**                                                                                                                                                                               |
+|                                       | 3.  **class**                                                                                                                                                                                   |
+|                                       | 4.  **subclass**                                                                                                                                                                                |
+|                                       |                                                                                                                                                                                                 |
+|                                       | class and subclass of aetiology do not need to conform to any specific ontology. However, we include the data-dictionary used by sigstash collections below (see [Signature Aetiology Classes]) |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Decompositions**                    | data.frames with 4 columns                                                                                                                                                                      |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 1.  **channel**                                                                                                                                                                                 |
+|                                       | 2.  **type**                                                                                                                                                                                    |
+|                                       | 3.  **fraction**                                                                                                                                                                                |
+|                                       | 4.  **count**                                                                                                                                                                                   |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Decomposition Collections**         | Lists of decomposition data.frames (1 per sample) where name represents a sample identifier.                                                                                                    |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Cohort Signature Analysis Results** | data.frame with 4 columns:                                                                                                                                                                      |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 1.  **sample**                                                                                                                                                                                  |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 2.  **signature**                                                                                                                                                                               |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 3.  **contribution_absolute**                                                                                                                                                                   |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 4.  **contribution (**percentage**)**                                                                                                                                                           |
+|                                       |                                                                                                                                                                                                 |
+|                                       | 5.  **bootstraps** (colon separated string)                                                                                                                                                     |
++---------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+### Signature Aetiology Classes
+
+| Class                         | Subclass                            |
+|-------------------------------|-------------------------------------|
+| artefact                      | 8-oxo-guanine                       |
+| artefact                      | sequencing_artefact                 |
+| artefact                      | germline_contamination              |
+| artefact                      | oversegmentation                    |
+| clock-like                    | clock-like                          |
+| dysfunctional_dna_repair      | MMR                                 |
+| dysfunctional_dna_repair      | HR                                  |
+| dysfunctional_dna_repair      | NER                                 |
+| dysfunctional_dna_repair      | BER                                 |
+| dysfunctional_dna_repair      | NHEJ                                |
+| dysfunctional_dna_replication | proofreading                        |
+| dysfunctional_dna_replication | polymerase_mutations                |
+| treatment_associated          | chemotherapy_platinum               |
+| treatment_associated          | chemotherapy_thiopurine             |
+| treatment_associated          | chemotherapy_pyrimidine_antagonists |
+| treatment_associated          | chemotherapy_unknown                |
+| treatment_associated          | chemotherapy_nitrogen_mustards      |
+| treatment_associated          | triazenes                           |
+| treatment_associated          | immunosuppression                   |
+| environmental_mutagens        | tobacco                             |
+| environmental_mutagens        | haloalkanes                         |
+| environmental_mutagens        | UV                                  |
+| plants_and_microbes           | aflatoxin                           |
+| plants_and_microbes           | colibactin                          |
+| plants_and_microbes           | aristolochic_acid                   |
+| cytidine_deaminases           | cytidine_deaminases                 |
+| immune                        | ROS                                 |
+| dysfunctional_epigenetics     | topology                            |
+| chromosomal                   | chromosomal_losses                  |
+| chromosomal                   | chromosomal_instability             |
+| chromosomal                   | chromothripsis                      |
+| ploidy                        | diploid                             |
+| ploidy                        | tetraploid                          |
+| unknown                       | unknown                             |
+
+### Assertions
 
 You can assert an object belongs to each of data types
 
@@ -102,5 +145,5 @@ assert_signature_collection(signature_collection)
 assert_decomposition(decomposition)
 assert_decomposition_collection(decomposition_collection)
 assert_cohort_analysis(cohort_analysis)
-assert_signature_aetiology_collection(decomposition_collection)
+signature_annotations(decomposition_collection)
 ```

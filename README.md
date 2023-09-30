@@ -34,8 +34,8 @@ devtools::install_github("selkamand/sigshared")
 
 <table>
 <colgroup>
-<col style="width: 37%" />
-<col style="width: 62%" />
+<col style="width: 17%" />
+<col style="width: 82%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -48,8 +48,8 @@ devtools::install_github("selkamand/sigshared")
 <td><strong>Signature</strong></td>
 <td><p>data.frames with 3 columns</p>
 <ol type="1">
-<li><strong>channel</strong></li>
 <li><strong>type</strong></li>
+<li><strong>channel</strong></li>
 <li><strong>fraction</strong></li>
 </ol></td>
 </tr>
@@ -60,12 +60,19 @@ of the signature</td>
 </tr>
 <tr class="odd">
 <td><strong>Signature Annotations</strong></td>
-<td><p>Signature level annotations. data.frames with 2 required
+<td><p>Signature level annotations. data.frames with 4 required
 columns:</p>
 <ol type="1">
 <li><strong>signature</strong></li>
 <li><strong>aetiology</strong></li>
-</ol></td>
+<li><strong>class</strong></li>
+<li><strong>subclass</strong></li>
+</ol>
+<p>class and subclass of aetiology do not need to conform to any
+specific ontology. However, we include the data-dictionary used by
+sigstash collections below (see <a
+href="#signature-aetiology-classes">Signature Aetiology
+Classes</a>)</p></td>
 </tr>
 <tr class="even">
 <td><strong>Decompositions</strong></td>
@@ -97,6 +104,47 @@ represents a sample identifier.</td>
 </tbody>
 </table>
 
+### Signature Aetiology Classes
+
+| Class                         | Subclass                            |
+|-------------------------------|-------------------------------------|
+| artefact                      | 8-oxo-guanine                       |
+| artefact                      | sequencing_artefact                 |
+| artefact                      | germline_contamination              |
+| artefact                      | oversegmentation                    |
+| clock-like                    | clock-like                          |
+| dysfunctional_dna_repair      | MMR                                 |
+| dysfunctional_dna_repair      | HR                                  |
+| dysfunctional_dna_repair      | NER                                 |
+| dysfunctional_dna_repair      | BER                                 |
+| dysfunctional_dna_repair      | NHEJ                                |
+| dysfunctional_dna_replication | proofreading                        |
+| dysfunctional_dna_replication | polymerase_mutations                |
+| treatment_associated          | chemotherapy_platinum               |
+| treatment_associated          | chemotherapy_thiopurine             |
+| treatment_associated          | chemotherapy_pyrimidine_antagonists |
+| treatment_associated          | chemotherapy_unknown                |
+| treatment_associated          | chemotherapy_nitrogen_mustards      |
+| treatment_associated          | triazenes                           |
+| treatment_associated          | immunosuppression                   |
+| environmental_mutagens        | tobacco                             |
+| environmental_mutagens        | haloalkanes                         |
+| environmental_mutagens        | UV                                  |
+| plants_and_microbes           | aflatoxin                           |
+| plants_and_microbes           | colibactin                          |
+| plants_and_microbes           | aristolochic_acid                   |
+| cytidine_deaminases           | cytidine_deaminases                 |
+| immune                        | ROS                                 |
+| dysfunctional_epigenetics     | topology                            |
+| chromosomal                   | chromosomal_losses                  |
+| chromosomal                   | chromosomal_instability             |
+| chromosomal                   | chromothripsis                      |
+| ploidy                        | diploid                             |
+| ploidy                        | tetraploid                          |
+| unknown                       | unknown                             |
+
+### Assertions
+
 You can assert an object belongs to each of data types
 
 ``` r
@@ -123,5 +171,5 @@ assert_signature_collection(signature_collection)
 assert_decomposition(decomposition)
 assert_decomposition_collection(decomposition_collection)
 assert_cohort_analysis(cohort_analysis)
-assert_signature_aetiology_collection(decomposition_collection)
+signature_annotations(decomposition_collection)
 ```
