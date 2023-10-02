@@ -116,7 +116,7 @@ library(sigshared)
 # Signatures
 signature = example_valid_signature()
 signature_collection = example_valid_signature_collection()
-signature_annotations = example_valid_signature_annotations()
+signature_annotations = example_valid_annotations()
 
 # Decompositions
 decomposition = example_valid_decomposition()
@@ -126,13 +126,17 @@ decomposition_collection = example_valid_decomposition_collection()
 cohort_analysis = example_valid_cohort_analysis()
 
 
-# Run Assertions
+# Assert Signatures
 assert_signature(signature)
 assert_signature_collection(signature_collection)
+assert_signature_annotations(signature_annotations)
+
+# Assert Decompositions
 assert_decomposition(decomposition)
 assert_decomposition_collection(decomposition_collection)
+
+# Assert Analyses
 assert_cohort_analysis(cohort_analysis)
-signature_annotations(decomposition_collection)
 ```
 
 ### Signature Aetiology Classes
