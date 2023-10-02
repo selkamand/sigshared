@@ -39,15 +39,16 @@ check_signature = function(obj){
     return('{.arg {arg_name}} is {.strong NOT} a valid signature: Found missing (NA) values')
   }
 
-  #Fractions sum to >1
-  if(sum(obj[['fraction']]) > 1){
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be less than or equal to 1, not ', sum(obj[['fraction']])))
-  }
-
   #Fractions include negative values
   if(any(obj[['fraction']] < 0)){
     return('{.arg {arg_name}} is {.strong NOT} a valid signature: Found negative fractions')
   }
+
+  # Fractions Sum to 1
+  if(!isTRUE(all.equal(target = sum(obj[['fraction']]), current = 1, tolerance = 1.5e-8))){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
+  }
+
 
   return(invisible(TRUE))
 }
@@ -90,21 +91,21 @@ check_decomposition = function(obj){
     return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: found missing (NA) values')
   }
 
-  # Fractions sum to >1
-  if(sum(obj[['fraction']]) > 1){
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: sum of fractions must be less than or equal to 1, not ', sum(obj[['fraction']])))
-  }
-
   # Fractions include negative values
   if(any(obj[['fraction']] < 0)){
     return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: found negative fractions')
+  }
+
+  # Fractions sum to 1
+  if(!isTRUE(all.equal(sum(obj[['fraction']]), 1, tolerance = 1.5e-8))){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
   # Fractions dont make sense given count
   calculated_fraction = obj[['count']]/sum(obj[['count']])
   observed_fraction = obj[['fraction']]
 
-  #browser()
+  # Calculated and observed fraction are approximately equal
   if(!isTRUE(all.equal(calculated_fraction, observed_fraction))){
     return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: fraction is not explained by counts')
   }

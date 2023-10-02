@@ -16,7 +16,7 @@ test_that("assert_signature works", {
   expect_error(assert_signature(example_invalid_signature_missing()), regexp = "missing (NA)", fixed=TRUE)
 
   # Fractions sum to >1
-  expect_error(assert_signature(example_invalid_signature_fraction_sum()), regexp = "Sum of fractions must be less than or equal to 1")
+  expect_error(assert_signature(example_invalid_signature_fraction_sum()), regexp = "Sum of fractions must be approximately equal to 1")
 
   # Fractions include negative values
   expect_error(assert_signature(example_invalid_signature_negative_fraction()), regexp = "Found negative fractions")

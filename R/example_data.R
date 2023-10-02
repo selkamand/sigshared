@@ -15,7 +15,7 @@ example_valid_signature <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
-    fraction = c(0.4, 0.1, 0.2)
+    fraction = c(0.4, 0.1, 0.5)
   )
 }
 
@@ -25,7 +25,7 @@ example_invalid_signature_channeldup <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G', 'A>G'),
-    fraction = c(0.4, 0.1, 0.2, 0.5)
+    fraction = c(0.4, 0.1, 0.2, 0.3)
   )
 }
 
@@ -33,7 +33,7 @@ example_invalid_signature_numeric_channel = function(){
   data.frame(
     channel = c(1:4),
     type = c('A>G', 'A>G', 'A>G', 'A>G'),
-    fraction = c(0.4, 0.1, 0.2, 0.5)
+    fraction = c(0.4, 0.1, 0.2, 0.3)
   )
 }
 
@@ -41,7 +41,7 @@ example_invalid_signature_factor_channel = function(){
   data.frame(
     channel = factor(c('A[A->G]G', 'A[A->G]G', 'A[A->G]C', 'A[A->G]T')),
     type = c('A>G', 'A>G', 'A>G', 'A>G'),
-    fraction = c(0.4, 0.1, 0.2, 0.5)
+    fraction = c(0.4, 0.1, 0.2, 0.3)
   )
 }
 
