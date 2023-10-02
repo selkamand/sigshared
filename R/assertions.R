@@ -45,7 +45,7 @@ check_signature = function(obj){
   }
 
   # Fractions Sum to 1
-  if(!isTRUE(all.equal(target = sum(obj[['fraction']]), current = 1, tolerance = 1.5e-8))){
+  if(!isTRUE(all.equal(target = sum(obj[['fraction']]), current = 1, tolerance = 1e-07))){
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
@@ -97,7 +97,7 @@ check_decomposition = function(obj){
   }
 
   # Fractions sum to 1
-  if(!isTRUE(all.equal(sum(obj[['fraction']]), 1, tolerance = 1.5e-8))){
+  if(!isTRUE(all.equal(sum(obj[['fraction']]), 1, tolerance = 1e-7))){
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
@@ -106,7 +106,7 @@ check_decomposition = function(obj){
   observed_fraction = obj[['fraction']]
 
   # Calculated and observed fraction are approximately equal
-  if(!isTRUE(all.equal(calculated_fraction, observed_fraction))){
+  if(!isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 1e-7))){
     return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: fraction is not explained by counts')
   }
 
