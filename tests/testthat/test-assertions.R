@@ -44,42 +44,42 @@ test_that("assert_signature_collection works", {
 
 
 
-# Test assert_decomposition
-test_that("assert_decomposition works", {
+# Test assert_catalogue
+test_that("assert_catalogue works", {
 
-  expect_error(assert_decomposition(example_valid_decomposition()), regexp = NA)
+  expect_error(assert_catalogue(example_valid_catalogue()), regexp = NA)
 
   # Invalid fraction values
-  expect_error(assert_decomposition(example_invalid_decomposition_nonsensical_fraction()), regexp = "NOT a valid decomposition")
+  expect_error(assert_catalogue(example_invalid_catalogue_nonsensical_fraction()), regexp = "NOT a valid catalogue")
 
   # Missing Data
-  expect_error(assert_decomposition(example_invalid_decomposition_missing()), regexp = "found missing (NA) values", fixed = TRUE)
+  expect_error(assert_catalogue(example_invalid_catalogue_missing()), regexp = "found missing (NA) values", fixed = TRUE)
 
   # Invalid column name
-  expect_error(assert_decomposition(example_invalid_decomposition_colname_typo()), regexp = "must contain the following columns: [type]", fixed = TRUE)
+  expect_error(assert_catalogue(example_invalid_catalogue_colname_typo()), regexp = "must contain the following columns: [type]", fixed = TRUE)
 
   # Duplicated channel
-  expect_error(assert_decomposition(example_invalid_decomposition_channeldup()), regexp = "duplicat")
+  expect_error(assert_catalogue(example_invalid_catalogue_channeldup()), regexp = "duplicat")
 })
 
 
-# Test assert_decomposition_collection
-test_that("assert_decomposition_collection works", {
+# Test assert_catalogue_collection
+test_that("assert_catalogue_collection works", {
 
   # Works as expected
-  expect_error(assert_decomposition_collection(example_valid_decomposition_collection()), regexp = NA)
+  expect_error(assert_catalogue_collection(example_valid_catalogue_collection()), regexp = NA)
 
   # Invalid collection type (not a list)
-  expect_error(assert_decomposition_collection(example_invalid_decomposition_collection_not_list()), regexp = "valid decomposition collection: Collections must be of type list")
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_not_list()), regexp = "valid catalogue collection: Collections must be of type list")
 
   # Empty collection
-  expect_error(assert_decomposition_collection(example_invalid_decomposition_collection_empty()), regexp = "valid decomposition collection: No decompositions are present in the collection")
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_empty()), regexp = "valid catalogue collection: No catalogues are present in the collection")
 
-  # Duplicated decomposition names
-  expect_error(assert_decomposition_collection(example_invalid_decomposition_collection_duplicated_names()), regexp = "valid decomposition collection: found duplicated decomposition names")
+  # Duplicated catalogue names
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_duplicated_names()), regexp = "valid catalogue collection: found duplicated catalogue names")
 
-  # Invalid decomposition within the collection
-  expect_error(assert_decomposition_collection(example_invalid_decomposition_in_collection()), regexp = "not a valid decomposition collection")
+  # Invalid catalogue within the collection
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_in_collection()), regexp = "not a valid catalogue collection")
 })
 
 

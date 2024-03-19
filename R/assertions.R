@@ -53,18 +53,18 @@ check_signature = function(obj){
   return(invisible(TRUE))
 }
 
-check_decomposition = function(obj){
+check_catalogue = function(obj){
   required_cols = c('channel', 'type', 'count', 'fraction')
 
   # Not a data.frame
   if(!is.data.frame(obj))
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: Signature must be represented as a data.frame, not a ', class(obj), ''))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature must be represented as a data.frame, not a ', class(obj), ''))
 
   # Missing Colnames
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
   }
 
   # Column Types Unexpected
@@ -83,22 +83,22 @@ check_decomposition = function(obj){
   # Duplicated Channels
   if(anyDuplicated(obj[['channel']])){
     duplicated_channel = obj[['channel']][duplicated(obj[['channel']])]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: found duplicated channels (',paste0(duplicated_channel, collapse = ", "), ')'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: found duplicated channels (',paste0(duplicated_channel, collapse = ", "), ')'))
   }
 
   # Missing Values
   if(anyNA(obj)){
-    return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: found missing (NA) values')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: found missing (NA) values')
   }
 
   # Fractions include negative values
   if(any(obj[['fraction']] < 0)){
-    return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: found negative fractions')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: found negative fractions')
   }
 
   # Fractions sum to 1
   if(!isTRUE(all.equal(sum(obj[['fraction']]), 1, tolerance = 1e-7))){
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
   # Fractions dont make sense given count
@@ -107,7 +107,7 @@ check_decomposition = function(obj){
 
   # Calculated and observed fraction are approximately equal
   if(!isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 1e-7))){
-    return('{.arg {arg_name}} is {.strong NOT} a valid decomposition: fraction is not explained by counts')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: fraction is not explained by counts')
   }
 
   #Return TRUE
@@ -150,33 +150,33 @@ check_signature_collection <- function(obj){
 }
 
 
-check_decomposition_collection <- function(obj){
+check_catalogue_collection <- function(obj){
 
   # Is not list
   if(!is.list(obj) | is.data.frame(obj))
-    return('{.arg {arg_name}} is {.strong NOT} a valid decomposition collection: Collections must be of type {.emph list}, not {class(arg_value)}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: Collections must be of type {.emph list}, not {class(arg_value)}')
 
   # Length Greater than 0
   if(length(obj) == 0){
-    return('{.arg {arg_name}} is {.strong NOT} a valid decomposition collection: No decompositions are present in the collection')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: No catalogues are present in the collection')
   }
 
   # Duplicated names
   signames = names(obj)
   if(anyDuplicated(signames)){
     duplicated_signames = signames[duplicated(signames)]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid decomposition collection: found duplicated decomposition names (',paste0(duplicated_signames, collapse = ", "), ')'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: found duplicated catalogue names (',paste0(duplicated_signames, collapse = ", "), ')'))
   }
 
-  # Assert each decomposition in the collection
+  # Assert each catalogue in the collection
   for (i in seq_along(obj)){
     sig = obj[[i]]
     name = signames[i]
-    err_message = check_decomposition(sig)
+    err_message = check_catalogue(sig)
 
     err_message = sub(x=err_message, pattern = "^.*?:(.*)$", replacement = "\\1")
     if(err_message != TRUE) {
-      err_message = paste0('{arg_name} is not a valid decomposition collection. Signature {.emph ',name,'} fails the following check:\f\f', err_message, collapse = "")
+      err_message = paste0('{arg_name} is not a valid catalogue collection. Signature {.emph ',name,'} fails the following check:\f\f', err_message, collapse = "")
       return(err_message)
     }
   }
@@ -324,21 +324,21 @@ check_cohort_analysis <- function(obj){
 #'   signature_collection = example_valid_signature_collection()
 #'   signature_annotations = example_valid_signature_annotations()
 #'
-#'   # Decompositions
-#'   decomposition = example_valid_decomposition()
-#'   decomposition_collection = example_valid_decomposition_collection()
+#'   # Catalogues
+#'   catalogue = example_valid_catalogue()
+#'   catalogue_collection = example_valid_catalogue_collection()
 #'
 #'   # Cohort Analysis Results
 #'   cohort_analysis = example_valid_cohort_analysis()
 #'
 #'   # Cohort Analysis Results
-#'   decomposition_collection = example_valid_decomposition_collection()
+#'   catalogue_collection = example_valid_catalogue_collection()
 #'
 #'   # Run Assertions
 #'   assert_signature(signature)
 #'   assert_signature_collection(signature_collection)
-#'   assert_decomposition(decomposition)
-#'   assert_decomposition_collection(decomposition_collection)
+#'   assert_catalogue(catalogue)
+#'   assert_catalogue_collection(catalogue_collection)
 #'   assert_cohort_analysis(cohort_analysis)
 #' }
 assert_signature <- assertions::assert_create(check_signature)
@@ -352,20 +352,20 @@ assert_signature <- assertions::assert_create(check_signature)
 assert_signature_collection <- assertions::assert_create(check_signature_collection)
 
 #' @description
-#' Assert object represents a decomposition
+#' Assert object represents a catalogue
 #'
 #' @inherit assert_signature
 #'
 #' @export
-assert_decomposition <- assertions::assert_create(check_decomposition)
+assert_catalogue <- assertions::assert_create(check_catalogue)
 
 #' @description
-#' Assert object represents a collection of decompositions
+#' Assert object represents a collection of catalogues
 #'
 #' @inherit assert_signature
 #'
 #' @export
-assert_decomposition_collection <- assertions::assert_create(check_decomposition_collection)
+assert_catalogue_collection <- assertions::assert_create(check_catalogue_collection)
 
 #' @description
 #' Assert object represents signature annotations

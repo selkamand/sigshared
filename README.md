@@ -35,8 +35,8 @@ devtools::install_github("selkamand/sigshared")
 
 <table>
 <colgroup>
-<col style="width: 17%" />
-<col style="width: 82%" />
+<col style="width: 16%" />
+<col style="width: 83%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -47,7 +47,8 @@ devtools::install_github("selkamand/sigshared")
 <tbody>
 <tr class="odd">
 <td><strong>Signature</strong></td>
-<td><p>data.frames with 3 columns</p>
+<td><p>The profile of a mutational signature</p>
+<p>data.frames with 3 columns</p>
 <ol type="1">
 <li><strong>type</strong></li>
 <li><strong>channel</strong></li>
@@ -76,8 +77,12 @@ href="#signature-aetiology-classes">Signature Aetiology
 Classes</a>)</p></td>
 </tr>
 <tr class="even">
-<td><strong>Decompositions</strong></td>
-<td><p>data.frames with 4 columns</p>
+<td><strong>Catalogues</strong></td>
+<td><p>The mutational profile of a sample, described by tallying
+mutations belonging to each mutational channel. Catalogues are not
+always observational. They can also be simulated from signature
+models.</p>
+<p>data.frames with 4 columns:</p>
 <ol type="1">
 <li><strong>channel</strong></li>
 <li><strong>type</strong></li>
@@ -86,9 +91,9 @@ Classes</a>)</p></td>
 </ol></td>
 </tr>
 <tr class="odd">
-<td><strong>Decomposition Collections</strong></td>
-<td>Lists of decomposition data.frames (1 per sample) where name
-represents a sample identifier.</td>
+<td><strong>Catalogue Collections</strong></td>
+<td>Lists of catalogue data.frames (1 per sample) where name represents
+a sample identifier.</td>
 </tr>
 <tr class="even">
 <td><strong>Cohort Signature Analysis Results</strong></td>
@@ -119,9 +124,9 @@ signature = example_valid_signature()
 signature_collection = example_valid_signature_collection()
 signature_annotations = example_valid_annotations()
 
-# Decompositions
-decomposition = example_valid_decomposition()
-decomposition_collection = example_valid_decomposition_collection()
+# catalogues
+catalogue = example_valid_catalogue()
+catalogue_collection = example_valid_catalogue_collection()
 
 # Cohort Analysis Results
 cohort_analysis = example_valid_cohort_analysis()
@@ -132,9 +137,9 @@ assert_signature(signature)
 assert_signature_collection(signature_collection)
 assert_signature_annotations(signature_annotations)
 
-# Assert Decompositions
-assert_decomposition(decomposition)
-assert_decomposition_collection(decomposition_collection)
+# Assert catalogues
+assert_catalogue(catalogue)
+assert_catalogue_collection(catalogue_collection)
 
 # Assert Analyses
 assert_cohort_analysis(cohort_analysis)

@@ -117,20 +117,20 @@ example_invalid_signature_collection_invalid_signature <- function(){
 
 
 
-# Decompositions ----------------------------------------------------------
+# Catalogues ----------------------------------------------------------
 
 
-#' Exemplar valid decomposition
+#' Exemplar valid catalogue
 #'
-#' This function returns a data.frame representing a valid decomposition following the 'sigverse' style.
+#' This function returns a data.frame representing a valid catalogue following the 'sigverse' style.
 #'
-#' @return A data.frame containing valid decomposition data.
+#' @return A data.frame containing valid catalogue data.
 #'
 #' @examples
-#' example_valid_decomposition()
+#' example_valid_catalogue()
 #'
 #' @export
-example_valid_decomposition <- function(){
+example_valid_catalogue <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -139,7 +139,7 @@ example_valid_decomposition <- function(){
   )
 }
 
-example_invalid_decomposition_nonsensical_fraction <- function(){
+example_invalid_catalogue_nonsensical_fraction <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -148,7 +148,7 @@ example_invalid_decomposition_nonsensical_fraction <- function(){
   )
 }
 
-example_invalid_decomposition_missing <- function(){
+example_invalid_catalogue_missing <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -157,7 +157,7 @@ example_invalid_decomposition_missing <- function(){
   )
 }
 
-example_invalid_decomposition_colname_typo <- function(){
+example_invalid_catalogue_colname_typo <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     typeo = c('A>G', 'A>G', 'A>G'),
@@ -166,7 +166,7 @@ example_invalid_decomposition_colname_typo <- function(){
   )
 }
 
-example_invalid_decomposition_channeldup <- function(){
+example_invalid_catalogue_channeldup <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]C', 'A[A->G]C'),
     type = c('A>G', 'A>G', 'A>G', 'A>G'),
@@ -176,35 +176,35 @@ example_invalid_decomposition_channeldup <- function(){
 }
 
 
-# Decomposition Collections -----------------------------------------------
-#' Exemplar collection of valid decompositions
+# catalogue Collections -----------------------------------------------
+#' Exemplar collection of valid catalogues
 #'
-#' This function returns a list of exemplar decompositions with valid data following the 'sigverse' style. The list represents a collection of valid decompositions.
+#' This function returns a list of exemplar catalogues with valid data following the 'sigverse' style. The list represents a collection of valid catalogues.
 #'
-#' @return A list containing multiple data.frames, each representing a valid decomposition.
+#' @return A list containing multiple data.frames, each representing a valid catalogue.
 #'
 #' @examples
-#' example_valid_decomposition_collection()
+#' example_valid_catalogue_collection()
 #'
 #' @export
-example_valid_decomposition_collection <- function(){
+example_valid_catalogue_collection <- function(){
   list(
-    'decomp1' = example_valid_decomposition(),
-    'decomp2' = example_valid_decomposition(),
-    'decomp3' = example_valid_decomposition()
+    'decomp1' = example_valid_catalogue(),
+    'decomp2' = example_valid_catalogue(),
+    'decomp3' = example_valid_catalogue()
   )
 }
 
 
-example_invalid_decomposition_in_collection <- function(){
+example_invalid_catalogue_in_collection <- function(){
   list(
-    'decomp1' = example_valid_decomposition(),
-    'decomp2' = example_invalid_decomposition_nonsensical_fraction()
+    'decomp1' = example_valid_catalogue(),
+    'decomp2' = example_invalid_catalogue_nonsensical_fraction()
   )
 }
 
 
-example_invalid_decomposition_collection_not_list <- function(){
+example_invalid_catalogue_collection_not_list <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -212,14 +212,14 @@ example_invalid_decomposition_collection_not_list <- function(){
   )
 }
 
-example_invalid_decomposition_collection_empty <- function(){
-  list()  # An empty list, representing an empty decomposition collection
+example_invalid_catalogue_collection_empty <- function(){
+  list()  # An empty list, representing an empty catalogue collection
 }
 
-example_invalid_decomposition_collection_duplicated_names <- function(){
+example_invalid_catalogue_collection_duplicated_names <- function(){
   list(
-    'decomp1' = example_valid_decomposition(),
-    'decomp1' = example_valid_decomposition()
+    'decomp1' = example_valid_catalogue(),
+    'decomp1' = example_valid_catalogue()
   )
 }
 

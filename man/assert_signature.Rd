@@ -31,21 +31,21 @@ if(interactive()){
   signature_collection = example_valid_signature_collection()
   signature_annotations = example_valid_signature_annotations()
 
-  # Decompositions
-  decomposition = example_valid_decomposition()
-  decomposition_collection = example_valid_decomposition_collection()
+  # Catalogues
+  catalogue = example_valid_catalogue()
+  catalogue_collection = example_valid_catalogue_collection()
 
   # Cohort Analysis Results
   cohort_analysis = example_valid_cohort_analysis()
 
   # Cohort Analysis Results
-  decomposition_collection = example_valid_decomposition_collection()
+  catalogue_collection = example_valid_catalogue_collection()
 
   # Run Assertions
   assert_signature(signature)
   assert_signature_collection(signature_collection)
-  assert_decomposition(decomposition)
-  assert_decomposition_collection(decomposition_collection)
+  assert_catalogue(catalogue)
+  assert_catalogue_collection(catalogue_collection)
   assert_cohort_analysis(cohort_analysis)
 }
 }
