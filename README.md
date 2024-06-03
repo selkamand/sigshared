@@ -171,9 +171,11 @@ assert_cohort_analysis(cohort_analysis)
 | environmental_mutagens        | tobacco                             |
 | environmental_mutagens        | haloalkanes                         |
 | environmental_mutagens        | UV                                  |
+| environmental_mutagens        | aristolochic_acid                   |
 | plants_and_microbes           | aflatoxin                           |
 | plants_and_microbes           | colibactin                          |
 | plants_and_microbes           | aristolochic_acid                   |
+| adenosine_deaminases          | adenosine_deaminases                |
 | cytidine_deaminases           | cytidine_deaminases                 |
 | immune                        | ROS                                 |
 | dysfunctional_epigenetics     | topology                            |
@@ -183,5 +185,3 @@ assert_cohort_analysis(cohort_analysis)
 | ploidy                        | diploid                             |
 | ploidy                        | tetraploid                          |
 | unknown                       | unknown                             |
-
-### 
