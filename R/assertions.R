@@ -1,9 +1,16 @@
 
+# Utilities ---------------------------------------------------------------
+is_one <- function(n, tolerance = 5e-07){
+  isTRUE(all.equal(target = n, current = 1, tolerance = tolerance))
+}
+
+is_over_one <- function(n, tolerance = 5e-07){
+  n-tolerance > 1
+}
+
+
 # Check Functions ---------------------------------------------------------
-
-
-
-check_signature = function(obj){
+check_signature = function(obj, must_sum_to_one = TRUE){
   required_cols = c('channel', 'type', 'fraction')
 
   # Not a data.frame
@@ -45,15 +52,19 @@ check_signature = function(obj){
   }
 
   # Fractions Sum to 1
-  if(!isTRUE(all.equal(target = sum(obj[['fraction']]), current = 1, tolerance = 5e-07))){
+  if(must_sum_to_one & !is_one(sum(obj[['fraction']]))){
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
+  # Even if fractions < 1 are allowed, ensure fraction is not > 1
+  if(!must_sum_to_one & is_over_one(sum(obj[['fraction']]))) {
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be less than or equal to 1, not ', sum(obj[['fraction']])))
+  }
 
   return(invisible(TRUE))
 }
 
-check_catalogue = function(obj){
+check_catalogue = function(obj, must_sum_to_one = TRUE){
   required_cols = c('channel', 'type', 'count', 'fraction')
 
   # Not a data.frame
@@ -97,8 +108,13 @@ check_catalogue = function(obj){
   }
 
   # Fractions sum to 1
-  if(!isTRUE(all.equal(sum(obj[['fraction']]), 1, tolerance = 5e-07))){
+  if(must_sum_to_one & !is_one(sum(obj[['fraction']]))){
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
+  }
+
+  # Even if fractions < 1 are allowed, ensure fraction is not > 1
+  if(!must_sum_to_one & is_over_one(sum(obj[['fraction']]))) {
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Sum of fractions must be less than or equal to 1, not ', sum(obj[['fraction']])))
   }
 
   # Fractions dont make sense given count
@@ -106,7 +122,7 @@ check_catalogue = function(obj){
   observed_fraction = obj[['fraction']]
 
   # Calculated and observed fraction are approximately equal
-  if(!isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 5e-07))){
+  if(must_sum_to_one & !isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 5e-07))){
     return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: fraction is not explained by counts')
   }
 
@@ -307,6 +323,7 @@ check_cohort_analysis <- function(obj){
 #'
 #' @param obj object
 #'
+#' @param must_sum_to_one throw an error if the fraction column of the signature data.frame does NOT sum to one.
 #' @param msg error message
 #' @param arg_name argument
 #' @param call internal paramater
