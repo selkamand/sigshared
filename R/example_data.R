@@ -61,6 +61,15 @@ example_invalid_signature_fraction_sum <- function(){
   )
 }
 
+example_invalid_signature_fraction_sum_below_one <- function(){
+  data.frame(
+    channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
+    type = c('A>G', 'A>G', 'A>G'),
+    fraction = c(0.1, 0.1, 0.2)
+  )
+}
+
+
 example_invalid_signature_negative_fraction <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
