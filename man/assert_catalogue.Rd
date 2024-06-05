@@ -4,10 +4,18 @@
 \alias{assert_catalogue}
 \title{Assert object represents a signature}
 \usage{
-assert_catalogue(obj, msg = NULL, call = rlang::caller_env(), arg_name = NULL)
+assert_catalogue(
+  obj,
+  must_sum_to_one = TRUE,
+  msg = NULL,
+  call = rlang::caller_env(),
+  arg_name = NULL
+)
 }
 \arguments{
 \item{obj}{object}
+
+\item{must_sum_to_one}{throw an error if the fraction column of the signature data.frame does NOT sum to one.}
 
 \item{msg}{error message}
 
