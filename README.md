@@ -77,18 +77,12 @@ href="#signature-aetiology-classes">Signature Aetiology
 Classes</a>)</p></td>
 </tr>
 <tr class="even">
-<td><strong>Catalogues</strong></td>
-<td><p>The mutational profile of a sample, described by tallying
-mutations belonging to each mutational channel. Catalogues are not
-always observational. They can also be simulated from signature
-models.</p>
-<p>data.frames with 4 columns:</p>
-<ol type="1">
-<li><strong>channel</strong></li>
-<li><strong>type</strong></li>
-<li><strong>fraction</strong></li>
-<li><strong>count</strong></li>
-</ol></td>
+<td colspan="2"><strong>Catalogue</strong> | The mutational profile of a
+sample, described by tallying mutations belonging to each mutational
+channel. Catalogues are not always observational. They can also be
+simulated from signature models. | | | data.frames with 4 columns: | |
+1. <strong>channel</strong> | 2. <strong>type</strong> | 3.
+<strong>fraction</strong> | 4. <strong>count</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>Catalogue Collections</strong></td>
@@ -185,3 +179,27 @@ assert_cohort_analysis(cohort_analysis)
 | ploidy                        | diploid                             |
 | ploidy                        | tetraploid                          |
 | unknown                       | unknown                             |
+
+### For Developers
+
+#### Argument Naming
+
+*Catalogue*
+
+    catalogue: The mutational profile of a sample, described by tallying mutations belonging to each mutational channel. Catalogues are not always observational. They can also be simulated from signature models. Must be a sigverse-style data.frame (contain colums: channel, type, fraction, count). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+*Signature*
+
+    signature: The profile of a mutational signature. Must be a data.frame (with columns: type, channel & fraction). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+*Signature collection*
+
+    signatures:     A sigverse signature collection. A named list of sigstash signature data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+*Catalogue collection*
+
+    catalogues: A sigverse-style catalogue collection. A named list of sigstash catalogue data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+*Cohort Signature Analysis Results*
+
+    cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
