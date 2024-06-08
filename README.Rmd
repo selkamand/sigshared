@@ -58,7 +58,7 @@ devtools::install_github("selkamand/sigshared")
 |                                       |                                                                                                                                                                                                      |
 |                                       | class and subclass of aetiology do not need to conform to any specific ontology. However, we include the data-dictionary used by sigstash collections below (see [Signature Aetiology Classes])      |
 +---------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Catalogues**                        | The mutational profile of a sample, described by tallying mutations belonging to each mutational channel. Catalogues are not always observational. They can also be simulated from signature models. |
+| **Catalogue**                        | The mutational profile of a sample, described by tallying mutations belonging to each mutational channel. Catalogues are not always observational. They can also be simulated from signature models. |
 |                                       |                                                                                                                                                                                                      |
 |                                       | data.frames with 4 columns:                                                                                                                                                                          |
 |                                       |                                                                                                                                                                                                      |
@@ -157,3 +157,39 @@ assert_cohort_analysis(cohort_analysis)
 | ploidy                        | diploid                             |
 | ploidy                        | tetraploid                          |
 | unknown                       | unknown                             |
+
+
+### For Developers
+
+#### Argument Naming
+
+*Catalogue*
+
+```
+catalogue: The mutational profile of a sample, described by tallying mutations belonging to each mutational channel. Catalogues are not always observational. They can also be simulated from signature models. Must be a sigverse-style data.frame (contain colums: channel, type, fraction, count). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
+
+*Signature*
+
+```
+signature: The profile of a mutational signature. Must be a data.frame (with columns: type, channel & fraction). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
+
+
+*Signature collection*
+
+```
+signatures: 	A sigverse signature collection. A named list of sigstash signature data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
+
+*Catalogue collection*
+
+```
+catalogues: A sigverse-style catalogue collection. A named list of sigstash catalogue data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
+
+*Cohort Signature Analysis Results*
+
+```
+cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
