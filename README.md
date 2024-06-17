@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table>
+<table style="width:99%;">
 <colgroup>
-<col style="width: 16%" />
-<col style="width: 83%" />
+<col style="width: 20%" />
+<col style="width: 77%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -46,7 +46,9 @@ devtools::install_github("selkamand/sigshared")
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Signature</strong></td>
+<td><ul>
+<li>*Signature**</li>
+</ul></td>
 <td><p>The profile of a mutational signature</p>
 <p>data.frames with 3 columns</p>
 <ol type="1">
@@ -56,12 +58,12 @@ devtools::install_github("selkamand/sigshared")
 </ol></td>
 </tr>
 <tr class="even">
-<td><strong>Signature Collections</strong></td>
+<td><strong>Signature C ollections</strong></td>
 <td>Lists of signature data.frames, where name of list entry is the name
 of the signature</td>
 </tr>
 <tr class="odd">
-<td><strong>Signature Annotations</strong></td>
+<td><strong>Signature A nnotations</strong></td>
 <td><p>Signature level annotations. data.frames with 4 required
 columns:</p>
 <ol type="1">
@@ -77,15 +79,22 @@ href="#signature-aetiology-classes">Signature Aetiology
 Classes</a>)</p></td>
 </tr>
 <tr class="even">
-<td colspan="2"><strong>Catalogue</strong> | The mutational profile of a
-sample, described by tallying mutations belonging to each mutational
-channel. Catalogues are not always observational. They can also be
-simulated from signature models. | | | data.frames with 4 columns: | |
-1. <strong>channel</strong> | 2. <strong>type</strong> | 3.
-<strong>fraction</strong> | 4. <strong>count</strong></td>
+<td><ul>
+<li>*Catalogue**</li>
+</ul></td>
+<td><p>The mutational profile of a sample, described by tallying
+mutations belonging to each mutational channel. Catalogues are not
+always observational. They can also be simulated from signature models.
+data.frames with 4 required columns:</p>
+<ol type="1">
+<li><p><strong>channel</strong></p></li>
+<li><p><strong>type</strong></p></li>
+<li><p><strong>fraction</strong></p></li>
+<li><p><strong>count</strong></p></li>
+</ol></td>
 </tr>
 <tr class="odd">
-<td><strong>Catalogue Collections</strong></td>
+<td><strong>Catalogue C ollections</strong></td>
 <td>Lists of catalogue data.frames (1 per sample) where name represents
 a sample identifier.</td>
 </tr>
