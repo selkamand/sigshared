@@ -60,11 +60,11 @@ devtools::install_github("selkamand/sigshared")
 |               | 2.  **channel**                                     |
 |               | 3.  **fraction**                                    |
 +---------------+-----------------------------------------------------+
-| **Signature C | Lists of signature data.frames, where name of list  |
-| ollections**  | entry is the name of the signature                  |
+| **Signature   | Lists of signature data.frames, where name of list  |
+| Collections** | entry is the name of the signature                  |
 +---------------+-----------------------------------------------------+
-| **Signature A | Signature level annotations. data.frames with 4     |
-| nnotations**  | required columns:                                   |
+| **Signature   | Signature level annotations. data.frames with 4     |
+| Annotations** | required columns:                                   |
 |               |                                                     |
 |               | 1.  **signature**                                   |
 |               | 2.  **aetiology**                                   |
@@ -91,8 +91,8 @@ devtools::install_github("selkamand/sigshared")
 |               |                                                     |
 |               | 4.  **count**                                       |
 +---------------+-----------------------------------------------------+
-| **Catalogue C | Lists of catalogue data.frames (1 per sample) where |
-| ollections**  | name represents a sample identifier.                |
+| **Catalogue   | Lists of catalogue data.frames (1 per sample) where |
+| Collections** | name represents a sample identifier.                |
 +---------------+-----------------------------------------------------+
 | **Cohort      | data.frame with 4 columns:                          |
 | Signature     |                                                     |

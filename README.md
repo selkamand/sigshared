@@ -56,12 +56,12 @@ devtools::install_github("selkamand/sigshared")
 </ol></td>
 </tr>
 <tr class="even">
-<td><strong>Signature C ollections</strong></td>
+<td><strong>Signature Collections</strong></td>
 <td>Lists of signature data.frames, where name of list entry is the name
 of the signature</td>
 </tr>
 <tr class="odd">
-<td><strong>Signature A nnotations</strong></td>
+<td><strong>Signature Annotations</strong></td>
 <td><p>Signature level annotations. data.frames with 4 required
 columns:</p>
 <ol type="1">
@@ -90,7 +90,7 @@ data.frames with 4 required columns:</p>
 </ol></td>
 </tr>
 <tr class="odd">
-<td><strong>Catalogue C ollections</strong></td>
+<td><strong>Catalogue Collections</strong></td>
 <td>Lists of catalogue data.frames (1 per sample) where name represents
 a sample identifier.</td>
 </tr>
