@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:99%;">
+<table style="width:97%;">
 <colgroup>
-<col style="width: 20%" />
-<col style="width: 77%" />
+<col style="width: 22%" />
+<col style="width: 75%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -46,9 +46,7 @@ devtools::install_github("selkamand/sigshared")
 </thead>
 <tbody>
 <tr class="odd">
-<td><ul>
-<li>*Signature**</li>
-</ul></td>
+<td><strong>Signature</strong></td>
 <td><p>The profile of a mutational signature</p>
 <p>data.frames with 3 columns</p>
 <ol type="1">
@@ -79,9 +77,7 @@ href="#signature-aetiology-classes">Signature Aetiology
 Classes</a>)</p></td>
 </tr>
 <tr class="even">
-<td><ul>
-<li>*Catalogue**</li>
-</ul></td>
+<td><strong>Catalogue</strong></td>
 <td><p>The mutational profile of a sample, described by tallying
 mutations belonging to each mutational channel. Catalogues are not
 always observational. They can also be simulated from signature models.
