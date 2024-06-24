@@ -1,15 +1,20 @@
 
 # Signatures --------------------------------------------------------------
 
-#' Exemplar signature with valid data
+#' Exemplar signature and with valid data
 #'
 #' This function returns an exemplar signature with valid data following the 'sigverse' style.
 #'
-#' @return A data.frame representing a valid signature.
+#' @return A data.frame representing a valid exemplar signature signature in the 'sigverse' format.
 #'
 #' @examples
+#'
+#' # Return a valid signature
 #' example_valid_signature()
 #'
+#' # Return a valid but empty signature (all fraction values are 0)
+#' example_valid_signature_empty()
+#' @name valid_sig
 #' @export
 example_valid_signature <- function(){
   data.frame(
@@ -19,6 +24,15 @@ example_valid_signature <- function(){
   )
 }
 
+#' @rdname valid_sig
+#' @export
+example_valid_signature_empty <- function(){
+  data.frame(
+    channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
+    type = c('A>G', 'A>G', 'A>G'),
+    fraction = c(0, 0, 0)
+  )
+}
 
 
 example_invalid_signature_channeldup <- function(){
@@ -136,8 +150,14 @@ example_invalid_signature_collection_invalid_signature <- function(){
 #' @return A data.frame containing valid catalogue data.
 #'
 #' @examples
+#'
+#' # Example of a valid catalogue
 #' example_valid_catalogue()
 #'
+#' # Example of a valid but empty catalogue
+#' example_valid_catalogue_empty()
+#'
+#' @name valid_catalogue
 #' @export
 example_valid_catalogue <- function(){
   data.frame(
@@ -147,6 +167,18 @@ example_valid_catalogue <- function(){
     fraction = c(0.18518519, 0.37037037, 0.44444444)
   )
 }
+
+#'@rdname valid_catalogue
+#'@export
+example_valid_catalogue_empty <- function(){
+  data.frame(
+    channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
+    type = c('A>G', 'A>G', 'A>G'),
+    count = c(0, 0, 0),
+    fraction = c(0, 0, 0)
+  )
+}
+
 
 example_invalid_catalogue_nonsensical_fraction <- function(){
   data.frame(
@@ -183,16 +215,6 @@ example_invalid_catalogue_channeldup <- function(){
     fraction = c(0.13513514, 0.27027027, 0.32432432, 0.27027027)
   )
 }
-
-example_valid_empty_catalogue <- function(){
-  data.frame(
-    channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-    type = c('A>G', 'A>G', 'A>G'),
-    count = c(0, 0, 0),
-    fraction = c(0, 0, 0)
-  )
-}
-
 
 # catalogue Collections -----------------------------------------------
 #' Exemplar collection of valid catalogues
