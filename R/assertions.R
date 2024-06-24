@@ -107,8 +107,13 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
     return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: found negative fractions')
   }
 
-  # Fractions sum to 1
-  if(must_sum_to_one & !is_one(sum(obj[['fraction']]))){
+  # Fractions sum to 1 unless there are no non-zero values of count
+  total_count = sum(obj[['count']])
+  total_frac = sum(obj[['fraction']])
+  empty_catalogue = total_count == 0 & total_frac == 0
+
+  if(must_sum_to_one & !is_one(sum(obj[['fraction']])) & !empty_catalogue){
+    # Only exception is if there are no mutations at all, in which case fraction can be 0
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Sum of fractions must be approximately equal to 1, not ', sum(obj[['fraction']])))
   }
 
@@ -122,7 +127,7 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
   observed_fraction = obj[['fraction']]
 
   # Calculated and observed fraction are approximately equal
-  if(must_sum_to_one & !isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 5e-07))){
+  if(must_sum_to_one & !isTRUE(all.equal(calculated_fraction, observed_fraction, tolerance = 5e-07)) & !empty_catalogue){
     return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: fraction is not explained by counts')
   }
 
