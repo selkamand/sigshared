@@ -184,6 +184,15 @@ example_invalid_catalogue_channeldup <- function(){
   )
 }
 
+example_valid_empty_catalogue <- function(){
+  data.frame(
+    channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
+    type = c('A>G', 'A>G', 'A>G'),
+    count = c(0, 0, 0),
+    fraction = c(0, 0, 0)
+  )
+}
+
 
 # catalogue Collections -----------------------------------------------
 #' Exemplar collection of valid catalogues
