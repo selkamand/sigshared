@@ -59,7 +59,7 @@ test_that("assert_catalogue works", {
   expect_error(assert_catalogue(example_invalid_catalogue_nonsensical_fraction()), regexp = "NOT a valid catalogue")
 
   # Allows empty catalogues
-  expect_error(assert_catalogue(example_valid_empty_catalogue()), regexp = NA)
+  expect_error(assert_catalogue(example_valid_catalogue_empty()), regexp = NA)
 
   # Missing Data
   expect_error(assert_catalogue(example_invalid_catalogue_missing()), regexp = "found missing (NA) values", fixed = TRUE)
