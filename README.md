@@ -146,7 +146,50 @@ assert_cohort_analysis(cohort_analysis)
 
 ### Signature Aetiology Classes
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+``` r
+library(knitr)
+kable(sig_aetiology_classes())
+```
+
+| class                         | subclass                            |
+|:------------------------------|:------------------------------------|
+| artefact                      | 8-oxo-guanine                       |
+| artefact                      | sequencing_artefact                 |
+| artefact                      | germline_contamination              |
+| artefact                      | oversegmentation                    |
+| clock-like                    | clock-like                          |
+| dysfunctional_dna_repair      | MMR                                 |
+| dysfunctional_dna_repair      | HR                                  |
+| dysfunctional_dna_repair      | NER                                 |
+| dysfunctional_dna_repair      | BER                                 |
+| dysfunctional_dna_repair      | NHEJ                                |
+| dysfunctional_dna_replication | proofreading                        |
+| dysfunctional_dna_replication | polymerase_mutations                |
+| treatment_associated          | chemotherapy_platinum               |
+| treatment_associated          | chemotherapy_thiopurine             |
+| treatment_associated          | chemotherapy_pyrimidine_antagonists |
+| treatment_associated          | chemotherapy_unknown                |
+| treatment_associated          | chemotherapy_nitrogen_mustards      |
+| treatment_associated          | triazenes                           |
+| treatment_associated          | immunosuppression                   |
+| environmental_mutagens        | tobacco                             |
+| environmental_mutagens        | haloalkanes                         |
+| environmental_mutagens        | UV                                  |
+| environmental_mutagens        | aristolochic_acid                   |
+| plants_and_microbes           | aflatoxin                           |
+| plants_and_microbes           | colibactin                          |
+| plants_and_microbes           | aristolochic_acid                   |
+| adenosine_deamination         | adenosine_deaminases                |
+| cytosine_deamination          | cytidine_deaminases                 |
+| cytosine_deamination          | cytosine_deamination                |
+| immune                        | ROS                                 |
+| dysfunctional_epigenetics     | topology                            |
+| chromosomal                   | chromosomal_losses                  |
+| chromosomal                   | chromosomal_instability             |
+| chromosomal                   | chromothripsis                      |
+| ploidy                        | diploid                             |
+| ploidy                        | tetraploid                          |
+| unknown                       | unknown                             |
 
 ### For Developers
 

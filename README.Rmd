@@ -154,9 +154,9 @@ assert_cohort_analysis(cohort_analysis)
 
 ### Signature Aetiology Classes {data-link="Signature Aetiology Classes"}
 
-```{r echo=FALSE, warning=FALSE}
-library(flextable) #you can use another table library, if you want
-flextable(sig_aetiology_classes())
+```{r warning=FALSE, results='asis'}
+library(knitr)
+kable(sig_aetiology_classes())
 ```
 
 ### For Developers
