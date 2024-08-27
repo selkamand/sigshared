@@ -33,19 +33,19 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:97%;">
+<table style="width:94%;">
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 75%" />
+<col style="width: 47%" />
+<col style="width: 47%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th>Data Structure</th>
 <th>Requirements</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>Signature</strong></td>
 <td><p>The profile of a mutational signature</p>
 <p>data.frames with 3 columns</p>
@@ -55,12 +55,12 @@ devtools::install_github("selkamand/sigshared")
 <li><strong>fraction</strong></li>
 </ol></td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Signature Collections</strong></td>
 <td>Lists of signature data.frames, where name of list entry is the name
 of the signature</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Signature Annotations</strong></td>
 <td><p>Signature level annotations. data.frames with 4 required
 columns:</p>
@@ -76,7 +76,7 @@ sigstash collections below (see <a
 href="#signature-aetiology-classes">Signature Aetiology
 Classes</a>)</p></td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Catalogue</strong></td>
 <td><p>The mutational profile of a sample, described by tallying
 mutations belonging to each mutational channel. Catalogues are not
@@ -89,12 +89,12 @@ data.frames with 4 required columns:</p>
 <li><p><strong>count</strong></p></li>
 </ol></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>Catalogue Collections</strong></td>
 <td>Lists of catalogue data.frames (1 per sample) where name represents
 a sample identifier.</td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>Cohort Signature Analysis Results</strong></td>
 <td><p>data.frame with 4 columns:</p>
 <ol type="1">
@@ -146,44 +146,7 @@ assert_cohort_analysis(cohort_analysis)
 
 ### Signature Aetiology Classes
 
-| Class                         | Subclass                            |
-|-------------------------------|-------------------------------------|
-| artefact                      | 8-oxo-guanine                       |
-| artefact                      | sequencing_artefact                 |
-| artefact                      | germline_contamination              |
-| artefact                      | oversegmentation                    |
-| clock-like                    | clock-like                          |
-| dysfunctional_dna_repair      | MMR                                 |
-| dysfunctional_dna_repair      | HR                                  |
-| dysfunctional_dna_repair      | NER                                 |
-| dysfunctional_dna_repair      | BER                                 |
-| dysfunctional_dna_repair      | NHEJ                                |
-| dysfunctional_dna_replication | proofreading                        |
-| dysfunctional_dna_replication | polymerase_mutations                |
-| treatment_associated          | chemotherapy_platinum               |
-| treatment_associated          | chemotherapy_thiopurine             |
-| treatment_associated          | chemotherapy_pyrimidine_antagonists |
-| treatment_associated          | chemotherapy_unknown                |
-| treatment_associated          | chemotherapy_nitrogen_mustards      |
-| treatment_associated          | triazenes                           |
-| treatment_associated          | immunosuppression                   |
-| environmental_mutagens        | tobacco                             |
-| environmental_mutagens        | haloalkanes                         |
-| environmental_mutagens        | UV                                  |
-| environmental_mutagens        | aristolochic_acid                   |
-| plants_and_microbes           | aflatoxin                           |
-| plants_and_microbes           | colibactin                          |
-| plants_and_microbes           | aristolochic_acid                   |
-| adenosine_deaminases          | adenosine_deaminases                |
-| cytidine_deaminases           | cytidine_deaminases                 |
-| immune                        | ROS                                 |
-| dysfunctional_epigenetics     | topology                            |
-| chromosomal                   | chromosomal_losses                  |
-| chromosomal                   | chromosomal_instability             |
-| chromosomal                   | chromothripsis                      |
-| ploidy                        | diploid                             |
-| ploidy                        | tetraploid                          |
-| unknown                       | unknown                             |
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ### For Developers
 

@@ -48,64 +48,74 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-+---------------+-----------------------------------------------------+
-| Data          | Requirements                                        |
-| Structure     |                                                     |
-+===============+=====================================================+
-| **Signature** | The profile of a mutational signature               |
-|               |                                                     |
-|               | data.frames with 3 columns                          |
-|               |                                                     |
-|               | 1.  **type**                                        |
-|               | 2.  **channel**                                     |
-|               | 3.  **fraction**                                    |
-+---------------+-----------------------------------------------------+
-| **Signature   | Lists of signature data.frames, where name of list  |
-| Collections** | entry is the name of the signature                  |
-+---------------+-----------------------------------------------------+
-| **Signature   | Signature level annotations. data.frames with 4     |
-| Annotations** | required columns:                                   |
-|               |                                                     |
-|               | 1.  **signature**                                   |
-|               | 2.  **aetiology**                                   |
-|               | 3.  **class**                                       |
-|               | 4.  **subclass**                                    |
-|               |                                                     |
-|               | class and subclass of aetiology do not need to      |
-|               | conform to any specific ontology. However, we       |
-|               | include the data-dictionary used by sigstash        |
-|               | collections below (see [Signature Aetiology         |
-|               | Classes])                                           |
-+---------------+-----------------------------------------------------+
-| **Catalogue** | The mutational profile of a sample, described by    |
-|               | tallying mutations belonging to each mutational     |
-|               | channel. Catalogues are not always observational.   |
-|               | They can also be simulated from signature models.   |
-|               | data.frames with 4 required columns:                |
-|               |                                                     |
-|               | 1.  **channel**                                     |
-|               |                                                     |
-|               | 2.  **type**                                        |
-|               |                                                     |
-|               | 3.  **fraction**                                    |
-|               |                                                     |
-|               | 4.  **count**                                       |
-+---------------+-----------------------------------------------------+
-| **Catalogue   | Lists of catalogue data.frames (1 per sample) where |
-| Collections** | name represents a sample identifier.                |
-+---------------+-----------------------------------------------------+
-| **Cohort      | data.frame with 4 columns:                          |
-| Signature     |                                                     |
-| Analysis      | 1.  **sample**                                      |
-| Results**     |                                                     |
-|               | 2.  **signature**                                   |
-|               |                                                     |
-|               | 3.  **contribution_absolute**                       |
-|               |                                                     |
-|               | 4.  **contribution (**percentage**)**               |
-|               |                                                     |
-|               | 5.  **bootstraps** (colon separated string)         |
-+---------------+-----------------------------------------------------+
++---------------------------------+---------------------------------+
+| Data Structure                  | Requirements                    |
++=================================+=================================+
+| **Signature**                   | The profile of a mutational     |
+|                                 | signature                       |
+|                                 |                                 |
+|                                 | data.frames with 3 columns      |
+|                                 |                                 |
+|                                 | 1.  **type**                    |
+|                                 | 2.  **channel**                 |
+|                                 | 3.  **fraction**                |
++---------------------------------+---------------------------------+
+| **Signature Collections**       | Lists of signature data.frames, |
+|                                 | where name of list entry is the |
+|                                 | name of the signature           |
++---------------------------------+---------------------------------+
+| **Signature Annotations**       | Signature level annotations.    |
+|                                 | data.frames with 4 required     |
+|                                 | columns:                        |
+|                                 |                                 |
+|                                 | 1.  **signature**               |
+|                                 | 2.  **aetiology**               |
+|                                 | 3.  **class**                   |
+|                                 | 4.  **subclass**                |
+|                                 |                                 |
+|                                 | class and subclass of aetiology |
+|                                 | do not need to conform to any   |
+|                                 | specific ontology. However, we  |
+|                                 | include the data-dictionary     |
+|                                 | used by sigstash collections    |
+|                                 | below (see [Signature Aetiology |
+|                                 | Classes])                       |
++---------------------------------+---------------------------------+
+| **Catalogue**                   | The mutational profile of a     |
+|                                 | sample, described by tallying   |
+|                                 | mutations belonging to each     |
+|                                 | mutational channel. Catalogues  |
+|                                 | are not always observational.   |
+|                                 | They can also be simulated from |
+|                                 | signature models. data.frames   |
+|                                 | with 4 required columns:        |
+|                                 |                                 |
+|                                 | 1.  **channel**                 |
+|                                 |                                 |
+|                                 | 2.  **type**                    |
+|                                 |                                 |
+|                                 | 3.  **fraction**                |
+|                                 |                                 |
+|                                 | 4.  **count**                   |
++---------------------------------+---------------------------------+
+| **Catalogue Collections**       | Lists of catalogue data.frames  |
+|                                 | (1 per sample) where name       |
+|                                 | represents a sample identifier. |
++---------------------------------+---------------------------------+
+| **Cohort Signature Analysis     | data.frame with 4 columns:      |
+| Results**                       |                                 |
+|                                 | 1.  **sample**                  |
+|                                 |                                 |
+|                                 | 2.  **signature**               |
+|                                 |                                 |
+|                                 | 3.  **contribution_absolute**   |
+|                                 |                                 |
+|                                 | 4.  **contribution              |
+|                                 |     (**percentage**)**          |
+|                                 |                                 |
+|                                 | 5.  **bootstraps** (colon       |
+|                                 |     separated string)           |
++---------------------------------+---------------------------------+
 
 ### Assertions
 
@@ -144,44 +154,10 @@ assert_cohort_analysis(cohort_analysis)
 
 ### Signature Aetiology Classes {data-link="Signature Aetiology Classes"}
 
-| Class                         | Subclass                            |
-|-------------------------------|-------------------------------------|
-| artefact                      | 8-oxo-guanine                       |
-| artefact                      | sequencing_artefact                 |
-| artefact                      | germline_contamination              |
-| artefact                      | oversegmentation                    |
-| clock-like                    | clock-like                          |
-| dysfunctional_dna_repair      | MMR                                 |
-| dysfunctional_dna_repair      | HR                                  |
-| dysfunctional_dna_repair      | NER                                 |
-| dysfunctional_dna_repair      | BER                                 |
-| dysfunctional_dna_repair      | NHEJ                                |
-| dysfunctional_dna_replication | proofreading                        |
-| dysfunctional_dna_replication | polymerase_mutations                |
-| treatment_associated          | chemotherapy_platinum               |
-| treatment_associated          | chemotherapy_thiopurine             |
-| treatment_associated          | chemotherapy_pyrimidine_antagonists |
-| treatment_associated          | chemotherapy_unknown                |
-| treatment_associated          | chemotherapy_nitrogen_mustards      |
-| treatment_associated          | triazenes                           |
-| treatment_associated          | immunosuppression                   |
-| environmental_mutagens        | tobacco                             |
-| environmental_mutagens        | haloalkanes                         |
-| environmental_mutagens        | UV                                  |
-| environmental_mutagens        | aristolochic_acid                   |
-| plants_and_microbes           | aflatoxin                           |
-| plants_and_microbes           | colibactin                          |
-| plants_and_microbes           | aristolochic_acid                   |
-| adenosine_deaminases          | adenosine_deaminases                |
-| cytidine_deaminases           | cytidine_deaminases                 |
-| immune                        | ROS                                 |
-| dysfunctional_epigenetics     | topology                            |
-| chromosomal                   | chromosomal_losses                  |
-| chromosomal                   | chromosomal_instability             |
-| chromosomal                   | chromothripsis                      |
-| ploidy                        | diploid                             |
-| ploidy                        | tetraploid                          |
-| unknown                       | unknown                             |
+```{r echo=FALSE, warning=FALSE}
+library(flextable) #you can use another table library, if you want
+flextable(sig_aetiology_classes())
+```
 
 ### For Developers
 
