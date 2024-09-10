@@ -394,12 +394,24 @@ example_invalid_cohort_analysis_missing <- function(){
 #' # Return a valid but empty bootstrap (all contributions are 0)
 #' example_valid_bootstrap_empty()
 #' @export
+#' @name valid_bootstraps
 example_valid_bootstrap <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
     contribution_absolute = c(0.3, 0.7, 0.5, 0.5),
     contribution = c(.30, .70, .50, .50) # contribution in percentage
+  )
+}
+
+#' @export
+#' @name valid_bootstraps
+example_valid_bootstrap_empty <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0, 0, 0, 0),
+    contribution = c(0, 0, 0, 0) # contribution in percentage
   )
 }
 

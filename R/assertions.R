@@ -365,7 +365,7 @@ check_bootstraps <- function(obj){
   }
 
   # Check if any bootstrap signature  has a contribution > 1
-  contribution_sums <- ave(obj[["contribution"]], obj[["bootstrap"]], FUN = sum)
+  contribution_sums <- stats::ave(obj[["contribution"]], obj[["bootstrap"]], FUN = sum)
   if (any(is_over_one(contribution_sums))) {
     return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Total contributions in one or more bootstraps exceed 100%')
   }
