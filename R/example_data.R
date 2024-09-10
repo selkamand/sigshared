@@ -377,3 +377,96 @@ example_invalid_cohort_analysis_missing <- function(){
   )
 }
 
+
+# Bootstraps --------------------------------------------------------------
+
+#' Exemplar bootstrap with valid data
+#'
+#' This function returns an exemplar bootstrap with valid data following the 'sigverse' style.
+#'
+#' @return A data.frame representing a valid exemplar bootstrap in the 'sigverse' format.
+#'
+#' @examples
+#'
+#' # Return a valid bootstrap
+#' example_valid_bootstrap()
+#'
+#' # Return a valid but empty bootstrap (all contributions are 0)
+#' example_valid_bootstrap_empty()
+#' @export
+#' @name valid_bootstraps
+example_valid_bootstrap <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0.3, 0.7, 0.5, 0.5),
+    contribution = c(.30, .70, .50, .50) # contribution in percentage
+  )
+}
+
+#' @export
+#' @name valid_bootstraps
+example_valid_bootstrap_empty <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0, 0, 0, 0),
+    contribution = c(0, 0, 0, 0) # contribution in percentage
+  )
+}
+
+#' Invalid bootstrap with contribution > 100
+#'
+#' This function returns a bootstrap with invalid data where contribution percentage is greater than 100.
+#'
+#' @return A data.frame representing an invalid bootstrap with contribution > 1
+example_invalid_bootstrap_contribution <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0.3, 0.7, 0.5, 1.2),  # Invalid
+    contribution = c(.30, .70, .50, 1.20) # contribution > 100%
+  )
+}
+
+#' Invalid bootstrap with negative contribution
+#'
+#' This function returns a bootstrap with invalid data where contribution values are negative.
+#'
+#' @return A data.frame representing an invalid bootstrap with negative contribution.
+example_invalid_bootstrap_negative_contribution <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0.3, 0.7, 0.5, 0.6),
+    contribution = c(.30, .70, .50, -.10) # Invalid negative contribution
+  )
+}
+
+#' Invalid bootstrap with negative contribution_absolute
+#'
+#' This function returns a bootstrap with invalid data where absolute contribution values are negative.
+#'
+#' @return A data.frame representing an invalid bootstrap with negative contribution_absolute.
+example_invalid_bootstrap_negative_contribution_absolute <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, 2),
+    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
+    contribution_absolute = c(0.3, -0.7, 0.5, 0.6),  # Invalid negative contribution_absolute
+    contribution = c(.30, .70, .50, .60)
+  )
+}
+
+#' Invalid bootstrap with missing data
+#'
+#' This function returns a bootstrap with missing data (NA values).
+#'
+#' @return A data.frame representing an invalid bootstrap with missing data.
+example_invalid_bootstrap_missing <- function(){
+  data.frame(
+    bootstrap = c(1, 1, 2, NA),  # Missing bootstrap value
+    signature = c('Signature1', 'Signature2', NA, 'Signature2'),  # Missing signature value
+    contribution_absolute = c(0.3, 0.7, 0.5, 0.6),
+    contribution = c(.30, .70, .50, .60)
+  )
+}
