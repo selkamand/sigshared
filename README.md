@@ -129,16 +129,16 @@ library(sigshared)
 # Generate Example Datatypes
 
 # Signatures
-signature = example_valid_signature()
-signature_collection = example_valid_signature_collection()
-signature_annotations = example_valid_annotations()
+signature = example_signature()
+signature_collection = example_signature_collection()
+signature_annotations = example_annotations()
 
 # catalogues
-catalogue = example_valid_catalogue()
-catalogue_collection = example_valid_catalogue_collection()
+catalogue = example_catalogue()
+catalogue_collection = example_catalogue_collection()
 
 # Cohort Analysis Results
-cohort_analysis = example_valid_cohort_analysis()
+cohort_analysis = example_cohort_analysis()
 
 
 # Assert Signatures

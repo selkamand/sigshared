@@ -1,7 +1,95 @@
+# Roxygen Templates -------------------------------------------------------
+
+#' @name signature
+#'
+#' @title Signature Data Type
+#'
+#' @description
+#' **Signature**: A mutational signature profile represented as a `data.frame` with the following 3 columns:
+#' - `type`: The type of mutation (e.g., A>G, C>T).
+#' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
+#' - `fraction`: The fraction of mutations attributed to this specific type and channel.
+NULL
+
+#' @name signature_collection
+#'
+#' @title Signature Collections
+#'
+#' @description
+#' **Signature Collections**: A list of signature `data.frames`, where each list entry represents a signature, and the name of each entry corresponds to the signature’s name.
+NULL
+
+#' @name signature_annotation
+#'
+#' @title Signature Annotations
+#'
+#' @description
+#' **Signature Annotations**: Signature-level annotations represented as a `data.frame` with 4 required columns:
+#' - `signature`: The name of the signature.
+#' - `aetiology`: The cause or origin of the signature.
+#' - `class`: The class of the signature’s aetiology.
+#' - `subclass`: The subclass of the signature’s aetiology.
+NULL
+
+#' @name catalogue
+#'
+#' @title Catalogue Data Type
+#'
+#' @description
+#' **Catalogue**: The mutational profile of a sample, represented as a `data.frame` with 4 required columns:
+#' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
+#' - `type`: The type of mutation (higher level classification of channel, e.g. A>G, C>T).
+#' - `fraction`: The fraction of mutations attributed to this channel.
+#' - `count`: The count of mutations for this channel.
+NULL
+
+#' @name catalogue_collections
+#'
+#' @title Catalogue Collections Data Type
+#'
+#' @description
+#' **Catalogue Collections**: A list of catalogue `data.frames`, where each `data.frame` represents the mutational profile of a sample. Each entry in the list corresponds to a sample, and the name of each entry is the sample identifier. Each catalogue `data.frame` contains the following columns:
+#' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
+#' - `type`: The type of mutation (higher level classification of channel, e.g. A>G, C>T).
+#' - `fraction`: The fraction of mutations attributed to this channel.
+#' - `count`: The count of mutations for this channel.
+NULL
+
+#' @name cohort
+#'
+#' @title Cohort Signature Analysis Results Data Type
+#'
+#' @description
+#' **Cohort**: A `data.frame` containing results from a cohort-level signature analysis, with the following 5 columns:
+#' - `sample`: The sample identifier.
+#' - `signature`: The name of the signature.
+#' - `contribution_absolute`: The absolute contribution of the signature to the sample.
+#' - `contribution`: The proportional contribution of the signature.
+#' - `p_value`: The p-value representing the statistical significance of the contribution.
+NULL
+
+#' @name bootstraps
+#'
+#' @title Bootstraps Data Type
+#'
+#' @description
+#' **Bootstraps**: A `data.frame` representing the optimal mutational signature exposure contributions for each bootstrap resample. Must contain 1 row per signature & bootstrap combination with the following 5 columns:
+#' - `bootstrap`: The bootstrap index.
+#' - `signature`: The name of the signature.
+#' - `contribution_absolute`: The absolute contribution of the signature.
+#' - `contribution`: The percentage contribution of the signature.
+NULL
+
+
+
+
 
 # Signatures --------------------------------------------------------------
 
-#' Exemplar signature and with valid data
+
+
+
+#' Example sigverse signature
 #'
 #' This function returns an exemplar signature with valid data following the 'sigverse' style.
 #'
@@ -10,13 +98,13 @@
 #' @examples
 #'
 #' # Return a valid signature
-#' example_valid_signature()
+#' example_signature()
 #'
 #' # Return a valid but empty signature (all fraction values are 0)
-#' example_valid_signature_empty()
-#' @name valid_sig
+#' example_signature_empty()
 #' @export
-example_valid_signature <- function(){
+#' @rdname signature
+example_signature <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -24,9 +112,10 @@ example_valid_signature <- function(){
   )
 }
 
-#' @rdname valid_sig
+
+#' @rdname signature
 #' @export
-example_valid_signature_empty <- function(){
+example_signature_empty <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -102,13 +191,14 @@ example_invalid_signature_negative_fraction <- function(){
 #' @return A list containing multiple data.frames, each representing a valid signature.
 #'
 #' @examples
-#' example_valid_signature_collection()
+#' example_signature_collection()
 #'
 #' @export
-example_valid_signature_collection <- function(){
+#' @rdname signature_collection
+example_signature_collection <- function(){
   list(
-    'sig1' = example_valid_signature(),
-    'sig2' = example_valid_signature()
+    'sig1' = example_signature(),
+    'sig2' = example_signature()
   )
 }
 
@@ -126,14 +216,14 @@ example_invalid_signature_collection_empty <- function(){
 
 example_invalid_signature_collection_duplicated_names <- function(){
   list(
-    'sig1' = example_valid_signature(),
-    'sig1' = example_valid_signature()
+    'sig1' = example_signature(),
+    'sig1' = example_signature()
   )
 }
 
 example_invalid_signature_collection_invalid_signature <- function(){
   list(
-    'sig1' = example_valid_signature(),
+    'sig1' = example_signature(),
     'sig2' = example_invalid_signature_channeldup()
   )
 }
@@ -152,14 +242,14 @@ example_invalid_signature_collection_invalid_signature <- function(){
 #' @examples
 #'
 #' # Example of a valid catalogue
-#' example_valid_catalogue()
+#' example_catalogue()
 #'
 #' # Example of a valid but empty catalogue
-#' example_valid_catalogue_empty()
+#' example_catalogue_empty()
 #'
-#' @name valid_catalogue
+#' @rdname catalogue
 #' @export
-example_valid_catalogue <- function(){
+example_catalogue <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -168,9 +258,12 @@ example_valid_catalogue <- function(){
   )
 }
 
-#'@rdname valid_catalogue
-#'@export
-example_valid_catalogue_empty <- function(){
+#' Example Data
+#'
+#' See [example_catalogue()]
+#'
+#' @export
+example_catalogue_empty <- function(){
   data.frame(
     channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
     type = c('A>G', 'A>G', 'A>G'),
@@ -224,21 +317,22 @@ example_invalid_catalogue_channeldup <- function(){
 #' @return A list containing multiple data.frames, each representing a valid catalogue.
 #'
 #' @examples
-#' example_valid_catalogue_collection()
+#' example_catalogue_collection()
 #'
 #' @export
-example_valid_catalogue_collection <- function(){
+#' @rdname catalogue_collections
+example_catalogue_collection <- function(){
   list(
-    'decomp1' = example_valid_catalogue(),
-    'decomp2' = example_valid_catalogue(),
-    'decomp3' = example_valid_catalogue()
+    'decomp1' = example_catalogue(),
+    'decomp2' = example_catalogue(),
+    'decomp3' = example_catalogue()
   )
 }
 
 
 example_invalid_catalogue_in_collection <- function(){
   list(
-    'decomp1' = example_valid_catalogue(),
+    'decomp1' = example_catalogue(),
     'decomp2' = example_invalid_catalogue_nonsensical_fraction()
   )
 }
@@ -258,8 +352,8 @@ example_invalid_catalogue_collection_empty <- function(){
 
 example_invalid_catalogue_collection_duplicated_names <- function(){
   list(
-    'decomp1' = example_valid_catalogue(),
-    'decomp1' = example_valid_catalogue()
+    'decomp1' = example_catalogue(),
+    'decomp1' = example_catalogue()
   )
 }
 
@@ -272,10 +366,10 @@ example_invalid_catalogue_collection_duplicated_names <- function(){
 #' @return A data.frame containing annotations for multiple signatures.
 #'
 #' @examples
-#' example_valid_annotations()
+#' example_annotations()
 #'
 #' @export
-example_valid_annotations <- function(){
+example_annotations <- function(){
   data.frame(
     signature = c('sig1', 'sig2'),
     aetiology = c('A clock like signature', 'An AID/APOBEC related signature'),
@@ -313,10 +407,11 @@ example_invalid_annotations_sig_duplicated <- function(){
 #' @return A data.frame containing multiple cohort analyses.
 #'
 #' @examples
-#' example_valid_cohort_analysis()
+#' example_cohort_analysis()
 #'
 #' @export
-example_valid_cohort_analysis <- function(){
+#' @rdname cohort
+example_cohort_analysis <- function(){
   data.frame(
     "sample" = c('sample1', 'sample1', 'sample2', 'sample2'),
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
@@ -389,13 +484,13 @@ example_invalid_cohort_analysis_missing <- function(){
 #' @examples
 #'
 #' # Return a valid bootstrap
-#' example_valid_bootstrap()
+#' example_bootstraps()
 #'
 #' # Return a valid but empty bootstrap (all contributions are 0)
-#' example_valid_bootstrap_empty()
+#' example_bootstraps_empty()
 #' @export
-#' @name valid_bootstraps
-example_valid_bootstrap <- function(){
+#' @rdname bootstraps
+example_bootstraps <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
@@ -404,9 +499,12 @@ example_valid_bootstrap <- function(){
   )
 }
 
+#' Example Data
+#'
+#' See [example_bootstraps()]
+#'
 #' @export
-#' @name valid_bootstraps
-example_valid_bootstrap_empty <- function(){
+example_bootstraps_empty <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
@@ -420,7 +518,7 @@ example_valid_bootstrap_empty <- function(){
 #' This function returns a bootstrap with invalid data where contribution percentage is greater than 100.
 #'
 #' @return A data.frame representing an invalid bootstrap with contribution > 1
-example_invalid_bootstrap_contribution <- function(){
+example_invalid_bootstraps_contribution <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
@@ -434,7 +532,7 @@ example_invalid_bootstrap_contribution <- function(){
 #' This function returns a bootstrap with invalid data where contribution values are negative.
 #'
 #' @return A data.frame representing an invalid bootstrap with negative contribution.
-example_invalid_bootstrap_negative_contribution <- function(){
+example_invalid_bootstraps_negative_contribution <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
@@ -448,7 +546,7 @@ example_invalid_bootstrap_negative_contribution <- function(){
 #' This function returns a bootstrap with invalid data where absolute contribution values are negative.
 #'
 #' @return A data.frame representing an invalid bootstrap with negative contribution_absolute.
-example_invalid_bootstrap_negative_contribution_absolute <- function(){
+example_invalid_bootstraps_negative_contribution_absolute <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, 2),
     signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
@@ -462,7 +560,7 @@ example_invalid_bootstrap_negative_contribution_absolute <- function(){
 #' This function returns a bootstrap with missing data (NA values).
 #'
 #' @return A data.frame representing an invalid bootstrap with missing data.
-example_invalid_bootstrap_missing <- function(){
+example_invalid_bootstraps_missing <- function(){
   data.frame(
     bootstrap = c(1, 1, 2, NA),  # Missing bootstrap value
     signature = c('Signature1', 'Signature2', NA, 'Signature2'),  # Missing signature value
