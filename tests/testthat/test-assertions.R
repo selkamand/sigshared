@@ -114,7 +114,8 @@ test_that("assert_signature_annotations works", {
 # Test assert_cohort_analysis
 test_that("assert_cohort_analysis works", {
 
-  expect_error(assert_cohort_analysis(example_valid_cohort_analysis()), regexp = NA)
+  # Valid data works as expected
+  expect_no_error(assert_cohort_analysis(example_valid_cohort_analysis()))
 
   # Invalid contribution values
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_contribution()), regexp = "must be less than or equal to 1, not 1.2")
@@ -122,12 +123,11 @@ test_that("assert_cohort_analysis works", {
   # Negative contribution
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_negative_contribution()), regexp = "Found negative contribution")
 
-
   # Negative contribution_absolute
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_negative_contribution_absolute()), regexp = "Found negative contribution_absolute")
 
-  # Invalid bootstraps column
-  expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_bootstraps()), regexp = "number of bootstraps")
+  # Invalid p_value column
+  expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_pvalue()), regexp = "numeric, not character")
 
   # Missing Data
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_missing()), regexp = "ound missing (NA) values", fixed = TRUE)

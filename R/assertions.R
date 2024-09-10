@@ -257,7 +257,7 @@ check_signature_annotation <- function(obj, required_signatures = NULL){
 
 
 check_cohort_analysis <- function(obj){
-  required_cols = c("sample", "signature", "contribution_absolute", "contribution", "bootstraps")
+  required_cols = c("sample", "signature", "contribution_absolute", "contribution", "p_value")
 
 
   # Not a data.frame
@@ -284,9 +284,8 @@ check_cohort_analysis <- function(obj){
   if(!is.numeric(obj[['contribution_absolute']]))
     return('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: contribution_absolute column must be of type {.emph numeric}, not {.emph {class(arg_value[["contribution_absolute"]])}}')
 
-  if(!is.character(obj[['bootstraps']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: bootstraps column must be of type {.emph numeric}, not {.emph {class(arg_value[["bootstraps"]])}}')
-
+  if(!is.numeric(obj[['p_value']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: p_value column must be of type {.emph numeric}, not {.emph {class(arg_value[["p_value"]])}}')
 
   # Missing Values
   if(anyNA(obj)){

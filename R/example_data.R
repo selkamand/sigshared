@@ -322,7 +322,7 @@ example_valid_cohort_analysis <- function(){
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
     "contribution_absolute" = c(3, 7, 40, 60),
     "contribution" = c(0.3, 0.7, 0.4, 0.6),
-    "bootstraps" = c('0.3; 0.27; 0.32', '0.7;0.72;0.68', '0.4;0.45;0.35', '0.6;0.62;0.55')
+    "p_value" = c(0.05, 0.1, 0.2, 0.15)
   )
 }
 
@@ -333,7 +333,7 @@ example_invalid_cohort_analysis_contribution <- function(){
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
     "contribution_absolute" = c(3, 7, 40, 60),
     "contribution" = c(0.5, 0.7, 0.6, 0.6),  # Contribution values sum to more than 1
-    "bootstraps" = c('0.3; 0.27; 0.32', '0.7;0.72;0.68', '0.4;0.45;0.35', '0.6;0.62;0.55')
+    "p_value" = c(0.05, 0.1, 0.2, 0.15)
   )
 }
 
@@ -343,7 +343,7 @@ example_invalid_cohort_analysis_negative_contribution <- function(){
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
     "contribution_absolute" = c(3, 7, 40, 60),
     "contribution" = c(0.3, -0.1, 0.4, 0.6),
-    "bootstraps" = c('0.3; 0.27; 0.32', '0.7;0.72;0.68', '0.4;0.45;0.35', '0.6;0.62;0.55')
+    "p_value" = c(0.05, 0.1, 0.2, 0.15)
   )
 }
 
@@ -353,17 +353,17 @@ example_invalid_cohort_analysis_negative_contribution_absolute <- function(){
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
     "contribution_absolute" = c(3, -7, 40, 60),
     "contribution" = c(0.3, 0.7, 0.4, 0.6),
-    "bootstraps" = c('0.3; 0.27; 0.32', '0.7;0.72;0.68', '0.4;0.45;0.35', '0.6;0.62;0.55')
+    "p_value" = c(0.05, 0.1, 0.2, 0.15)
   )
 }
 
-example_invalid_cohort_analysis_bootstraps <- function(){
+example_invalid_cohort_analysis_pvalue <- function(){
   data.frame(
     "sample" = c('sample1', 'sample1', 'sample2', 'sample2'),
     "signature" = c('sig1', 'sig2', 'sig1', 'sig2'),
     "contribution_absolute" = c(3, 7, 40, 60),
     "contribution" = c(0.3, 0.7, 0.4, 0.6),
-    "bootstraps" = c('0.3; 0.27; 0.32', '0.7;0.72;0.68', 'abc', '0.6;0.62;0.55')
+    "p_value" = c("0.05", "0.1", "0.2", "0.15") # Character instead of numeric
   )
 }
 
@@ -373,7 +373,7 @@ example_invalid_cohort_analysis_missing <- function(){
     signature = c('sig1', 'sig2', 'sig1', 'sig2'),
     contribution_absolute = c(3, 7, 40, 60),
     contribution = c(0.3, 0.7, 0.4, 0.6),
-    bootstraps = c('0.3; 0.27; 0.32', NA, '0.4;0.45;0.35', '0.6;0.62;0.55')
+    "p_value" = c(0.05, NA, 0.2, 0.15)
   )
 }
 
