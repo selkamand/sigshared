@@ -1,7 +1,7 @@
 # Test assert_signature
 test_that("assert_signature works", {
 
-  expect_error(assert_signature(example_valid_signature()), regexp = NA)
+  expect_error(assert_signature(example_signature()), regexp = NA)
 
   # Duplicated signature
   expect_error(assert_signature(example_invalid_signature_channeldup()), regexp = "duplicat")
@@ -32,7 +32,7 @@ test_that("assert_signature works", {
 test_that("assert_signature_collection works", {
 
   # Works as expected
-  expect_error(assert_signature_collection(example_valid_signature_collection()), regexp = NA)
+  expect_error(assert_signature_collection(example_signature_collection()), regexp = NA)
 
   # Invalid collection type (not a list)
   expect_error(assert_signature_collection(example_invalid_signature_collection_not_list()), regexp = "valid signature collection: Collections must be of type list")
@@ -53,13 +53,13 @@ test_that("assert_signature_collection works", {
 # Test assert_catalogue
 test_that("assert_catalogue works", {
 
-  expect_error(assert_catalogue(example_valid_catalogue()), regexp = NA)
+  expect_error(assert_catalogue(example_catalogue()), regexp = NA)
 
   # Invalid fraction values
   expect_error(assert_catalogue(example_invalid_catalogue_nonsensical_fraction()), regexp = "NOT a valid catalogue")
 
   # Allows empty catalogues
-  expect_error(assert_catalogue(example_valid_catalogue_empty()), regexp = NA)
+  expect_error(assert_catalogue(example_catalogue_empty()), regexp = NA)
 
   # Missing Data
   expect_error(assert_catalogue(example_invalid_catalogue_missing()), regexp = "found missing (NA) values", fixed = TRUE)
@@ -76,7 +76,7 @@ test_that("assert_catalogue works", {
 test_that("assert_catalogue_collection works", {
 
   # Works as expected
-  expect_error(assert_catalogue_collection(example_valid_catalogue_collection()), regexp = NA)
+  expect_error(assert_catalogue_collection(example_catalogue_collection()), regexp = NA)
 
   # Invalid collection type (not a list)
   expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_not_list()), regexp = "valid catalogue collection: Collections must be of type list")
@@ -96,10 +96,10 @@ test_that("assert_catalogue_collection works", {
 test_that("assert_signature_annotations works", {
 
   # Works as expected
-  expect_error(assert_signature_annotations(example_valid_annotations()), regexp = NA)
+  expect_error(assert_signature_annotations(example_annotations()), regexp = NA)
 
   # Works as expected even with required_signatures supplied
-  expect_error(assert_signature_annotations(example_valid_annotations(), required_signatures = c("sig1", "sig2")), regexp = NA)
+  expect_error(assert_signature_annotations(example_annotations(), required_signatures = c("sig1", "sig2")), regexp = NA)
 
   # Invalid signature column name
   expect_error(assert_signature_annotations(example_invalid_annotations_sig_colname()), regexp = "must contain the following columns: [signature]", fixed = TRUE)
@@ -108,14 +108,14 @@ test_that("assert_signature_annotations works", {
   expect_error(assert_signature_annotations(example_invalid_annotations_sig_duplicated()), regexp = "duplicat")
 
   # Missing Required Signatures
-  expect_error(assert_signature_annotations(example_valid_annotations(), required_signatures = c("sig1", "sig2", "sig3")), regexp = "Missing annotations")
+  expect_error(assert_signature_annotations(example_annotations(), required_signatures = c("sig1", "sig2", "sig3")), regexp = "Missing annotations")
 })
 
 # Test assert_cohort_analysis
 test_that("assert_cohort_analysis works", {
 
   # Valid data works as expected
-  expect_no_error(assert_cohort_analysis(example_valid_cohort_analysis()))
+  expect_no_error(assert_cohort_analysis(example_cohort_analysis()))
 
   # Invalid contribution values
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_contribution()), regexp = "must be less than or equal to 1, not 1.2")
@@ -138,19 +138,19 @@ test_that("assert_cohort_analysis works", {
 test_that("assert_bootstraps works", {
 
   # Expect the valid bootstrap to pass without errors
-  expect_error(assert_bootstraps(example_valid_bootstrap()), regexp = NA)
+  expect_error(assert_bootstraps(example_bootstraps()), regexp = NA)
 
   # Invalid contribution values (greater than 100%)
-  expect_error(assert_bootstraps(example_invalid_bootstrap_contribution()), regexp = "exceed 100%")
+  expect_error(assert_bootstraps(example_invalid_bootstraps_contribution()), regexp = "exceed 100%")
 
   # Negative contribution
-  expect_error(assert_bootstraps(example_invalid_bootstrap_negative_contribution()), regexp = "Found negative contribution")
+  expect_error(assert_bootstraps(example_invalid_bootstraps_negative_contribution()), regexp = "Found negative contribution")
 
   # Negative contribution_absolute
-  expect_error(assert_bootstraps(example_invalid_bootstrap_negative_contribution_absolute()), regexp = "Found negative contribution_absolute")
+  expect_error(assert_bootstraps(example_invalid_bootstraps_negative_contribution_absolute()), regexp = "Found negative contribution_absolute")
 
   # Missing data
-  expect_error(assert_bootstraps(example_invalid_bootstrap_missing()), regexp = "Found missing (NA) values", fixed = TRUE)
+  expect_error(assert_bootstraps(example_invalid_bootstraps_missing()), regexp = "Found missing (NA) values", fixed = TRUE)
 })
 
 

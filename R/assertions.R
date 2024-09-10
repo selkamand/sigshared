@@ -388,24 +388,25 @@ check_bootstraps <- function(obj){
 #' @export
 #'
 #' @examples
-#' # Generate Example Datatypes
 #'
 #' if(interactive()){
 #'
+#'   # Generate Example Datatypes
 #'   # Signatures
-#'   signature = example_valid_signature()
-#'   signature_collection = example_valid_signature_collection()
-#'   signature_annotations = example_valid_signature_annotations()
+#'   signature = example_signature()
+#'   signature_collection = example_signature_collection()
+#'   signature_annotations = example_signature_annotations()
+#'   signature_bootstraps = example_bootstraps()
 #'
 #'   # Catalogues
-#'   catalogue = example_valid_catalogue()
-#'   catalogue_collection = example_valid_catalogue_collection()
+#'   catalogue = example_catalogue()
+#'   catalogue_collection = example_catalogue_collection()
 #'
 #'   # Cohort Analysis Results
-#'   cohort_analysis = example_valid_cohort_analysis()
+#'   cohort_analysis = example_cohort_analysis()
 #'
 #'   # Cohort Analysis Results
-#'   catalogue_collection = example_valid_catalogue_collection()
+#'   catalogue_collection = example_catalogue_collection()
 #'
 #'   # Run Assertions
 #'   assert_signature(signature)
@@ -419,55 +420,67 @@ check_bootstraps <- function(obj){
 #' @details
 #' See \url{https://github.com/selkamand/sigshared} for full descriptions of filetypes
 #'
+#' @rdname signature
 assert_signature <- assertions::assert_create(check_signature)
 
 #' @description
 #' Assert object represents a signature collection
 #'
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname signature_collection
 assert_signature_collection <- assertions::assert_create(check_signature_collection)
 
 #' @description
 #' Assert object represents a catalogue
 #'
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname catalogue
 assert_catalogue <- assertions::assert_create(check_catalogue)
 
 #' @description
 #' Assert object represents a collection of catalogues
 #'
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname catalogue_collections
 assert_catalogue_collection <- assertions::assert_create(check_catalogue_collection)
 
 #' @description
 #' Assert object represents signature annotations
 #'
 #' @param required_signatures signatures expected to be annotated. Will throw an error if any of these signatures are missing from the annotation data.frame (character)
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname signature_annotation
 assert_signature_annotations <- assertions::assert_create(check_signature_annotation)
 
 #' @description
 #' Assert object represents results of a cohort analysis
 #'
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname cohort
 assert_cohort_analysis <- assertions::assert_create(check_cohort_analysis)
 
 
 #' @description
 #' Assert object represents a bootstrap data.frame.
 #'
-#' @inherit assert_signature
+#' @inheritParams assert_signature
+#' @inherit assert_signature title
 #'
 #' @export
+#' @rdname bootstraps
 assert_bootstraps <- assertions::assert_create(check_bootstraps)
-
