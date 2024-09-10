@@ -29,6 +29,9 @@ Throws error if assertion fails, otherwise invisibly returns true
 \description{
 Assert object represents a catalogue
 }
+\details{
+See \url{https://github.com/selkamand/sigshared} for full descriptions of filetypes
+}
 \examples{
 # Generate Example Datatypes
 
@@ -56,4 +59,6 @@ if(interactive()){
   assert_catalogue_collection(catalogue_collection)
   assert_cohort_analysis(cohort_analysis)
 }
+
+
 }

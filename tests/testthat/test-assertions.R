@@ -132,3 +132,25 @@ test_that("assert_cohort_analysis works", {
   # Missing Data
   expect_error(assert_cohort_analysis(example_invalid_cohort_analysis_missing()), regexp = "ound missing (NA) values", fixed = TRUE)
 })
+
+
+# Test assert_bootstraps
+test_that("assert_bootstraps works", {
+
+  # Expect the valid bootstrap to pass without errors
+  expect_error(assert_bootstraps(example_valid_bootstrap()), regexp = NA)
+
+  # Invalid contribution values (greater than 100%)
+  expect_error(assert_bootstraps(example_invalid_bootstrap_contribution()), regexp = "exceed 100%")
+
+  # Negative contribution
+  expect_error(assert_bootstraps(example_invalid_bootstrap_negative_contribution()), regexp = "Found negative contribution")
+
+  # Negative contribution_absolute
+  expect_error(assert_bootstraps(example_invalid_bootstrap_negative_contribution_absolute()), regexp = "Found negative contribution_absolute")
+
+  # Missing data
+  expect_error(assert_bootstraps(example_invalid_bootstrap_missing()), regexp = "Found missing (NA) values", fixed = TRUE)
+})
+
+

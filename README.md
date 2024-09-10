@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:94%;">
+<table style="width:92%;">
 <colgroup>
-<col style="width: 47%" />
-<col style="width: 47%" />
+<col style="width: 45%" />
+<col style="width: 45%" />
 </colgroup>
 <thead>
 <tr>
@@ -101,9 +101,19 @@ a sample identifier.</td>
 <li><p><strong>sample</strong></p></li>
 <li><p><strong>signature</strong></p></li>
 <li><p><strong>contribution_absolute</strong></p></li>
-<li><p><strong>contribution
-(</strong>percentage<strong>)</strong></p></li>
-<li><p><strong>bootstraps</strong> (colon separated string)</p></li>
+<li><p><strong>contribution</strong></p></li>
+<li><p><strong>p_value</strong> (see `?sigstats::sig_com
+pute_experimental_p_value()`)</p></li>
+</ol></td>
+</tr>
+<tr>
+<td><strong>Bootstraps</strong></td>
+<td><p>data.frame with 1 row per signature per bootstrap</p>
+<ol type="1">
+<li><strong>bootstrap</strong></li>
+<li><strong>signature</strong></li>
+<li><strong>contribution_absolute</strong></li>
+<li><strong>contribution (percentage)</strong></li>
 </ol></td>
 </tr>
 </tbody>
@@ -178,7 +188,6 @@ kable(sig_aetiology_classes())
 | environmental_mutagens        | aristolochic_acid                   |
 | plants_and_microbes           | aflatoxin                           |
 | plants_and_microbes           | colibactin                          |
-| plants_and_microbes           | aristolochic_acid                   |
 | adenosine_deamination         | adenosine_deaminases                |
 | cytosine_deamination          | cytidine_deaminases                 |
 | cytosine_deamination          | cytosine_deamination                |
