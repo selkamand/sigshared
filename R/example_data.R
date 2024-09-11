@@ -87,8 +87,6 @@ NULL
 # Signatures --------------------------------------------------------------
 
 
-
-
 #' Example sigverse signature
 #'
 #' This function returns an exemplar signature with valid data following the 'sigverse' style.
@@ -492,10 +490,10 @@ example_invalid_cohort_analysis_missing <- function(){
 #' @rdname bootstraps
 example_bootstraps <- function(){
   data.frame(
-    bootstrap = c(1, 1, 2, 2),
-    signature = c('Signature1', 'Signature2', 'Signature1', 'Signature2'),
-    contribution_absolute = c(0.3, 0.7, 0.5, 0.5),
-    contribution = c(.30, .70, .50, .50) # contribution in percentage
+    bootstrap = rep(c(1, 2), each = 3L),
+    signature = rep(c("Signature1", "Signature2", "Signature3"), 2),
+    contribution_absolute = c(300, 690, 10, 440, 500, 60),
+    contribution = c(0.3, 0.69, 0.01, 0.44, 0.5, 0.06)
   )
 }
 
