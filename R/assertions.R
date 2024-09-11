@@ -21,7 +21,7 @@ check_signature = function(obj, must_sum_to_one = TRUE){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -75,7 +75,7 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -217,7 +217,7 @@ check_signature_annotation <- function(obj, required_signatures = NULL){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature annotation dataset: Annotation data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature annotation dataset: Annotation data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -268,7 +268,7 @@ check_cohort_analysis <- function(obj){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: Cohort analysis data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: Cohort analysis data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -332,7 +332,7 @@ check_bootstraps <- function(obj){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Bootstrap data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Bootstrap data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
