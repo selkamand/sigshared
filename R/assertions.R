@@ -21,7 +21,7 @@ check_signature = function(obj, must_sum_to_one = TRUE){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -75,7 +75,7 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue: Signature data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -217,7 +217,7 @@ check_signature_annotation <- function(obj, required_signatures = NULL){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature annotation dataset: Annotation data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature annotation dataset: Annotation data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -268,7 +268,7 @@ check_cohort_analysis <- function(obj){
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: Cohort analysis data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort analysis: Cohort analysis data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
@@ -326,47 +326,47 @@ check_bootstraps <- function(obj){
 
   # Not a data.frame
   if(!is.data.frame(obj))
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Bootstrap data must be represented as a data.frame, not a ', class(obj), ''))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Bootstrap data must be represented as a data.frame, not a ', class(obj), ''))
 
   # Missing Colnames
   cols = colnames(obj)
   if(!all(required_cols %in% cols)){
     missing_cols = required_cols[!required_cols %in% cols]
-    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Bootstrap data.frame must contain the following columns: [', paste0(missing_cols, collapse = ","),']'))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Bootstrap data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
   }
 
   # Column Types Unexpected
   if(!is.numeric(obj[['bootstrap']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: bootstrap column must be of type {.emph numeric}, not {.emph {class(arg_value[["bootstrap"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: bootstrap column must be of type {.emph numeric}, not {.emph {class(arg_value[["bootstrap"]])}}')
 
   if(!is.character(obj[['signature']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: signature column must be of type {.emph character}, not {.emph {class(arg_value[["signature"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: signature column must be of type {.emph character}, not {.emph {class(arg_value[["signature"]])}}')
 
   if(!is.numeric(obj[['contribution_absolute']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: contribution_absolute column must be of type {.emph numeric}, not {.emph {class(arg_value[["contribution_absolute"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: contribution_absolute column must be of type {.emph numeric}, not {.emph {class(arg_value[["contribution_absolute"]])}}')
 
   if(!is.numeric(obj[['contribution']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: contribution column must be of type {.emph numeric}, not {.emph {class(arg_value[["contribution"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: contribution column must be of type {.emph numeric}, not {.emph {class(arg_value[["contribution"]])}}')
 
   # Missing Values
   if(anyNA(obj)){
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Found missing (NA) values')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Found missing (NA) values')
   }
 
   # Contributions include negative values
   if(any(obj[['contribution']] < 0)){
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Found negative contribution values')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Found negative contribution values')
   }
 
   # Contributions include negative values
   if(any(obj[['contribution_absolute']] < 0)){
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Found negative contribution_absolute values')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Found negative contribution_absolute values')
   }
 
   # Check if any bootstrap signature  has a contribution > 1
   contribution_sums <- stats::ave(obj[["contribution"]], obj[["bootstrap"]], FUN = sum)
   if (any(is_over_one(contribution_sums))) {
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap file: Total contributions in one or more bootstraps exceed 100%')
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: Total contributions in one or more bootstraps exceed 100%')
   }
 
   #Return TRUE if passing
