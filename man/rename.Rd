@@ -26,3 +26,6 @@ The function checks if all the values (current column names) in the
 the function stops with an error. If all expected names are present, the corresponding
 columns are renamed according to the names provided in \code{namemap}.
 }
+\examples{
+rename(mtcars, c(miles_per_gallon = "mpg"))
+}

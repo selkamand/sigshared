@@ -232,7 +232,7 @@ data.frame manipulation functions and other utilities.
 
 ``` r
 # Rename a dataframe
-rename(mtcars, c("miles_per_gallon" = "mpg"))
+rename(mtcars, c(miles_per_gallon = "mpg"))
 #>                     miles_per_gallon cyl  disp  hp drat    wt  qsec vs am gear
 #> Mazda RX4                       21.0   6 160.0 110 3.90 2.620 16.46  0  1    4
 #> Mazda RX4 Wag                   21.0   6 160.0 110 3.90 2.875 17.02  0  1    4

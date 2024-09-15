@@ -211,5 +211,5 @@ data.frame manipulation functions and other utilities.
 
 ```{r}
 # Rename a dataframe
-rename(mtcars, c("miles_per_gallon" = "mpg"))
+rename(mtcars, c(miles_per_gallon = "mpg"))
 ```
