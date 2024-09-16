@@ -574,10 +574,10 @@ example_invalid_bootstraps_missing <- function(){
 #' Exemplar bootstraps with valid data
 #'
 #' This function returns example bootstrap data from somatic Single Base Substitution (SBS)
-#' mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format.
+#' mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format  (see [example_bootstraps()]).
 #'
 #' @return A data.frame representing bootstraps from SBS mutational signature analysis of COLO829
-#' in the 'sigverse' format.
+#' in the 'sigverse' format. (see [example_bootstraps()])
 #'
 #' @examples
 #'
@@ -590,7 +590,30 @@ example_bootstraps_colo829 <- function(){
   utils::read.csv(file = path, header = TRUE, sep = ",")
 }
 
+#' Exemplar catalogue with valid data
+#'
+#' This function returns example catalogue from somatic Single Base Substitution (SBS)
+#' mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format
+#' (see [example_catalogue()]).
+#'
+#' @return A data.frame representing the SBS mutational catalogue of COLO829 in the 'sigverse' format
+#' (see [example_catalogue()]).
+#'
+#' @examples
+#'
+#' # Return example catalogue from COLO829 SBS analysis
+#' example_catalogue_colo829()
+#'
+#' @export
 example_catalogue_colo829 <- function(){
   path <- system.file(package = "sigshared", "examples/colo829_sbs.catalogue.csv.gz")
   utils::read.csv(file = path, header = TRUE, sep = ",")
 }
+
+
+example_exposures_colo829 <- function(){
+  path <- system.file(package = "sigshared", "examples/colo829_sbs.catalogue.csv.gz")
+  utils::read.csv(file = path, header = TRUE, sep = ",")
+}
+
+

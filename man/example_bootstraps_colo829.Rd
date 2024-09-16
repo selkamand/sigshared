@@ -8,11 +8,11 @@ example_bootstraps_colo829()
 }
 \value{
 A data.frame representing bootstraps from SBS mutational signature analysis of COLO829
-in the 'sigverse' format.
+in the 'sigverse' format. (see \code{\link[=example_bootstraps]{example_bootstraps()}})
 }
 \description{
 This function returns example bootstrap data from somatic Single Base Substitution (SBS)
-mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format.
+mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format  (see \code{\link[=example_bootstraps]{example_bootstraps()}}).
 }
 \examples{
 
