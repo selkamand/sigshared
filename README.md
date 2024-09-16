@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:94%;">
+<table style="width:92%;">
 <colgroup>
-<col style="width: 47%" />
-<col style="width: 47%" />
+<col style="width: 45%" />
+<col style="width: 45%" />
 </colgroup>
 <thead>
 <tr>
@@ -223,6 +223,120 @@ kable(sig_aetiology_classes())
 *Cohort Signature Analysis Results*
 
     cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+## Example Data
+
+For each data structure used by the sigverse we include a toy example.
+
+``` r
+example_annotations()
+#>   signature                       aetiology               class
+#> 1      sig1          A clock like signature          clock-like
+#> 2      sig2 An AID/APOBEC related signature cytidine deaminases
+#>              subclass
+#> 1          clock-like
+#> 2 cytidine deaminases
+```
+
+``` r
+example_bootstraps()
+#>   bootstrap  signature contribution_absolute contribution
+#> 1         1 Signature1                   300         0.30
+#> 2         1 Signature2                   690         0.69
+#> 3         1 Signature3                    10         0.01
+#> 4         2 Signature1                   440         0.44
+#> 5         2 Signature2                   500         0.50
+#> 6         2 Signature3                    60         0.06
+```
+
+``` r
+
+example_catalogue()
+#>    channel type count  fraction
+#> 1 A[A->G]G  A>G     5 0.1851852
+#> 2 A[A->G]C  A>G    10 0.3703704
+#> 3 A[A->G]T  A>G    12 0.4444444
+```
+
+``` r
+example_catalogue_collection()
+#> $decomp1
+#>    channel type count  fraction
+#> 1 A[A->G]G  A>G     5 0.1851852
+#> 2 A[A->G]C  A>G    10 0.3703704
+#> 3 A[A->G]T  A>G    12 0.4444444
+#> 
+#> $decomp2
+#>    channel type count  fraction
+#> 1 A[A->G]G  A>G     5 0.1851852
+#> 2 A[A->G]C  A>G    10 0.3703704
+#> 3 A[A->G]T  A>G    12 0.4444444
+#> 
+#> $decomp3
+#>    channel type count  fraction
+#> 1 A[A->G]G  A>G     5 0.1851852
+#> 2 A[A->G]C  A>G    10 0.3703704
+#> 3 A[A->G]T  A>G    12 0.4444444
+```
+
+``` r
+
+example_signature()
+#>    channel type fraction
+#> 1 A[A->G]G  A>G      0.4
+#> 2 A[A->G]C  A>G      0.1
+#> 3 A[A->G]T  A>G      0.5
+```
+
+``` r
+example_signature_collection()
+#> $sig1
+#>    channel type fraction
+#> 1 A[A->G]G  A>G      0.4
+#> 2 A[A->G]C  A>G      0.1
+#> 3 A[A->G]T  A>G      0.5
+#> 
+#> $sig2
+#>    channel type fraction
+#> 1 A[A->G]G  A>G      0.4
+#> 2 A[A->G]C  A>G      0.1
+#> 3 A[A->G]T  A>G      0.5
+```
+
+``` r
+
+example_cohort_analysis()
+#>    sample signature contribution_absolute contribution p_value
+#> 1 sample1      sig1                     3          0.3    0.05
+#> 2 sample1      sig2                     7          0.7    0.10
+#> 3 sample2      sig1                    40          0.4    0.20
+#> 4 sample2      sig2                    60          0.6    0.15
+```
+
+We also include examples from real SBS mutational signature analysis of
+the colo829 melanoma cell line
+
+``` r
+head(example_catalogue_colo829())
+#>   channel type     fraction count
+#> 1 A[C>A]A  C>A 0.0035802073   134
+#> 2 A[C>A]C  C>A 0.0016565138    62
+#> 3 A[C>A]G  C>A 0.0004542054    17
+#> 4 A[C>A]T  C>A 0.0015229240    57
+#> 5 A[C>G]A  C>G 0.0016565138    62
+#> 6 A[C>G]C  C>G 0.0011488725    43
+```
+
+``` r
+head(example_bootstraps_colo829())
+#>   signature bootstrap contribution_absolute contribution
+#> 1      SBS1     Rep_1                0.0000  0.000000000
+#> 2      SBS2     Rep_1              271.9152  0.007265021
+#> 3      SBS3     Rep_1                0.0000  0.000000000
+#> 4      SBS4     Rep_1                0.0000  0.000000000
+#> 5      SBS5     Rep_1                0.0000  0.000000000
+#> 6      SBS6     Rep_1                0.0000  0.000000000
+```
 
 ## Other Utility Functions
 
