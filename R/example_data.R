@@ -473,7 +473,7 @@ example_invalid_cohort_analysis_missing <- function(){
 
 # Bootstraps --------------------------------------------------------------
 
-#' Exemplar bootstrap with valid data
+#' Exemplar bootstraps with valid data
 #'
 #' This function returns an exemplar bootstrap with valid data following the 'sigverse' style.
 #'
@@ -565,4 +565,32 @@ example_invalid_bootstraps_missing <- function(){
     contribution_absolute = c(0.3, 0.7, 0.5, 0.6),
     contribution = c(.30, .70, .50, .60)
   )
+}
+
+
+
+# Example Colo829 Data ----------------------------------------------------
+
+#' Exemplar bootstraps with valid data
+#'
+#' This function returns example bootstrap data from somatic Single Base Substitution (SBS)
+#' mutational signature analysis of the COLO829 melanoma cell line, following the 'sigverse' format.
+#'
+#' @return A data.frame representing bootstraps from SBS mutational signature analysis of COLO829
+#' in the 'sigverse' format.
+#'
+#' @examples
+#'
+#' # Return example bootstraps from COLO829 SBS analysis
+#' example_bootstraps_colo829()
+#'
+#' @export
+example_bootstraps_colo829 <- function(){
+  path <- system.file(package = "sigshared", "examples/colo829_sbs.bootstraps.csv.gz")
+  utils::read.csv(file = path, header = TRUE, sep = ",")
+}
+
+example_catalogue_colo829 <- function(){
+  path <- system.file(package = "sigshared", "examples/colo829_sbs.catalogue.csv.gz")
+  utils::read.csv(file = path, header = TRUE, sep = ",")
 }
