@@ -336,8 +336,8 @@ check_bootstraps <- function(obj){
   }
 
   # Column Types Unexpected
-  if(!is.numeric(obj[['bootstrap']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: bootstrap column must be of type {.emph numeric}, not {.emph {class(arg_value[["bootstrap"]])}}')
+  if(!(is.numeric(obj[['bootstrap']]) | is.character(obj[['bootstrap']]) | is.factor(obj[['bootstrap']])))
+    return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: bootstrap column must be of type {.emph numeric}, {.emph character} or {.emph factor}, not {.emph {class(arg_value[["bootstrap"]])}}')
 
   if(!is.character(obj[['signature']]))
     return('{.arg {arg_name}} is {.strong NOT} a valid bootstrap analysis: signature column must be of type {.emph character}, not {.emph {class(arg_value[["signature"]])}}')

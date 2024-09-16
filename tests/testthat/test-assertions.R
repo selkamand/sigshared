@@ -138,7 +138,7 @@ test_that("assert_cohort_analysis works", {
 test_that("assert_bootstraps works", {
 
   # Expect the valid bootstrap to pass without errors
-  expect_error(assert_bootstraps(example_bootstraps()), regexp = NA)
+  expect_no_error(assert_bootstraps(example_bootstraps()))
 
   # Invalid contribution values (greater than 100%)
   expect_error(assert_bootstraps(example_invalid_bootstraps_contribution()), regexp = "exceed 100%")
@@ -151,6 +151,16 @@ test_that("assert_bootstraps works", {
 
   # Missing data
   expect_error(assert_bootstraps(example_invalid_bootstraps_missing()), regexp = "Found missing (NA) values", fixed = TRUE)
+
+  # 'bootstrap' column as character or factor is accepted
+  bootstrap_df <- example_bootstraps()
+  bootstrap_df[["bootstrap"]] <- as.character(bootstrap_df[["bootstrap"]])
+  expect_no_error(assert_bootstraps(bootstrap_df))
+
+  bootstrap_df[["bootstrap"]] <- factor(bootstrap_df[["bootstrap"]])
+  expect_no_error(assert_bootstraps(bootstrap_df))
+
+
 })
 
 
