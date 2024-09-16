@@ -227,9 +227,9 @@ example_cohort_analysis()
 We also include examples from real SBS mutational signature analysis of
 the colo829 melanoma cell line
 
-```{r}
+```{r paged.print=TRUE}
 example_catalogue_colo829()
-example_bootstraps_colo829()
+head(example_bootstraps_colo829())
 ```
 
 ## Other Utility Functions
