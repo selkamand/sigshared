@@ -4,10 +4,12 @@
 #' Rename columns in a data frame based on a name mapping
 #'
 #' This function renames columns in a data frame using a provided name mapping.
-#' It verifies that all names in the mapping exist in the data frame before
-#' renaming, and raises an error if any expected columns are missing.
+#' The 'b' in `brename` stands for 'base', indicating that this function is built
+#' using base R functions without additional dependencies. This prefix also helps
+#' avoid name clashes with functions in other packages like the tidyverse when both
+#' are loaded into the same environment.
 #'
-#' @param df A data frame whose columns will be renamed.
+#' @param .data A data frame whose columns will be renamed.
 #' @param namemap A named vector or list, where the names represent the new column
 #' names and the values represent the current column names in the data frame.
 #'
@@ -18,21 +20,31 @@
 #' the function stops with an error. If all expected names are present, the corresponding
 #' columns are renamed according to the names provided in `namemap`.
 #'
-#' @export
-#'
 #' @examples
-#' rename(mtcars, c(miles_per_gallon = "mpg"))
-rename <- function(.data, namemap){
+#' # Create a sample data frame
+#' df <- data.frame(
+#'   old_name1 = 1:5,
+#'   old_name2 = letters[1:5]
+#' )
+#'
+#' # Rename columns
+#' df_renamed <- brename(df, c(new_name1 = "old_name1", new_name2 = "old_name2"))
+#' print(df_renamed)
+#'
+#' @export
+brename <- function(.data, namemap){
   if(!is.vector(names(namemap))){
-    stop("rename: namemap must be a named vector")
+    stop("brename: 'namemap' must be a named vector")
   }
 
   if(any(nchar(names(namemap)) == 0)) {
-   stop("rename: all elements in namemap must be named")
+    stop("brename: all elements in 'namemap' must be named")
   }
 
   missing_names <- setdiff(namemap, colnames(.data))
-  if(length(missing_names) > 0 ) stop("rename: could not find column/s named [", paste0(missing_names, collapse = ", "), "]. Valid column names include: [", paste0(colnames(.data), collapse = ", "),"]")
+  if(length(missing_names) > 0 ) {
+    stop("brename: could not find column/s named [", paste0(missing_names, collapse = ", "), "]. Valid column names include: [", paste0(colnames(.data), collapse = ", "), "]")
+  }
 
   colnames(.data)[match(namemap, colnames(.data))] <- names(namemap)
   return(.data)
@@ -42,8 +54,10 @@ rename <- function(.data, namemap){
 #' Select columns from a data frame
 #'
 #' This function selects columns from a data frame based on a character vector of column names.
-#' It ensures that the specified columns exist in the data frame and that there are no duplicates
-#' in the column names provided.
+#' The 'b' in `bselect` stands for 'base', indicating that this function is built
+#' using base R functions without additional dependencies. This prefix also helps
+#' avoid name clashes with functions in other packages like the tidyverse when both
+#' are loaded into the same environment.
 #'
 #' @param .data A data frame from which to select columns.
 #' @param columns A character vector of column names to select from \code{.data}.
@@ -59,30 +73,31 @@ rename <- function(.data, namemap){
 #' )
 #'
 #' # Select columns 'x' and 'z'
-#' select(df, c('x', 'z'))
+#' df_selected <- bselect(df, c("x", "z"))
+#' print(df_selected)
 #'
 #' @export
-select <- function(.data, columns){
+bselect <- function(.data, columns){
   # Assertions
   if(!is.data.frame(.data)){
-    stop("select: '.data' must be a data.frame")
+    stop("bselect: '.data' must be a data.frame")
   }
 
   if(!is.vector(columns)){
-    stop("select: 'columns' argument must be a character vector")
+    stop("bselect: 'columns' argument must be a character vector")
   }
 
   if(!is.character(columns)){
-    stop("select: 'columns' argument must be a character vector")
+    stop("bselect: 'columns' argument must be a character vector")
   }
 
   if(anyDuplicated(columns) > 0){
-    stop("select: 'columns' argument must not contain duplicates")
+    stop("bselect: 'columns' argument must not contain duplicates")
   }
 
   cols_not_found <- setdiff(columns, colnames(.data))
   if(length(cols_not_found) != 0 ){
-    stop("Could not find column/s: [", paste0(cols_not_found, collapse = ", "), "]")
+    stop("bselect: Could not find column/s: [", paste0(cols_not_found, collapse = ", "), "]")
   }
 
   # Return subset data.frame
