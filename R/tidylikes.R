@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' rename(mtcars, c(miles_per_gallon = "mpg"))
-rename <- function(df, namemap){
+rename <- function(.data, namemap){
   if(!is.vector(names(namemap))){
     stop("rename: namemap must be a named vector")
   }
@@ -31,9 +31,60 @@ rename <- function(df, namemap){
    stop("rename: all elements in namemap must be named")
   }
 
-  missing_names <- setdiff(namemap, colnames(df))
-  if(length(missing_names) > 0 ) stop("rename: could not find column/s named [", paste0(missing_names, collapse = ", "), "]. Valid column names include: [", paste0(colnames(df), collapse = ", "),"]")
+  missing_names <- setdiff(namemap, colnames(.data))
+  if(length(missing_names) > 0 ) stop("rename: could not find column/s named [", paste0(missing_names, collapse = ", "), "]. Valid column names include: [", paste0(colnames(.data), collapse = ", "),"]")
 
-  colnames(df)[match(namemap, colnames(df))] <- names(namemap)
-  return(df)
+  colnames(.data)[match(namemap, colnames(.data))] <- names(namemap)
+  return(.data)
+}
+
+
+#' Select columns from a data frame
+#'
+#' This function selects columns from a data frame based on a character vector of column names.
+#' It ensures that the specified columns exist in the data frame and that there are no duplicates
+#' in the column names provided.
+#'
+#' @param .data A data frame from which to select columns.
+#' @param columns A character vector of column names to select from \code{.data}.
+#'
+#' @return A data frame containing only the specified columns from \code{.data}.
+#'
+#' @examples
+#' # Create a sample data frame
+#' df <- data.frame(
+#'   x = 1:5,
+#'   y = letters[1:5],
+#'   z = rnorm(5)
+#' )
+#'
+#' # Select columns 'x' and 'z'
+#' select(df, c('x', 'z'))
+#'
+#' @export
+select <- function(.data, columns){
+  # Assertions
+  if(!is.data.frame(.data)){
+    stop("select: '.data' must be a data.frame")
+  }
+
+  if(!is.vector(columns)){
+    stop("select: 'columns' argument must be a character vector")
+  }
+
+  if(!is.character(columns)){
+    stop("select: 'columns' argument must be a character vector")
+  }
+
+  if(anyDuplicated(columns) > 0){
+    stop("select: 'columns' argument must not contain duplicates")
+  }
+
+  cols_not_found <- setdiff(columns, colnames(.data))
+  if(length(cols_not_found) != 0 ){
+    stop("Could not find column/s: [", paste0(cols_not_found, collapse = ", "), "]")
+  }
+
+  # Return subset data.frame
+  return(.data[columns])
 }
