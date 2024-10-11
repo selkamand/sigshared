@@ -5,6 +5,8 @@
 #' seed (if it existed) is restored, ensuring that the global random seed
 #' state remains unchanged.
 #'
+#' Outside of the sigverse, we recommend using `withr::with_seed()`.
+#'
 #' @param seed [numeric] The random seed to temporarily set during the evaluation of `expr`.
 #' @param expr [expression] The expression to be evaluated with the temporary random seed.
 #'
@@ -13,13 +15,15 @@
 #'
 #' @examples
 #' # Run a block of code with a specific random seed
-#' with_temp_seed(123, {
+#' with_seed(123, {
 #'   runif(1)
 #' })
 #'
 #' # The global random seed remains unchanged after running the expression
 #' runif(1)
-with_temp_seed <- function(seed, expr) {
+#'
+#'
+with_seed <- function(seed, expr) {
   if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
     old_seed <- .Random.seed
   } else {
