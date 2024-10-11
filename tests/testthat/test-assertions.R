@@ -166,7 +166,12 @@ test_that("assert_bootstraps works", {
 test_that("assert_model works", {
 
   # Valid model should pass without errors
-  expect_error(assert_model(example_model()), regexp = NA)
+  expect_no_error(assert_model(example_model()))
+
+  # Empty model should pass without errors (unless we specifically don't allow it)
+  expect_no_error(assert_model(example_model_empty()))
+  expect_error(assert_model(example_model_empty(), allow_empty = FALSE), "Vector is empty")
+
 
   # Non-numeric vector (invalid model)
   expect_error(assert_model(example_invalid_non_numeric_model()), regexp = "Must be a numeric vector")
@@ -197,7 +202,7 @@ test_that("assert_model works", {
 
   # Model with all valid signatures from the signature collection
   valid_signature_model <- c("Signature1" = 0.5, "Signature2" = 0.5)
-  expect_error(assert_model(valid_signature_model, signature_collection), regexp = NA)
+  expect_no_error(assert_model(valid_signature_model, signature_collection))
 
 })
 
