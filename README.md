@@ -341,22 +341,16 @@ data.frame manipulation functions and other utilities.
 
 ``` r
 # Setup data
-mtcars <- head(mtcars, n = 5)
+mtcars <- mtcars[1:5,1:5]
 
 # Rename a dataframe
 brename(mtcars, c(miles_per_gallon = "mpg"))
-#>                   miles_per_gallon cyl disp  hp drat    wt  qsec vs am gear
-#> Mazda RX4                     21.0   6  160 110 3.90 2.620 16.46  0  1    4
-#> Mazda RX4 Wag                 21.0   6  160 110 3.90 2.875 17.02  0  1    4
-#> Datsun 710                    22.8   4  108  93 3.85 2.320 18.61  1  1    4
-#> Hornet 4 Drive                21.4   6  258 110 3.08 3.215 19.44  1  0    3
-#> Hornet Sportabout             18.7   8  360 175 3.15 3.440 17.02  0  0    3
-#>                   carb
-#> Mazda RX4            4
-#> Mazda RX4 Wag        4
-#> Datsun 710           1
-#> Hornet 4 Drive       1
-#> Hornet Sportabout    2
+#>                   miles_per_gallon cyl disp  hp drat
+#> Mazda RX4                     21.0   6  160 110 3.90
+#> Mazda RX4 Wag                 21.0   6  160 110 3.90
+#> Datsun 710                    22.8   4  108  93 3.85
+#> Hornet 4 Drive                21.4   6  258 110 3.08
+#> Hornet Sportabout             18.7   8  360 175 3.15
 
 # Select a subset of columns
 bselect(mtcars, c("mpg"))

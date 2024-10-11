@@ -259,7 +259,7 @@ data.frame manipulation functions and other utilities.
 
 ```{r}
 # Setup data
-mtcars <- head(mtcars, n = 5)
+mtcars <- mtcars[1:5,1:5]
 
 # Rename a dataframe
 brename(mtcars, c(miles_per_gallon = "mpg"))
