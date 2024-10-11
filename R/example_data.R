@@ -599,11 +599,14 @@ example_invalid_bootstraps_missing <- function(){
 #' # Assert model is valid
 #' assert_model(example_model())
 #'
+#' # Assert all signatures described by model are in a signature collection
+#' assert_model(example_model(), example_signature_collection())
+#'
 #' @export
 #' @rdname model
 #' @order 1
 example_model <- function(){
- c("Signature1" = 0.3, "Signature2" = 0.7)
+ c("sig1" = 0.3, "sig2" = 0.7)
 }
 
 # Invalid model: Non-numeric values

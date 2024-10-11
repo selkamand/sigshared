@@ -548,7 +548,7 @@ assert_bootstraps <- assertions::assert_create(check_bootstraps)
 #' Signature Model Specification
 #'
 #' @inheritParams assert_signature
-#' @param signature_collection A sigverse signature collection used to check if model describes only valid signatures.
+#' @param signature_collection Optionally assert all signatures described in model are present a specific signature collection.
 #'
 #' @export
 #' @rdname model

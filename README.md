@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:89%;">
+<table style="width:94%;">
 <colgroup>
-<col style="width: 44%" />
-<col style="width: 44%" />
+<col style="width: 47%" />
+<col style="width: 47%" />
 </colgroup>
 <thead>
 <tr>
@@ -116,6 +116,11 @@ a sample identifier.</td>
 <li><strong>contribution</strong> (percentage)</li>
 </ol></td>
 </tr>
+<tr>
+<td><strong>Model Specification</strong></td>
+<td>Named numeric vector where names represent signatures and values
+represent their proportional contribution to the model</td>
+</tr>
 </tbody>
 </table>
 
@@ -133,13 +138,15 @@ signature = example_signature()
 signature_collection = example_signature_collection()
 signature_annotations = example_annotations()
 
-# catalogues
+# Catalogues
 catalogue = example_catalogue()
 catalogue_collection = example_catalogue_collection()
 
 # Cohort Analysis Results
 cohort_analysis = example_cohort_analysis()
 
+# Model
+model = example_model()
 
 # Assert Signatures
 assert_signature(signature)
@@ -152,6 +159,9 @@ assert_catalogue_collection(catalogue_collection)
 
 # Assert Analyses
 assert_cohort_analysis(cohort_analysis)
+
+# Assert Model
+assert_model(model, signature_collection,arg_name = "bob")
 ```
 
 ### Signature Aetiology Classes
@@ -224,6 +234,12 @@ kable(sig_aetiology_classes())
 
     cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
 
+*Signature Model Specification*
+
+    model: A named numeric vector where names represent signatures and values represent their proportional contribution to the model. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+
+## 
+
 ## Example Data
 
 For each data structure used by the sigverse we include a toy example.
@@ -236,9 +252,6 @@ example_annotations()
 #>              subclass
 #> 1          clock-like
 #> 2 cytidine deaminases
-```
-
-``` r
 example_bootstraps()
 #>   bootstrap  signature contribution_absolute contribution
 #> 1         1 Signature1                   300         0.30
@@ -247,18 +260,12 @@ example_bootstraps()
 #> 4         2 Signature1                   440         0.44
 #> 5         2 Signature2                   500         0.50
 #> 6         2 Signature3                    60         0.06
-```
-
-``` r
 
 example_catalogue()
 #>    channel type count  fraction
 #> 1 A[A->G]G  A>G     5 0.1851852
 #> 2 A[A->G]C  A>G    10 0.3703704
 #> 3 A[A->G]T  A>G    12 0.4444444
-```
-
-``` r
 example_catalogue_collection()
 #> $decomp1
 #>    channel type count  fraction
@@ -277,18 +284,12 @@ example_catalogue_collection()
 #> 1 A[A->G]G  A>G     5 0.1851852
 #> 2 A[A->G]C  A>G    10 0.3703704
 #> 3 A[A->G]T  A>G    12 0.4444444
-```
-
-``` r
 
 example_signature()
 #>    channel type fraction
 #> 1 A[A->G]G  A>G      0.4
 #> 2 A[A->G]C  A>G      0.1
 #> 3 A[A->G]T  A>G      0.5
-```
-
-``` r
 example_signature_collection()
 #> $sig1
 #>    channel type fraction
@@ -301,9 +302,6 @@ example_signature_collection()
 #> 1 A[A->G]G  A>G      0.4
 #> 2 A[A->G]C  A>G      0.1
 #> 3 A[A->G]T  A>G      0.5
-```
-
-``` r
 
 example_cohort_analysis()
 #>    sample signature contribution_absolute contribution p_value
@@ -325,9 +323,6 @@ head(example_catalogue_colo829())
 #> 4 A[C>A]T  C>A 0.0015229240    57
 #> 5 A[C>G]A  C>G 0.0016565138    62
 #> 6 A[C>G]C  C>G 0.0011488725    43
-```
-
-``` r
 head(example_bootstraps_colo829())
 #>   signature bootstrap contribution_absolute contribution
 #> 1      SBS1     Rep_1                0.0000  0.000000000
@@ -413,9 +408,6 @@ brename(mtcars, c(miles_per_gallon = "mpg"))
 #> Ferrari Dino           6
 #> Maserati Bora          8
 #> Volvo 142E             2
-```
-
-``` r
 
 # Select a subset of columns
 bselect(mtcars, c("mpg"))

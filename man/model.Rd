@@ -19,7 +19,7 @@ assert_model(
 \arguments{
 \item{obj}{object}
 
-\item{signature_collection}{A sigverse signature collection used to check if model describes only valid signatures.}
+\item{signature_collection}{Optionally assert all signatures described in model are present a specific signature collection.}
 
 \item{msg}{error message}
 
@@ -50,5 +50,8 @@ example_model_empty()
 
 # Assert model is valid
 assert_model(example_model())
+
+# Assert all signatures described by model are in a signature collection
+assert_model(example_model(), example_signature_collection())
 
 }
