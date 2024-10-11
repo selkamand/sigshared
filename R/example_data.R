@@ -80,7 +80,19 @@ NULL
 #' - `contribution`: The percentage contribution of the signature.
 NULL
 
-
+#' @name model
+#'
+#' @title Signature Model Specification
+#'
+#' @description
+#' **Model**: A named numeric vector representing a signature model where names are signatures and the values are their proportional contributions to the model.
+#'
+#' [example_model()] returns an exemplar 'sigverse' style signature model specification.
+#' The model is represented as a named numeric vector where each name corresponds
+#' to a signature, and each value represents its proportional contribution.
+#'
+#' [assert_model()] asserts an object is a valid sigverse model.
+NULL
 
 
 
@@ -409,6 +421,7 @@ example_invalid_annotations_sig_duplicated <- function(){
 #'
 #' @export
 #' @rdname cohort
+#'
 example_cohort_analysis <- function(){
   data.frame(
     "sample" = c('sample1', 'sample1', 'sample2', 'sample2'),
@@ -567,6 +580,74 @@ example_invalid_bootstraps_missing <- function(){
   )
 }
 
+
+# Model  -----------------------------------------------------
+
+#' Exemplar model specification
+#'
+#' @return [example_model()] returns a named numeric vector where names correspond
+#' signatures and matched values represents their proportional contribution.
+#'
+#' @examples
+#' # Return a valid signature model (representing a combination of
+#' # 30% Signature1 & 70% Signature2)
+#' example_model()
+#'
+#' # Return a valid but empty signature model (length zero)
+#' example_model_empty()
+#'
+#' # Assert model is valid
+#' assert_model(example_model())
+#'
+#' # Assert all signatures described by model are in a signature collection
+#' assert_model(example_model(), example_signature_collection())
+#'
+#' @export
+#' @rdname model
+#' @order 1
+example_model <- function(){
+ c("sig1" = 0.3, "sig2" = 0.7)
+}
+
+# Invalid model: Non-numeric values
+example_invalid_non_numeric_model <- function() {
+  c("Signature1" = "0.5", "Signature2" = "0.3", "Signature3" = "0.2")
+}
+
+# Invalid model: Contributions sum to more than 1
+example_invalid_over_one_model <- function() {
+  c("Signature1" = 0.5, "Signature2" = 0.4, "Signature3" = 0.2)
+}
+
+# Invalid model: No names (completely unnamed elements)
+example_invalid_unnamed_model <- function() {
+  c(0.5, 0.3, 0.2)
+}
+
+# Invalid model: Mix of named and unnamed elements
+example_invalid_mixed_names_model <- function() {
+  c("Signature1" = 0.5, 0.3, "Signature3" = 0.2)
+}
+
+# Invalid model: Duplicate signature names
+example_invalid_duplicate_signatures_model <- function() {
+  c("Signature1" = 0.5, "Signature1" = 0.3, "Signature3" = 0.2)
+}
+
+# Invalid model: Negative values
+example_invalid_negative_model <- function() {
+  c("Signature1" = -0.1, "Signature2" = 0.3, "Signature3" = 0.2)
+}
+
+
+#' Example Data
+#'
+#' See [example_model()]
+#'
+#' @export
+example_model_empty <- function(){
+  numeric(0)
+}
 
 
 # Example Colo829 Data ----------------------------------------------------

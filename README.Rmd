@@ -48,88 +48,90 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-+-------------------------------+-------------------------------+
-| Data Structure                | Requirements                  |
-+===============================+===============================+
-| **Signature**                 | The profile of a mutational   |
-|                               | signature                     |
-|                               |                               |
-|                               | data.frames with 3 columns    |
-|                               |                               |
-|                               | 1.  **channel**               |
-|                               | 2.  **type**                  |
-|                               | 3.  **fraction**              |
-+-------------------------------+-------------------------------+
-| **Signature Collections**     | Lists of signature            |
-|                               | data.frames, where name of    |
-|                               | list entry is the name of the |
-|                               | signature                     |
-+-------------------------------+-------------------------------+
-| **Signature Annotations**     | Signature level annotations.  |
-|                               | data.frames with 4 required   |
-|                               | columns:                      |
-|                               |                               |
-|                               | 1.  **signature**             |
-|                               | 2.  **aetiology**             |
-|                               | 3.  **class**                 |
-|                               | 4.  **subclass**              |
-|                               |                               |
-|                               | class and subclass of         |
-|                               | aetiology do not need to      |
-|                               | conform to any specific       |
-|                               | ontology. However, we include |
-|                               | the data-dictionary used by   |
-|                               | sigstash collections below    |
-|                               | (see [Signature Aetiology     |
-|                               | Classes])                     |
-+-------------------------------+-------------------------------+
-| **Catalogue**                 | The mutational profile of a   |
-|                               | sample, described by tallying |
-|                               | mutations belonging to each   |
-|                               | mutational channel.           |
-|                               | Catalogues are not always     |
-|                               | observational. They can also  |
-|                               | be simulated from signature   |
-|                               | models. data.frames with 4    |
-|                               | required columns:             |
-|                               |                               |
-|                               | 1.  **channel**               |
-|                               |                               |
-|                               | 2.  **type**                  |
-|                               |                               |
-|                               | 3.  **fraction**              |
-|                               |                               |
-|                               | 4.  **count**                 |
-+-------------------------------+-------------------------------+
-| **Catalogue Collections**     | Lists of catalogue            |
-|                               | data.frames (1 per sample)    |
-|                               | where name represents a       |
-|                               | sample identifier.            |
-+-------------------------------+-------------------------------+
-| **Cohort Signature Analysis   | data.frame with 4 columns:    |
-| Results**                     |                               |
-|                               | 1.  **sample**                |
-|                               |                               |
-|                               | 2.  **signature**             |
-|                               |                               |
-|                               | 3.  **contribution_absolute** |
-|                               |                               |
-|                               | 4.  **contribution**          |
-|                               |                               |
-|                               | 5.  **p_value** (see          |
-|                               |     \`?sigstats::sig_com p    |
-|                               |                               |
-|                               | ute_experimental_p_value()\`) |
-+-------------------------------+-------------------------------+
-| **Bootstraps**                | data.frame with 1 row per     |
-|                               | signature per bootstrap       |
-|                               |                               |
-|                               | 1.  **bootstrap**             |
-|                               | 2.  **signature**             |
-|                               | 3.  **contribution_absolute** |
-|                               | 4.  **contribution**          |
-|                               |     (percentage)              |
-+-------------------------------+-------------------------------+
++---------------------------------+---------------------------------+
+| Data Structure                  | Requirements                    |
++=================================+=================================+
+| **Signature**                   | The profile of a mutational     |
+|                                 | signature                       |
+|                                 |                                 |
+|                                 | data.frames with 3 columns      |
+|                                 |                                 |
+|                                 | 1.  **channel**                 |
+|                                 | 2.  **type**                    |
+|                                 | 3.  **fraction**                |
++---------------------------------+---------------------------------+
+| **Signature Collections**       | Lists of signature data.frames, |
+|                                 | where name of list entry is the |
+|                                 | name of the signature           |
++---------------------------------+---------------------------------+
+| **Signature Annotations**       | Signature level annotations.    |
+|                                 | data.frames with 4 required     |
+|                                 | columns:                        |
+|                                 |                                 |
+|                                 | 1.  **signature**               |
+|                                 | 2.  **aetiology**               |
+|                                 | 3.  **class**                   |
+|                                 | 4.  **subclass**                |
+|                                 |                                 |
+|                                 | class and subclass of aetiology |
+|                                 | do not need to conform to any   |
+|                                 | specific ontology. However, we  |
+|                                 | include the data-dictionary     |
+|                                 | used by sigstash collections    |
+|                                 | below (see [Signature Aetiology |
+|                                 | Classes])                       |
++---------------------------------+---------------------------------+
+| **Catalogue**                   | The mutational profile of a     |
+|                                 | sample, described by tallying   |
+|                                 | mutations belonging to each     |
+|                                 | mutational channel. Catalogues  |
+|                                 | are not always observational.   |
+|                                 | They can also be simulated from |
+|                                 | signature models. data.frames   |
+|                                 | with 4 required columns:        |
+|                                 |                                 |
+|                                 | 1.  **channel**                 |
+|                                 |                                 |
+|                                 | 2.  **type**                    |
+|                                 |                                 |
+|                                 | 3.  **fraction**                |
+|                                 |                                 |
+|                                 | 4.  **count**                   |
++---------------------------------+---------------------------------+
+| **Catalogue Collections**       | Lists of catalogue data.frames  |
+|                                 | (1 per sample) where name       |
+|                                 | represents a sample identifier. |
++---------------------------------+---------------------------------+
+| **Cohort Signature Analysis     | data.frame with 4 columns:      |
+| Results**                       |                                 |
+|                                 | 1.  **sample**                  |
+|                                 |                                 |
+|                                 | 2.  **signature**               |
+|                                 |                                 |
+|                                 | 3.  **contribution_absolute**   |
+|                                 |                                 |
+|                                 | 4.  **contribution**            |
+|                                 |                                 |
+|                                 | 5.  **p_value** (see            |
+|                                 |     \`?sigstats::sig_com p      |
+|                                 |                                 |
+|                                 | ute_experimental_p_value()\`)   |
++---------------------------------+---------------------------------+
+| **Bootstraps**                  | data.frame with 1 row per       |
+|                                 | signature per bootstrap         |
+|                                 |                                 |
+|                                 | 1.  **bootstrap**               |
+|                                 | 2.  **signature**               |
+|                                 | 3.  **contribution_absolute**   |
+|                                 | 4.  **contribution**            |
+|                                 |     (percentage)                |
++---------------------------------+---------------------------------+
+| **Model Specification**         | Named numeric vector where      |
+|                                 | names represent signatures and  |
+|                                 | values represent their          |
+|                                 | proportional contribution to    |
+|                                 | the model                       |
++---------------------------------+---------------------------------+
 
 ### Assertions
 
@@ -145,13 +147,15 @@ signature = example_signature()
 signature_collection = example_signature_collection()
 signature_annotations = example_annotations()
 
-# catalogues
+# Catalogues
 catalogue = example_catalogue()
 catalogue_collection = example_catalogue_collection()
 
 # Cohort Analysis Results
 cohort_analysis = example_cohort_analysis()
 
+# Model
+model = example_model()
 
 # Assert Signatures
 assert_signature(signature)
@@ -164,6 +168,9 @@ assert_catalogue_collection(catalogue_collection)
 
 # Assert Analyses
 assert_cohort_analysis(cohort_analysis)
+
+# Assert Model
+assert_model(model, signature_collection,arg_name = "bob")
 ```
 
 ### Signature Aetiology Classes {data-link="Signature Aetiology Classes"}
@@ -206,6 +213,14 @@ catalogues: A sigverse-style catalogue collection. A named list of sigstash cata
 ```         
 cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
 ```
+
+*Signature Model Specification*
+
+```         
+model: A named numeric vector where names represent signatures and values represent their proportional contribution to the model. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+```
+
+## 
 
 ## Example Data
 
