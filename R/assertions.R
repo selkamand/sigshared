@@ -8,6 +8,10 @@ is_over_one <- function(n, tolerance = 5e-07){
   n-tolerance > 1
 }
 
+# Shorthand for paste0
+p <- function(...){
+  paste0(...)
+}
 
 # Check Functions ---------------------------------------------------------
 check_signature = function(obj, must_sum_to_one = TRUE){
@@ -373,6 +377,62 @@ check_bootstraps <- function(obj){
   return(invisible(TRUE))
 }
 
+
+check_model <- function(obj, signature_collection = NULL){
+
+  # Is not a numeric vector
+  is_numeric_vector <- is.numeric(obj) & is.vector(obj)
+  if(!is_numeric_vector){
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Must be a numeric vector, not a {.emph {class(obj)}}")
+  }
+
+  # Sums to > 1
+  if(is_over_one(sum(obj))){
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Contributions of all signatures in model should add up to <= 1, not [{sum(obj)}]")
+  }
+
+  # Completely unnamed
+  model_signatures <- names(obj)
+  if(!is.vector(model_signatures)){
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Must be a {.emph named} vector where names represent the signatures to combine.")
+  }
+
+  # Mix of named & unnamed elements
+  if(any(nchar(model_signatures) == 0)) {
+    n_missing_names <- sum(nchar(model_signatures) == 0)
+    return(p("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: All elements must be named. Found [",n_missing_names, "] unnamed signature contributions"))
+  }
+
+  # Duplicate Signatures
+  if(anyDuplicated(model_signatures) > 0){
+    dups <- model_signatures[duplicated(model_signatures)]
+    ndups = length(dups)
+    return(p("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Found [",ndups,"] signatures with duplicate contributions [",p(dups, collapse=", "),"]"))
+  }
+
+  # Missing from the signature collection
+  if(!is.null(signature_collection)){
+    valid_signatures = names(signature_collection)
+    invalid_sigs <- setdiff(model_signatures, valid_signatures)
+    n_invalid_sigs <- length(invalid_sigs)
+    if(n_invalid_sigs > 0)
+      return(p("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Includes [",n_invalid_sigs,"] invalid signature/s missing from your signature collection [",p(invalid_sigs, collapse=", "),"]"))
+  }
+
+
+  # Contains negatives
+  if(any(obj < 0)){
+    negative_sigs <- model_signatures[obj < 0]
+    n_negative_sigs <- sum(obj < 0)
+    return(p("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Contributions of all signatures in model must be non-negative. Found ",n_negative_sigs," signatures had negative contributions [",p(negative_sigs, collapse=", "),"]"))
+  }
+
+
+  #Return TRUE if passing
+  return(invisible(TRUE))
+}
+
+
 # Assertions --------------------------------------------------------------
 
 #' Assert object represents a signature
@@ -484,3 +544,14 @@ assert_cohort_analysis <- assertions::assert_create(check_cohort_analysis)
 #' @export
 #' @rdname bootstraps
 assert_bootstraps <- assertions::assert_create(check_bootstraps)
+
+#' Signature Model Specification
+#'
+#' @inheritParams assert_signature
+#' @param signature_collection A sigverse signature collection used to check if model describes only valid signatures.
+#'
+#' @export
+#' @rdname model
+assert_model <- assertions::assert_create(check_model)
+
+

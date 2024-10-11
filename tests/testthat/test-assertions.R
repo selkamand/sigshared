@@ -160,6 +160,44 @@ test_that("assert_bootstraps works", {
   bootstrap_df[["bootstrap"]] <- factor(bootstrap_df[["bootstrap"]])
   expect_no_error(assert_bootstraps(bootstrap_df))
 
+})
+
+# Test assert_model
+test_that("assert_model works", {
+
+  # Valid model should pass without errors
+  expect_error(assert_model(example_model()), regexp = NA)
+
+  # Non-numeric vector (invalid model)
+  expect_error(assert_model(example_invalid_non_numeric_model()), regexp = "Must be a numeric vector")
+
+  # Model where contributions sum to more than 1
+  expect_error(assert_model(example_invalid_over_one_model()), regexp = "Contributions of all signatures in model should add up to <= 1")
+
+  # Model without any names (completely unnamed elements)
+  expect_error(assert_model(example_invalid_unnamed_model()), regexp = "Must be a named vector")
+
+  # Model with some unnamed elements (mix of named and unnamed)
+  expect_error(assert_model(example_invalid_mixed_names_model()), regexp = "All elements must be named")
+
+  # Model with duplicate signatures
+  expect_error(assert_model(example_invalid_duplicate_signatures_model()), regexp = "duplicate contribution")
+
+  # Model with negative values (invalid contributions)
+  expect_error(assert_model(example_invalid_negative_model()), regexp = "Contributions of all signatures in model must be non-negative")
+
+  # Model with missing signatures from the signature collection
+  signature_collection <- list("Signature1" = 0.5, "Signature2" = 0.5) # Not a real sig collection but doesn't assertion doesn't care so long as names represent valid signatures
+  model_with_invalid_sigs <- c("Sig1" = 0.3, "Sig2" = 0.7)
+  expect_error(assert_model(model_with_invalid_sigs, signature_collection), regexp = "invalid signature")
+
+  # Model with NO missing signatures from the signature collection
+  model_with_invalid_sigs <- c("Signature1" = 0.3, "Signature2" = 0.7)
+  expect_no_error(assert_model(model_with_invalid_sigs, signature_collection))
+
+  # Model with all valid signatures from the signature collection
+  valid_signature_model <- c("Signature1" = 0.5, "Signature2" = 0.5)
+  expect_error(assert_model(valid_signature_model, signature_collection), regexp = NA)
 
 })
 
