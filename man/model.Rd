@@ -11,6 +11,7 @@ example_model()
 assert_model(
   obj,
   signature_collection = NULL,
+  allow_empty = TRUE,
   msg = NULL,
   call = rlang::caller_env(),
   arg_name = NULL
@@ -19,7 +20,9 @@ assert_model(
 \arguments{
 \item{obj}{object}
 
-\item{signature_collection}{Optionally assert all signatures described in model are present a specific signature collection.}
+\item{signature_collection}{Optionally assert all signatures described in model are present in this signature collection.}
+
+\item{allow_empty}{Should empty vectors be considered valid models? (flag)}
 
 \item{msg}{error message}
 

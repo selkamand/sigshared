@@ -378,12 +378,20 @@ check_bootstraps <- function(obj){
 }
 
 
-check_model <- function(obj, signature_collection = NULL){
+check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
 
   # Is not a numeric vector
   is_numeric_vector <- is.numeric(obj) & is.vector(obj)
   if(!is_numeric_vector){
     return("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Must be a numeric vector, not a {.emph {class(obj)}}")
+  }
+
+  # Allow empty vectors (skip the rest of the tests)
+  if(length(obj) == 0){
+    if(allow_empty)
+      return(invisible(TRUE))
+    else
+      return("{.arg {arg_name}} is {.strong NOT} a valid signature model specification: Vector is empty")
   }
 
   # Sums to > 1
@@ -548,7 +556,8 @@ assert_bootstraps <- assertions::assert_create(check_bootstraps)
 #' Signature Model Specification
 #'
 #' @inheritParams assert_signature
-#' @param signature_collection Optionally assert all signatures described in model are present a specific signature collection.
+#' @param signature_collection Optionally assert all signatures described in model are present in this signature collection.
+#' @param allow_empty Should empty vectors be considered valid models? (flag)
 #'
 #' @export
 #' @rdname model
