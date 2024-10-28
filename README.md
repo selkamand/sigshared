@@ -16,9 +16,9 @@ status](https://www.r-pkg.org/badges/version/sigshared)](https://CRAN.R-project.
 **sigshared** contains general utilities used in many other R packages
 in the [sigverse](https://github.com/selkamand/sigverse)
 
-Unless you’re developing / maintaining a sigverse package, there is
-probably very little reason to ever download this package explicitly. We
-reccomend just installing the full sigverse as described
+Unless you’re developing / maintaining a sigverse-compatible package,
+there is probably very little reason to ever download this package
+explicitly. We recommend just installing the full sigverse as described
 [here](https://github.com/selkamand/sigverse)
 
 ## Installation
@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:92%;">
+<table style="width:94%;">
 <colgroup>
-<col style="width: 45%" />
-<col style="width: 45%" />
+<col style="width: 47%" />
+<col style="width: 47%" />
 </colgroup>
 <thead>
 <tr>
@@ -365,3 +365,26 @@ bselect(mtcars, c("mpg"))
 with_seed(seed = 123, { runif(1) })
 #> [1] 0.2875775
 ```
+
+## S3 classes
+
+Most types of data used by sigverse are so simple-stuctured we can just
+expect data.frames/lists and use custom assertions to ensure it matches
+expectation. There are a couple of exceptions, however, where we provide
+S3 classes abstract away complexity in the datastores. For example we
+use 2 different s3 objects to store signature analysis results.
+
+1.  **signature_analysis_results**  
+    The numeric results of signature analysis (no-visualisation).
+    Designed to allow a creation of all sigstory visualisations from
+    EXCLUSIVELY data in the object.
+
+2.  **sigstory_visualisations**  
+    Contains mostly visualisations only + metrics we display in sigstory
+    reports. This helps us keep sigstory very light (logic is hard to
+    debug in knitted quarto templates). Additionally, this object type
+    allows us to easily write all visualisations to disk so they can be
+    pulled into non-sigstory reporting tools.
+
+Unless you’re developing a sigstory compatible R package you probably
+won’t ever need to think about either of these object types.
