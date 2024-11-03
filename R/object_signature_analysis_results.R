@@ -57,7 +57,7 @@ signature_analysis_result <- function(
 
   if(!is.null(cohort_exposures)) assert_cohort_analysis(cohort_exposures)
   if(!is.null(cohort_catalogues)) assert_catalogue_collection(cohort_catalogues)
-  if(!is.null(cohort_metadata)) assertions::assert_dataframe(cohort_metadata)
+  if(!is.null(cohort_metadata)) assert_cohort_metadata(cohort_metadata)
   if(!is.null(cohort_catalogues)) assertions::assert(!is.null(cohort_metadata), msg = "{.arg cohort_metadata} argument is required when {.arg cohort_catalogues} are supplied")
   if(!is.null(cohort_catalogues)) assertions::assert(!is.null(cohort_metadata), msg = "{.arg cohort_metadata} argument is required when {.arg cohort_catalogues} are supplied")
   if(!is.null(cohort_metadata)) assertions::assert(!is.null(cohort_catalogues), msg = "{.arg cohort_catalogues} argument is required when {.arg cohort_metadata} is supplied")
