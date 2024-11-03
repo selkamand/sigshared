@@ -691,6 +691,58 @@ example_cohort_metadata <- function(){
  )
 }
 
+#' Example Data
+#'
+#' See [example_cohort_metadata()]
+#'
+#' @export
+example_cohort_metadata_empty <- function(){
+  data.frame(
+    sample = character(0),
+    disease = character(0)
+  )
+}
+
+example_invalid_cohort_metadata_duplicate_sample <- function(){
+  data.frame(
+    sample = c("sample1", "sample1", "sample2", "sample3", "sample4", "sample2"),
+    disease = rep(c("Melanoma", "Lung Cancer"), times = 3)
+  )
+}
+
+example_invalid_cohort_metadata_missing_disease <- function(){
+  data.frame(
+    sample = paste0("sample", 1:10)
+  )
+}
+
+example_invalid_cohort_metadata_missing_sample <- function(){
+  data.frame(
+    disease = rep(c("Melanoma", "Lung Cancer"), times = 3)
+  )
+}
+
+example_invalid_cohort_metadata_sample_wrong_type <- function(){
+  data.frame(
+    sample = 1:10,
+    disease = rep(c("Melanoma", "Lung Cancer"), each = 5)
+  )
+}
+
+example_invalid_cohort_metadata_sample_wrong_type_disease <- function(){
+  data.frame(
+    sample = paste0("sample", 1:10),
+    disease = 1:10
+  )
+}
+
+example_invalid_cohort_metadata_na_in_sample <- function(){
+  data.frame(
+    sample = c(paste0("sample", 1:8), NA_character_, NA_character_),
+    disease = rep(c("Melanoma", "Lung Cancer"), each = 5)
+  )
+}
+
 # Example Colo829 Data ----------------------------------------------------
 
 #' Exemplar bootstraps with valid data

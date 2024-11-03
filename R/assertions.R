@@ -462,6 +462,19 @@ check_cohort_metadata <- function(obj){
   if(!is.character(obj[['disease']]) & !is.factor(obj[['disease']]))
     return('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: disease column must be of type {.emph character} or {.emph factor}, not {.emph {class(arg_value[["disease"]])}}')
 
+  # Missing Values
+  if(anyNA(obj[["sample"]])){
+    na_count <- sum(is.na(obj[["sample"]]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: found ',na_count,' missing (NA) values in  the {.emph sample} column'))
+  }
+
+
+  # Duplicated Samples
+  if(anyDuplicated(obj[['sample']])){
+    duplicated_sample = obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: found duplicated sample/s: (',paste0(duplicated_sample, collapse = ", "), ')'))
+  }
+
   #Return TRUE
   return(invisible(TRUE))
 }

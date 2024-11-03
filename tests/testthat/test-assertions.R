@@ -206,4 +206,32 @@ test_that("assert_model works", {
 
 })
 
+# Test assert_model
+test_that("assert_cohort_metadata works", {
+
+  # Valid cohort metadata passes without error
+  expect_no_error(assert_cohort_metadata(example_cohort_metadata()))
+
+  # Valid but empty cohort metadata passes without error
+  expect_no_error(assert_cohort_metadata(example_cohort_metadata_empty()))
+
+  # Throws error when duplicate samples present
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_duplicate_sample()), regexp = "duplicated sample.*sample1, sample2")
+
+  # Throws error when disease column is missing
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_missing_disease()), regexp = "must contain the following columns: [disease]", fixed=TRUE)
+
+  # Throws error when sample column is missing
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_missing_sample()), regexp = "must contain the following columns: [sample]", fixed=TRUE)
+
+  # Throws error when sample column is wrong type
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_sample_wrong_type()), regexp = "must be of type character or factor, not integer", fixed=TRUE)
+
+  # Throws error when disease column is wrong type
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_sample_wrong_type_disease()), regexp = "must be of type character or factor, not integer", fixed=TRUE)
+
+  # Throws error when sample column includes missing values
+  expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_na_in_sample()), regexp = "found 2 missing (NA) values in the sample column", fixed=TRUE)
+})
+
 
