@@ -349,9 +349,9 @@ example_invalid_catalogue_channeldup <- function(){
 #' @rdname catalogue_collections
 example_catalogue_collection <- function(){
   list(
-    'decomp1' = example_catalogue(),
-    'decomp2' = example_catalogue(),
-    'decomp3' = example_catalogue()
+    'catalogue1' = example_catalogue(),
+    'catalogue2' = example_catalogue(),
+    'catalogue3' = example_catalogue()
   )
 }
 
