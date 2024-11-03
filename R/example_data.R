@@ -95,6 +95,22 @@ NULL
 NULL
 
 
+#' @name cohort_metadata
+#'
+#' @title Cohort Metadata
+#'
+#' @description
+#' **Cohort Metadata**: A `data.frame` describing sample-level metadata. Requires the following columns:
+#' - `sample`: The sample identifier.
+#' - `disease`: The disease from which this sample arose (e.g. Lung Cancer / Melanoma).
+#'
+#' Can also include any number of additional columns with other metadata.
+#'
+#' [example_cohort_metadata()] returns an exemplar 'sigverse' style cohort metadata data.frame
+#'
+#' [assert_cohort_metadata()] asserts an object is a valid sigverse-style cohort metadata data.frame
+NULL
+
 
 # Signatures --------------------------------------------------------------
 
@@ -649,6 +665,31 @@ example_model_empty <- function(){
   numeric(0)
 }
 
+
+# Cohort Metadata -------------------------------------------------
+
+#' Sigverse Cohort Metadata
+#'
+#' @return [example_cohort_metadata()] returns an exemplar data.frame describing minimal sample-level metadata.
+#' @export
+#'
+#' @rdname cohort_metadata
+#' @order 1
+#'
+#' @examples
+#'
+#' # Example sample level metadata for a cohort
+#' metadata <- example_cohort_metadata()
+#'
+#' # Assert that metadata contains all the columns the sigverse requires
+#' assert_cohort_metadata(metadata)
+#'
+example_cohort_metadata <- function(){
+ data.frame(
+   sample = paste0("sample", 1:10),
+   disease = rep(c("Melanoma", "Lung Cancer"), each = 5)
+ )
+}
 
 # Example Colo829 Data ----------------------------------------------------
 
