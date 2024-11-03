@@ -440,6 +440,31 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
   return(invisible(TRUE))
 }
 
+check_cohort_metadata <- function(obj){
+  required_cols = c('sample', 'disease')
+
+  # Not a data.frame
+  if(!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: Metadata must be represented as a data.frame, not a ', class(obj), ''))
+
+  # Missing Colnames
+  cols = colnames(obj)
+  if(!all(required_cols %in% cols)){
+    missing_cols = required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: Metadata data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
+  }
+
+  # Column Types Unexpected
+  if(!is.character(obj[['sample']]) & !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: sample column must be of type {.emph character} or {.emph factor}, not {.emph {class(arg_value[["sample"]])}}')
+
+  # Column Types Unexpected
+  if(!is.character(obj[['disease']]) & !is.factor(obj[['disease']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: disease column must be of type {.emph character} or {.emph factor}, not {.emph {class(arg_value[["disease"]])}}')
+
+  #Return TRUE
+  return(invisible(TRUE))
+}
 
 # Assertions --------------------------------------------------------------
 
@@ -466,6 +491,7 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
 #'   signature_annotations = example_signature_annotations()
 #'   signature_bootstraps = example_bootstraps()
 #'
+#'
 #'   # Catalogues
 #'   catalogue = example_catalogue()
 #'   catalogue_collection = example_catalogue_collection()
@@ -476,12 +502,16 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
 #'   # Cohort Analysis Results
 #'   catalogue_collection = example_catalogue_collection()
 #'
+#'   # Cohort Metadata
+#'   cohort_metadata = example_cohort_metadata()
+#'
 #'   # Run Assertions
 #'   assert_signature(signature)
 #'   assert_signature_collection(signature_collection)
 #'   assert_catalogue(catalogue)
 #'   assert_catalogue_collection(catalogue_collection)
 #'   assert_cohort_analysis(cohort_analysis)
+#'   assert_cohort_metadata(cohort_metadata)
 #' }
 #'
 #'
@@ -562,5 +592,14 @@ assert_bootstraps <- assertions::assert_create(check_bootstraps)
 #' @export
 #' @rdname model
 assert_model <- assertions::assert_create(check_model)
+
+#' Signature Model Specification
+#'
+#' @inheritParams assert_signature
+#'
+#' @export
+#' @rdname cohort_metadata
+#' @return [assert_cohort_metadata()] throws error (if assertion fails) or invisibly returns TRUE if successful.
+assert_cohort_metadata <- assertions::assert_create(check_cohort_metadata)
 
 

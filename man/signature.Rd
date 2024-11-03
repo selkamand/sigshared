@@ -59,6 +59,7 @@ if(interactive()){
   signature_annotations = example_signature_annotations()
   signature_bootstraps = example_bootstraps()
 
+
   # Catalogues
   catalogue = example_catalogue()
   catalogue_collection = example_catalogue_collection()
@@ -69,12 +70,16 @@ if(interactive()){
   # Cohort Analysis Results
   catalogue_collection = example_catalogue_collection()
 
+  # Cohort Metadata
+  cohort_metadata = example_cohort_metadata()
+
   # Run Assertions
   assert_signature(signature)
   assert_signature_collection(signature_collection)
   assert_catalogue(catalogue)
   assert_catalogue_collection(catalogue_collection)
   assert_cohort_analysis(cohort_analysis)
+  assert_cohort_metadata(cohort_metadata)
 }
 
 
