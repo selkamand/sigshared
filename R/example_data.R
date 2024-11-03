@@ -1,5 +1,6 @@
 # Roxygen Templates -------------------------------------------------------
 
+## Signature -----------------------------------------------------------------
 #' @name signature
 #'
 #' @title Signature Data Type
@@ -11,6 +12,7 @@
 #' - `fraction`: The fraction of mutations attributed to this specific type and channel.
 NULL
 
+## Signature Collection -----------------------------------------------------------------
 #' @name signature_collection
 #'
 #' @title Signature Collections
@@ -19,6 +21,7 @@ NULL
 #' **Signature Collections**: A list of signature `data.frames`, where each list entry represents a signature, and the name of each entry corresponds to the signature’s name.
 NULL
 
+## Signature Annotation -----------------------------------------------------------------
 #' @name signature_annotation
 #'
 #' @title Signature Annotations
@@ -31,6 +34,7 @@ NULL
 #' - `subclass`: The subclass of the signature’s aetiology.
 NULL
 
+## Catalogue -----------------------------------------------------------------
 #' @name catalogue
 #'
 #' @title Catalogue Data Type
@@ -43,6 +47,7 @@ NULL
 #' - `count`: The count of mutations for this channel.
 NULL
 
+## Catalogue Collection -----------------------------------------------------------------
 #' @name catalogue_collections
 #'
 #' @title Catalogue Collections Data Type
@@ -55,6 +60,7 @@ NULL
 #' - `count`: The count of mutations for this channel.
 NULL
 
+## Cohort -----------------------------------------------------------------
 #' @name cohort
 #'
 #' @title Cohort Signature Analysis Results Data Type
@@ -68,6 +74,7 @@ NULL
 #' - `p_value`: The p-value representing the statistical significance of the contribution.
 NULL
 
+## Bootstraps -----------------------------------------------------------------
 #' @name bootstraps
 #'
 #' @title Bootstraps Data Type
@@ -80,6 +87,7 @@ NULL
 #' - `contribution`: The percentage contribution of the signature.
 NULL
 
+## Model -----------------------------------------------------------------
 #' @name model
 #'
 #' @title Signature Model Specification
@@ -94,7 +102,7 @@ NULL
 #' [assert_model()] asserts an object is a valid sigverse model.
 NULL
 
-
+## Cohort Metadata -----------------------------------------------------------------
 #' @name cohort_metadata
 #'
 #' @title Cohort Metadata
@@ -111,6 +119,18 @@ NULL
 #' [assert_cohort_metadata()] asserts an object is a valid sigverse-style cohort metadata data.frame
 NULL
 
+
+## UMAP -----------------------------------------------------------------
+#' @name umap
+#'
+#' @title UMAP Data Type
+#'
+#' @description
+#' **UMAP**: A `data.frame` representing UMAP coordinates with at least the following 3 columns:
+#' - `sample`: The sample identifier (a character or factor with no duplicates or missing values).
+#' - `dim1`: Numeric value representing the first UMAP dimension.
+#' - `dim2`: Numeric value representing the second UMAP dimension.
+NULL
 
 # Signatures --------------------------------------------------------------
 
@@ -740,6 +760,81 @@ example_invalid_cohort_metadata_na_in_sample <- function(){
   data.frame(
     sample = c(paste0("sample", 1:8), NA_character_, NA_character_),
     disease = rep(c("Melanoma", "Lung Cancer"), each = 5)
+  )
+}
+
+
+# UMAP ------------------------------------------------------------
+#' Exemplar UMAP dataset
+#'
+#' This function returns an exemplar UMAP `data.frame` with valid data following the 'sigverse' style.
+#'
+#' @return [example_umap()] returns a `data.frame` representing valid UMAP dataset.
+#'
+#' @examples
+#' umap <- example_umap()
+#' assert_umap(umap)
+#' @export
+#' @rdname umap
+#' @order 1
+example_umap <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    dim1 = c(0.5, 1.2, -0.7, 2.3, -1.5, 0.0, 1.8, -0.3, 0.9, -1.1),
+    dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
+  )
+}
+
+#' Exemplar UMAP dataset with missing 'sample' column
+#'
+#' @return A `data.frame` missing the 'sample' column.
+example_invalid_umap_missing_sample <- function() {
+  data.frame(
+    dim1 = c(0.5, 1.2, -0.7, 2.3, -1.5, 0.0, 1.8, -0.3, 0.9, -1.1),
+    dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
+  )
+}
+
+#' Exemplar UMAP dataset with duplicated samples
+#'
+#' @return A `data.frame` with duplicated sample identifiers.
+example_invalid_umap_duplicate_samples <- function() {
+  data.frame(
+    sample = c('sample1', 'sample2', 'sample3', 'sample1', 'sample2', 'sample3', 'sample4', 'sample5', 'sample6', 'sample7'),
+    dim1 = c(0.5, 1.2, -0.7, 0.5, 1.2, -0.7, 2.3, -1.5, 0.0, 1.8),
+    dim2 = c(-0.4, 0.6, 1.3, -0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5)
+  )
+}
+
+#' Exemplar UMAP dataset with missing 'dim1' column
+#'
+#' @return A `data.frame` missing the 'dim1' column.
+example_invalid_umap_missing_dim1 <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
+  )
+}
+
+#' Exemplar UMAP dataset with non-numeric 'dim1' column
+#'
+#' @return A `data.frame` where 'dim1' is not numeric.
+example_invalid_umap_non_numeric_dim1 <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    dim1 = as.character(c(0.5, 1.2, -0.7, 2.3, -1.5, 0.0, 1.8, -0.3, 0.9, -1.1)),
+    dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
+  )
+}
+
+#' Exemplar UMAP dataset with missing values in 'sample' column
+#'
+#' @return A `data.frame` with `NA` values in 'sample' column.
+example_invalid_umap_na_in_sample <- function() {
+  data.frame(
+    sample = c('sample1', 'sample2', 'sample3', 'sample4', 'sample5', NA, NA, 'sample8', 'sample9', 'sample10'),
+    dim1 = c(0.5, 1.2, -0.7, 2.3, -1.5, 0.0, 1.8, -0.3, 0.9, -1.1),
+    dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
   )
 }
 

@@ -479,6 +479,49 @@ check_cohort_metadata <- function(obj){
   return(invisible(TRUE))
 }
 
+
+check_umap <- function(obj) {
+  required_cols <- c('sample', 'dim1', 'dim2')
+
+  # Not a data.frame
+  if (!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Must be represented as a data.frame, not a ', class(obj), '.'))
+
+  # Missing Columns
+  cols <- colnames(obj)
+  if (!all(required_cols %in% cols)) {
+    missing_cols <- required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Missing required columns: [', paste0(missing_cols, collapse = ", "), '].'))
+  }
+
+  # Check sample column type
+  if (!is.character(obj[['sample']]) && !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: sample column must be of type {.emph character} or {.emph factor}.')
+
+  # Check dim1 and dim2 are numeric
+  if (!is.numeric(obj[['dim1']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: dim1 column must be of type {.emph numeric}.')
+
+  if (!is.numeric(obj[['dim2']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: dim2 column must be of type {.emph numeric}.')
+
+  # Check for missing values in sample
+  if (anyNA(obj[['sample']])) {
+    na_count <- sum(is.na(obj[['sample']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Found ', na_count, ' missing values in sample column.'))
+  }
+
+  # Check for duplicated samples
+  if (anyDuplicated(obj[['sample']])) {
+    duplicated_samples <- obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Found duplicated sample identifiers: [', paste0(duplicated_samples, collapse = ", "), '].'))
+  }
+
+  # Return TRUE if all checks pass
+  return(invisible(TRUE))
+}
+
+
 # Assertions --------------------------------------------------------------
 
 #' Assert object represents a signature
@@ -614,5 +657,17 @@ assert_model <- assertions::assert_create(check_model)
 #' @rdname cohort_metadata
 #' @return [assert_cohort_metadata()] throws error (if assertion fails) or invisibly returns TRUE if successful.
 assert_cohort_metadata <- assertions::assert_create(check_cohort_metadata)
+
+
+#' @description
+#' Assert object represents UMAP dataset
+#'
+#' @inheritParams assert_signature
+#'
+#' @return [assert_umap()] Throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
+#'
+#' @export
+#' @rdname umap
+assert_umap <- assertions::assert_create(check_umap)
 
 

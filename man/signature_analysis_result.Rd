@@ -54,7 +54,7 @@ signature_analysis_result(
 
 \item{cohort_metadata}{data.frame. Sample level metadata describing every sample in \code{cohort_catalogues} See \code{\link[=example_cohort_metadata]{example_cohort_metadata()}}.}
 
-\item{umap}{data.frame. UMAP dataframe showing how the catalogue of the sample-of-interest clusters against cohort_metadata. See \code{\link[=example_umap]{example_umap()}}.}
+\item{umap}{data.frame. UMAP datasetframe showing how the catalogue of the sample-of-interest clusters against cohort_metadata. See \code{\link[=example_umap]{example_umap()}}.}
 }
 \value{
 An object of class \code{sigstory} containing the provided data and visualizations.

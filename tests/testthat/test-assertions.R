@@ -234,4 +234,57 @@ test_that("assert_cohort_metadata works", {
   expect_error(assert_cohort_metadata(example_invalid_cohort_metadata_na_in_sample()), regexp = "found 2 missing (NA) values in the sample column", fixed=TRUE)
 })
 
+# Test assert_umap
+test_that("assert_umap works", {
+
+  # Valid UMAP dataset passes without error
+  expect_no_error(assert_umap(example_umap()))
+
+  # Missing 'sample' column
+  expect_error(
+    assert_umap(example_invalid_umap_missing_sample()),
+    regexp = "Missing required columns: \\[sample\\]"
+  )
+
+  # Duplicated sample identifiers
+  expect_error(
+    assert_umap(example_invalid_umap_duplicate_samples()),
+    regexp = "Found duplicated sample identifiers: \\[sample1, sample2, sample3\\]"
+  )
+
+  # Missing 'dim1' column
+  expect_error(
+    assert_umap(example_invalid_umap_missing_dim1()),
+    regexp = "Missing required columns: \\[dim1\\]"
+  )
+
+  # Non-numeric 'dim1' column
+  expect_error(
+    assert_umap(example_invalid_umap_non_numeric_dim1()),
+    regexp = "dim1 column must be of type .*numeric.*"
+  )
+
+  # NA values in 'sample' column
+  expect_error(
+    assert_umap(example_invalid_umap_na_in_sample()),
+    regexp = "Found 2 missing values in sample column"
+  )
+
+  # Non-character 'sample' column
+  umap_non_char_sample <- example_umap()
+  umap_non_char_sample$sample <- as.numeric(1:10)
+  expect_error(
+    assert_umap(umap_non_char_sample),
+    regexp = "sample column must be of type .*character.* or .*factor.*"
+  )
+
+  # Non-numeric 'dim2' column
+  umap_non_numeric_dim2 <- example_umap()
+  umap_non_numeric_dim2$dim2 <- as.character(umap_non_numeric_dim2$dim2)
+  expect_error(
+    assert_umap(umap_non_numeric_dim2),
+    regexp = "dim2 column must be of type .*numeric.*"
+  )
+})
+
 
