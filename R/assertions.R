@@ -84,16 +84,16 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
 
   # Column Types Unexpected
   if(!is.character(obj[['channel']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: channel column must be of type {.emph character}, not {.emph {class(arg_value[["channel"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: channel column must be of type {.emph character}, not {.emph {class(arg_value[["channel"]])}}')
 
   if(!is.character(obj[['type']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: type column must be of type {.emph character}, not {.emph {class(arg_value[["type"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: type column must be of type {.emph character}, not {.emph {class(arg_value[["type"]])}}')
 
   if(!is.numeric(obj[['fraction']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: fraction column must be of type {.emph numeric}, not {.emph {class(arg_value[["fraction"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: fraction column must be of type {.emph numeric}, not {.emph {class(arg_value[["fraction"]])}}')
 
   if(!is.numeric(obj[['count']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: count column must be of type {.emph numeric}, not {.emph {class(arg_value[["count"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: count column must be of type {.emph numeric}, not {.emph {class(arg_value[["count"]])}}')
 
   # Duplicated Channels
   if(anyDuplicated(obj[['channel']])){
