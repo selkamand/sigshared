@@ -84,16 +84,16 @@ check_catalogue = function(obj, must_sum_to_one = TRUE){
 
   # Column Types Unexpected
   if(!is.character(obj[['channel']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: channel column must be of type {.emph character}, not {.emph {class(arg_value[["channel"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: channel column must be of type {.emph character}, not {.emph {class(arg_value[["channel"]])}}')
 
   if(!is.character(obj[['type']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: type column must be of type {.emph character}, not {.emph {class(arg_value[["type"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: type column must be of type {.emph character}, not {.emph {class(arg_value[["type"]])}}')
 
   if(!is.numeric(obj[['fraction']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: fraction column must be of type {.emph numeric}, not {.emph {class(arg_value[["fraction"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: fraction column must be of type {.emph numeric}, not {.emph {class(arg_value[["fraction"]])}}')
 
   if(!is.numeric(obj[['count']]))
-    return('{.arg {arg_name}} is {.strong NOT} a valid signature: count column must be of type {.emph numeric}, not {.emph {class(arg_value[["count"]])}}')
+    return('{.arg {arg_name}} is {.strong NOT} a valid catalogue: count column must be of type {.emph numeric}, not {.emph {class(arg_value[["count"]])}}')
 
   # Duplicated Channels
   if(anyDuplicated(obj[['channel']])){
@@ -440,6 +440,129 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
   return(invisible(TRUE))
 }
 
+check_cohort_metadata <- function(obj){
+  required_cols = c('sample', 'disease')
+
+  # Not a data.frame
+  if(!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: Metadata must be represented as a data.frame, not a ', class(obj), ''))
+
+  # Missing Colnames
+  cols = colnames(obj)
+  if(!all(required_cols %in% cols)){
+    missing_cols = required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: Metadata data.frame must contain the following columns: [', paste0(missing_cols, collapse = ", "),']'))
+  }
+
+  # Column Types Unexpected
+  if(!is.character(obj[['sample']]) & !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: sample column must be of type {.emph character} or {.emph factor}, not {.emph {class(arg_value[["sample"]])}}')
+
+  # Column Types Unexpected
+  if(!is.character(obj[['disease']]) & !is.factor(obj[['disease']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: disease column must be of type {.emph character} or {.emph factor}, not {.emph {class(arg_value[["disease"]])}}')
+
+  # Missing Values
+  if(anyNA(obj[["sample"]])){
+    na_count <- sum(is.na(obj[["sample"]]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: found ',na_count,' missing (NA) values in  the {.emph sample} column'))
+  }
+
+
+  # Duplicated Samples
+  if(anyDuplicated(obj[['sample']])){
+    duplicated_sample = obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid cohort metadata dataset: found duplicated sample/s: (',paste0(duplicated_sample, collapse = ", "), ')'))
+  }
+
+  #Return TRUE
+  return(invisible(TRUE))
+}
+
+check_umap <- function(obj) {
+  required_cols <- c('sample', 'dim1', 'dim2')
+
+  # Not a data.frame
+  if (!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Must be represented as a data.frame, not a ', class(obj), '.'))
+
+  # Missing Columns
+  cols <- colnames(obj)
+  if (!all(required_cols %in% cols)) {
+    missing_cols <- required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Missing required columns: [', paste0(missing_cols, collapse = ", "), '].'))
+  }
+
+  # Check sample column type
+  if (!is.character(obj[['sample']]) && !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: sample column must be of type {.emph character} or {.emph factor}.')
+
+  # Check dim1 and dim2 are numeric
+  if (!is.numeric(obj[['dim1']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: dim1 column must be of type {.emph numeric}.')
+
+  if (!is.numeric(obj[['dim2']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: dim2 column must be of type {.emph numeric}.')
+
+  # Check for missing values in sample
+  if (anyNA(obj[['sample']])) {
+    na_count <- sum(is.na(obj[['sample']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Found ', na_count, ' missing values in sample column.'))
+  }
+
+  # Check for duplicated samples
+  if (anyDuplicated(obj[['sample']])) {
+    duplicated_samples <- obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid UMAP dataset: Found duplicated sample identifiers: [', paste0(duplicated_samples, collapse = ", "), '].'))
+  }
+
+  # Return TRUE if all checks pass
+  return(invisible(TRUE))
+}
+
+check_similarity_against_cohort <- function(obj) {
+  required_cols <- c('sample', 'cosine_similarity')
+
+  # Not a data.frame
+  if (!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Must be represented as a data.frame, not a ', class(obj), '.'))
+
+  # Missing Columns
+  cols <- colnames(obj)
+  if (!all(required_cols %in% cols)) {
+    missing_cols <- required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Missing required columns: [', paste0(missing_cols, collapse = ", "), '].'))
+  }
+
+  # Check sample column type
+  if (!is.character(obj[['sample']]) && !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: sample column must be of type {.emph character} or {.emph factor}.')
+
+  # Check cosine_similarity is numeric
+  if (!is.numeric(obj[['cosine_similarity']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: cosine_similarity column must be of type {.emph numeric}.')
+
+  # Check for missing values in sample
+  if (anyNA(obj[['sample']])) {
+    na_count <- sum(is.na(obj[['sample']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found ', na_count, ' missing values in sample column.'))
+  }
+
+  # Check for missing values in cosine_similarity
+  if (anyNA(obj[['cosine_similarity']])) {
+    na_count <- sum(is.na(obj[['cosine_similarity']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found ', na_count, ' missing values in cosine_similarity column.'))
+  }
+
+  # Check for duplicated samples
+  if (anyDuplicated(obj[['sample']])) {
+    duplicated_samples <- obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found duplicated sample identifiers: [', paste0(duplicated_samples, collapse = ", "), '].'))
+  }
+
+  # Return TRUE if all checks pass
+  return(invisible(TRUE))
+}
 
 # Assertions --------------------------------------------------------------
 
@@ -466,6 +589,7 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
 #'   signature_annotations = example_signature_annotations()
 #'   signature_bootstraps = example_bootstraps()
 #'
+#'
 #'   # Catalogues
 #'   catalogue = example_catalogue()
 #'   catalogue_collection = example_catalogue_collection()
@@ -476,12 +600,16 @@ check_model <- function(obj, signature_collection = NULL, allow_empty=TRUE){
 #'   # Cohort Analysis Results
 #'   catalogue_collection = example_catalogue_collection()
 #'
+#'   # Cohort Metadata
+#'   cohort_metadata = example_cohort_metadata()
+#'
 #'   # Run Assertions
 #'   assert_signature(signature)
 #'   assert_signature_collection(signature_collection)
 #'   assert_catalogue(catalogue)
 #'   assert_catalogue_collection(catalogue_collection)
 #'   assert_cohort_analysis(cohort_analysis)
+#'   assert_cohort_metadata(cohort_metadata)
 #' }
 #'
 #'
@@ -562,5 +690,36 @@ assert_bootstraps <- assertions::assert_create(check_bootstraps)
 #' @export
 #' @rdname model
 assert_model <- assertions::assert_create(check_model)
+
+#' Signature Model Specification
+#'
+#' @inheritParams assert_signature
+#'
+#' @export
+#' @rdname cohort_metadata
+#' @return [assert_cohort_metadata()] throws error (if assertion fails) or invisibly returns TRUE if successful.
+assert_cohort_metadata <- assertions::assert_create(check_cohort_metadata)
+
+
+#' @description
+#' Assert object represents UMAP dataset
+#'
+#' @inheritParams assert_signature
+#'
+#' @return [assert_umap()] throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
+#'
+#' @export
+#' @rdname umap
+assert_umap <- assertions::assert_create(check_umap)
+
+#' @description
+#' Assert object represents `Similarity against cohort dataset`
+#'
+#' @inheritParams assert_signature
+#' @return [assert_similarity_against_cohort()] throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
+#'
+#' @export
+#' @rdname similarity_against_cohort
+assert_similarity_against_cohort <- assertions::assert_create(check_similarity_against_cohort)
 
 

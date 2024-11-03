@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:97%;">
+<table style="width:92%;">
 <colgroup>
-<col style="width: 48%" />
-<col style="width: 48%" />
+<col style="width: 45%" />
+<col style="width: 45%" />
 </colgroup>
 <thead>
 <tr>
@@ -120,6 +120,35 @@ a sample identifier.</td>
 <td><strong>Model Specification</strong></td>
 <td>Named numeric vector where names represent signatures and values
 represent their proportional contribution to the model.</td>
+</tr>
+<tr>
+<td><strong>Cohort Metadata</strong></td>
+<td><p>Data frames describing sample-level metadata with required
+columns:</p>
+<ol type="1">
+<li><strong>sample</strong></li>
+<li><strong>disease</strong></li>
+</ol>
+<p>Can include additional columns with other metadata.</p></td>
+</tr>
+<tr>
+<td><strong>UMAP</strong></td>
+<td><p>Data frames representing UMAP coordinates with at least 3
+columns:</p>
+<ol type="1">
+<li><strong>sample</strong></li>
+<li><strong>dim1</strong></li>
+<li><strong>dim2</strong></li>
+</ol></td>
+</tr>
+<tr>
+<td><strong>Similarity Against Cohort</strong></td>
+<td><p>data.frame that describes how similar a sample catalogue is to
+others in the cohort. Contains 2 columns:</p>
+<ol type="1">
+<li><strong>sample</strong></li>
+<li><strong>cosine_similarity</strong></li>
+</ol></td>
 </tr>
 </tbody>
 </table>
@@ -238,7 +267,17 @@ kable(sig_aetiology_classes())
 
     model: A named numeric vector where names represent signatures and values represent their proportional contribution to the model. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
 
-## 
+*Cohort Metadata*
+
+    cohort_metadata: A data frame describing sample-level metadata. Requires the following columns: sample, disease. Can include additional columns with other metadata. See the sigshared readme for details.
+
+*Similarity Against Cohort*
+
+    similarity_against_cohort: A data frame that describes how similar a specific sample catalogue is to others in the cohort. Two columns: sample (no duplicates or missing values), cosine_similarity (numeric). See the sigshared readme for details.
+
+*UMAP*
+
+    umap: A data frame representing the UMAP created based on sample catalogues. Requires the following columns: sample (no duplicates or missing values), dim1 (numeric), dim2 (numeric). See the sigshared readme for details.
 
 ## Example Data
 
@@ -267,19 +306,19 @@ example_catalogue()
 #> 2 A[A->G]C  A>G    10 0.3703704
 #> 3 A[A->G]T  A>G    12 0.4444444
 example_catalogue_collection()
-#> $decomp1
+#> $catalogue1
 #>    channel type count  fraction
 #> 1 A[A->G]G  A>G     5 0.1851852
 #> 2 A[A->G]C  A>G    10 0.3703704
 #> 3 A[A->G]T  A>G    12 0.4444444
 #> 
-#> $decomp2
+#> $catalogue2
 #>    channel type count  fraction
 #> 1 A[A->G]G  A>G     5 0.1851852
 #> 2 A[A->G]C  A>G    10 0.3703704
 #> 3 A[A->G]T  A>G    12 0.4444444
 #> 
-#> $decomp3
+#> $catalogue3
 #>    channel type count  fraction
 #> 1 A[A->G]G  A>G     5 0.1851852
 #> 2 A[A->G]C  A>G    10 0.3703704
@@ -303,12 +342,54 @@ example_signature_collection()
 #> 2 A[A->G]C  A>G      0.1
 #> 3 A[A->G]T  A>G      0.5
 
+example_model()
+#> sig1 sig2 
+#>  0.3  0.7
+
 example_cohort_analysis()
 #>    sample signature contribution_absolute contribution p_value
 #> 1 sample1      sig1                     3          0.3    0.05
 #> 2 sample1      sig2                     7          0.7    0.10
 #> 3 sample2      sig1                    40          0.4    0.20
 #> 4 sample2      sig2                    60          0.6    0.15
+example_similarity_against_cohort()
+#>      sample cosine_similarity
+#> 1   sample1              0.95
+#> 2   sample2              0.89
+#> 3   sample3              0.78
+#> 4   sample4              0.85
+#> 5   sample5              0.92
+#> 6   sample6              0.88
+#> 7   sample7              0.90
+#> 8   sample8              0.86
+#> 9   sample9              0.80
+#> 10 sample10              0.84
+
+example_cohort_metadata()
+#>      sample     disease
+#> 1   sample1    Melanoma
+#> 2   sample2    Melanoma
+#> 3   sample3    Melanoma
+#> 4   sample4    Melanoma
+#> 5   sample5    Melanoma
+#> 6   sample6 Lung Cancer
+#> 7   sample7 Lung Cancer
+#> 8   sample8 Lung Cancer
+#> 9   sample9 Lung Cancer
+#> 10 sample10 Lung Cancer
+
+example_umap()
+#>      sample dim1 dim2
+#> 1   sample1  0.5 -0.4
+#> 2   sample2  1.2  0.6
+#> 3   sample3 -0.7  1.3
+#> 4   sample4  2.3 -0.8
+#> 5   sample5 -1.5  2.0
+#> 6   sample6  0.0 -1.2
+#> 7   sample7  1.8  0.5
+#> 8   sample8 -0.3  1.1
+#> 9   sample9  0.9 -0.9
+#> 10 sample10 -1.1  0.0
 ```
 
 We also include examples from real SBS mutational signature analysis of
