@@ -22,7 +22,7 @@ assert_umap(obj, msg = NULL, call = rlang::caller_env(), arg_name = NULL)
 \value{
 \code{\link[=example_umap]{example_umap()}} returns a \code{data.frame} representing valid UMAP dataset.
 
-\code{\link[=assert_umap]{assert_umap()}} Throws an error if the assertion fails; otherwise, returns \code{TRUE} invisibly.
+\code{\link[=assert_umap]{assert_umap()}} throws an error if the assertion fails; otherwise, returns \code{TRUE} invisibly.
 }
 \description{
 This function returns an exemplar UMAP \code{data.frame} with valid data following the 'sigverse' style.

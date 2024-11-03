@@ -288,3 +288,53 @@ test_that("assert_umap works", {
 })
 
 
+# Test assert_similarity_against_cohort
+test_that("assert_similarity_against_cohort works", {
+
+  # Valid data passes without error
+  expect_no_error(assert_similarity_against_cohort(example_similarity_against_cohort()))
+
+  # Missing 'sample' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_missing_sample()),
+    regexp = "Missing required columns: \\[sample\\]"
+  )
+
+  # Duplicated sample identifiers
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_duplicate_samples()),
+    regexp = "Found duplicated sample identifiers: \\[sample1, sample2, sample3\\]"
+  )
+
+  # Missing 'cosine_similarity' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_missing_cosine()),
+    regexp = "Missing required columns: \\[cosine_similarity\\]"
+  )
+
+  # Non-numeric 'cosine_similarity' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_non_numeric_cosine()),
+    regexp = "cosine_similarity column must be of type .*numeric.*"
+  )
+
+  # NA values in 'sample' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_na_in_sample()),
+    regexp = "Found 1 missing values in sample column"
+  )
+
+  # NA values in 'cosine_similarity' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_na_in_cosine()),
+    regexp = "Found 2 missing values in cosine_similarity column"
+  )
+
+  # Non-character 'sample' column
+  expect_error(
+    assert_similarity_against_cohort(example_invalid_similarity_non_character_sample()),
+    regexp = "sample column must be of type .*character.* or .*factor.*"
+  )
+})
+
+

@@ -479,7 +479,6 @@ check_cohort_metadata <- function(obj){
   return(invisible(TRUE))
 }
 
-
 check_umap <- function(obj) {
   required_cols <- c('sample', 'dim1', 'dim2')
 
@@ -521,6 +520,49 @@ check_umap <- function(obj) {
   return(invisible(TRUE))
 }
 
+check_similarity_against_cohort <- function(obj) {
+  required_cols <- c('sample', 'cosine_similarity')
+
+  # Not a data.frame
+  if (!is.data.frame(obj))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Must be represented as a data.frame, not a ', class(obj), '.'))
+
+  # Missing Columns
+  cols <- colnames(obj)
+  if (!all(required_cols %in% cols)) {
+    missing_cols <- required_cols[!required_cols %in% cols]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Missing required columns: [', paste0(missing_cols, collapse = ", "), '].'))
+  }
+
+  # Check sample column type
+  if (!is.character(obj[['sample']]) && !is.factor(obj[['sample']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: sample column must be of type {.emph character} or {.emph factor}.')
+
+  # Check cosine_similarity is numeric
+  if (!is.numeric(obj[['cosine_similarity']]))
+    return('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: cosine_similarity column must be of type {.emph numeric}.')
+
+  # Check for missing values in sample
+  if (anyNA(obj[['sample']])) {
+    na_count <- sum(is.na(obj[['sample']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found ', na_count, ' missing values in sample column.'))
+  }
+
+  # Check for missing values in cosine_similarity
+  if (anyNA(obj[['cosine_similarity']])) {
+    na_count <- sum(is.na(obj[['cosine_similarity']]))
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found ', na_count, ' missing values in cosine_similarity column.'))
+  }
+
+  # Check for duplicated samples
+  if (anyDuplicated(obj[['sample']])) {
+    duplicated_samples <- obj[['sample']][duplicated(obj[['sample']])]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid `Similarity against cohort dataset`: Found duplicated sample identifiers: [', paste0(duplicated_samples, collapse = ", "), '].'))
+  }
+
+  # Return TRUE if all checks pass
+  return(invisible(TRUE))
+}
 
 # Assertions --------------------------------------------------------------
 
@@ -664,10 +706,20 @@ assert_cohort_metadata <- assertions::assert_create(check_cohort_metadata)
 #'
 #' @inheritParams assert_signature
 #'
-#' @return [assert_umap()] Throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
+#' @return [assert_umap()] throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
 #'
 #' @export
 #' @rdname umap
 assert_umap <- assertions::assert_create(check_umap)
+
+#' @description
+#' Assert object represents `Similarity against cohort dataset`
+#'
+#' @inheritParams assert_signature
+#' @return [assert_similarity_against_cohort()] throws an error if the assertion fails; otherwise, returns `TRUE` invisibly.
+#'
+#' @export
+#' @rdname similarity_against_cohort
+assert_similarity_against_cohort <- assertions::assert_create(check_similarity_against_cohort)
 
 

@@ -120,6 +120,20 @@ NULL
 NULL
 
 
+## Similarity against cohort -----------------------------------------------
+#' @name similarity_against_cohort
+#'
+#' @title Similarity Against Cohort Data Type
+#'
+#' @description
+#' **Similarity Against Cohort**: A `data.frame` that describes how similar a sample catalogue is to others in the cohort.
+#' The data.frame should contain two columns:
+#' - `sample`: The sample identifier (a character or factor with no duplicates or missing values).
+#' - `cosine_similarity`: Numeric value representing the cosine similarity between the sample and another sample.
+#'
+#' Note: We assume this full table describes similarity against a single sample, i.e., there should be no duplicate samples.
+NULL
+
 ## UMAP -----------------------------------------------------------------
 #' @name umap
 #'
@@ -837,6 +851,95 @@ example_invalid_umap_na_in_sample <- function() {
     dim2 = c(-0.4, 0.6, 1.3, -0.8, 2.0, -1.2, 0.5, 1.1, -0.9, 0.0)
   )
 }
+
+# Similarity Against Cohort --------------------------------------------
+
+#' Exemplar `Similarity against cohort dataset`
+#'
+#' This function returns an exemplar `data.frame` representing similarity against a cohort, following the 'sigverse' style.
+#'
+#' @return [example_similarity_against_cohort()] returns a `data.frame` representing valid similarity against cohort data.
+#'
+#' @examples
+#' example_similarity_against_cohort()
+#'
+#' @export
+#' @rdname similarity_against_cohort
+example_similarity_against_cohort <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    cosine_similarity = c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with missing 'sample' column
+#'
+#' @return A `data.frame` missing the 'sample' column.
+example_invalid_similarity_missing_sample <- function() {
+  data.frame(
+    cosine_similarity = c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with duplicated samples
+#'
+#' @return A `data.frame` with duplicated sample identifiers.
+example_invalid_similarity_duplicate_samples <- function() {
+  data.frame(
+    sample = c('sample1', 'sample2', 'sample3', 'sample1', 'sample2', 'sample3', 'sample4', 'sample5', 'sample6', 'sample7'),
+    cosine_similarity = c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with missing 'cosine_similarity' column
+#'
+#' @return A `data.frame` missing the 'cosine_similarity' column.
+example_invalid_similarity_missing_cosine <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with non-numeric 'cosine_similarity' column
+#'
+#' @return A `data.frame` where 'cosine_similarity' is not numeric.
+example_invalid_similarity_non_numeric_cosine <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    cosine_similarity = as.character(c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84))
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with missing values in 'sample' column
+#'
+#' @return A `data.frame` with `NA` values in 'sample' column.
+example_invalid_similarity_na_in_sample <- function() {
+  data.frame(
+    sample = c('sample1', 'sample2', 'sample3', NA, 'sample5', 'sample6', 'sample7', 'sample8', 'sample9', 'sample10'),
+    cosine_similarity = c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with NA in 'cosine_similarity' column
+#'
+#' @return A `data.frame` with `NA` values in 'cosine_similarity' column.
+example_invalid_similarity_na_in_cosine <- function() {
+  data.frame(
+    sample = paste0('sample', 1:10),
+    cosine_similarity = c(0.95, NA, 0.78, 0.85, 0.92, 0.88, 0.90, NA, 0.80, 0.84)
+  )
+}
+
+#' Exemplar `Similarity against cohort dataset` with non-character 'sample' column
+#'
+#' @return A `data.frame` where 'sample' is not character or factor.
+example_invalid_similarity_non_character_sample <- function() {
+  data.frame(
+    sample = 1:10,
+    cosine_similarity = c(0.95, 0.89, 0.78, 0.85, 0.92, 0.88, 0.90, 0.86, 0.80, 0.84)
+  )
+}
+
 
 # Example Colo829 Data ----------------------------------------------------
 

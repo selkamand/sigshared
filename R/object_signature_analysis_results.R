@@ -63,9 +63,11 @@ signature_analysis_result <- function(
   if(!is.null(cohort_metadata)) assertions::assert(!is.null(cohort_catalogues), msg = "{.arg cohort_catalogues} argument is required when {.arg cohort_metadata} is supplied")
   if(!is.null(umap)) assert_umap(umap)
   if(!is.null(umap)) assertions::assert(!is.null(cohort_metadata), msg = "{.arg cohort_metadata} argument is required when {.arg umap} is supplied")
+  if(!is.null(similarity_against_cohort)) assert_similarity_against_cohort(similarity_against_cohort)
 
   # Assert that if similarity_against_cohort is supplied, so are a database of cohort_catalogues.
   if(!is.null(similarity_against_cohort)) {
+
     assertions::assert(!is.null(cohort_catalogues), msg = "{.arg cohort_catalogues} must be supplied when similarity_against_cohort is not NULL")
     catalogue_samples <- names(cohort_catalogues)
     missing_catalogue_samples <- setdiff(catalogue_samples, similarity_against_cohort[["sample"]])
