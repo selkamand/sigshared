@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:94%;">
+<table style="width:97%;">
 <colgroup>
-<col style="width: 47%" />
-<col style="width: 47%" />
+<col style="width: 48%" />
+<col style="width: 48%" />
 </colgroup>
 <thead>
 <tr>

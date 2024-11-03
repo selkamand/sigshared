@@ -40,7 +40,7 @@
 #' }
 sigstory_visualisation <- function(
     sample, sigclass, number_of_mutations, model_fit, unexplained_mutations,
-    analysis_details, ls_signatures_minified = NULL,
+    analysis_details, ls_signatures_minified,
     ls_exposure_dotplots = NULL, ls_similar_samples = NULL,
     similar_sample_disease_donut = NULL, umap = NULL, stability = NULL
 ) {
@@ -77,3 +77,4 @@ sigstory_visualisation <- function(
   # Set Class
   structure(ls, class = "sigstory_visualisation")
 }
+
