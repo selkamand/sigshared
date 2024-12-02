@@ -18,6 +18,8 @@ signature_analysis_result(
   bootstraps,
   cohort_exposures = NULL,
   similarity_against_cohort = NULL,
+  max_similar_samples = NULL,
+  cohort_size = NULL,
   cohort_catalogues = NULL,
   cohort_metadata = NULL,
   umap = NULL
@@ -48,7 +50,13 @@ signature_analysis_result(
 
 \item{cohort_exposures}{data.frame. A cohort of signature analysis results used to produce cohort distribution dotplots. See \code{\link[=example_cohort_analysis]{example_cohort_analysis()}}}
 
-\item{similarity_against_cohort}{data.frame describing how similar the observed mutational catalogue is to other samples. See \code{\link[=example_similarity_against_cohort]{example_similarity_against_cohort()}}.}
+\item{similarity_against_cohort}{data.frame describing how similar the observed mutational catalogue is to other samples. See \code{\link[=example_similarity_against_cohort]{example_similarity_against_cohort()}}.
+If including only a subset of the N most similar samples, please supply the total number of comparison samples to the \code{cohort_size} argument.}
+
+\item{max_similar_samples}{If \code{similarity_against_cohort} describes only the N most similar samples, please set max_similar_samples to the value of N.
+If \code{similarity_against_cohort} describes the full reference dataset, set to Inf.}
+
+\item{cohort_size}{Number. How many samples are in the reference cohort this sample was compared to (not including self).}
 
 \item{cohort_catalogues}{a sigverse collection of catalogues in the reference-cohort which the sample was compared against. Must at least include a decomposition for all samples in similarity_against_cohort. Used to create similar sample plots. See \code{\link[=example_catalogue_collection]{example_catalogue_collection()}} for example format.}
 

@@ -1,4 +1,3 @@
-
 #' Create a signature_analysis_result Object
 #'
 #' Constructs a \code{signature_analysis_result} object containing all the information required to generate a [sigstory_visualisation()] object.
@@ -15,6 +14,10 @@
 #' @inheritParams sigvis::sig_visualise_bootstraps
 #' @param cohort_exposures data.frame. A cohort of signature analysis results used to produce cohort distribution dotplots. See [sigshared::example_cohort_analysis()]
 #' @param similarity_against_cohort data.frame describing how similar the observed mutational catalogue is to other samples. See [sigshared::example_similarity_against_cohort()].
+#' If including only a subset of the N most similar samples, please supply the total number of comparison samples to the \code{cohort_size} argument.
+#' @param max_similar_samples If \code{similarity_against_cohort} describes only the N most similar samples, please set max_similar_samples to the value of N.
+#' If \code{similarity_against_cohort} describes the full reference dataset, set to Inf.
+#' @param cohort_size Number. How many samples are in the reference cohort this sample was compared to (not including self).
 #' @param cohort_catalogues a sigverse collection of catalogues in the reference-cohort which the sample was compared against. Must at least include a decomposition for all samples in similarity_against_cohort. Used to create similar sample plots. See [sigshared::example_catalogue_collection()] for example format.
 #' @param cohort_metadata data.frame. Sample level metadata describing every sample in \code{cohort_catalogues} See [sigshared::example_cohort_metadata()].
 #' @param umap data.frame. UMAP datasetframe showing how the catalogue of the sample-of-interest clusters against cohort_metadata. See [sigshared::example_umap()].
@@ -38,6 +41,8 @@ signature_analysis_result <- function(
     bootstraps,
     cohort_exposures = NULL,
     similarity_against_cohort = NULL,
+    max_similar_samples = NULL,
+    cohort_size = NULL,
     cohort_catalogues = NULL,
     cohort_metadata = NULL,
     umap = NULL
@@ -89,12 +94,26 @@ signature_analysis_result <- function(
 
   # Assert that if similarity_against_cohort is supplied, so are a database of cohort_catalogues.
   if(!is.null(similarity_against_cohort)) {
-
     assertions::assert(!is.null(cohort_catalogues), msg = "{.arg cohort_catalogues} must be supplied when similarity_against_cohort is not NULL")
     catalogue_samples <- names(cohort_catalogues)
     missing_catalogue_samples <- setdiff(catalogue_samples, similarity_against_cohort[["sample"]])
     n_missing = length(missing_catalogue_samples)
     assertions::assert(n_missing == 0, msg = "All samples described in {.arg similarity_against_cohort} must be present in {.arg cohort_catalogues}. Missing {n_missing} samples: [{missing_catalogue_samples}]")
+
+    # User must also supply max_similar_samples & cohort_size
+    assertions::assert_non_null(
+      max_similar_samples,
+      msg = "
+      If {.arg similarity_against_cohort} describes similarity against only the
+      N most similar samples, please set {.arg max_similar_samples = N}. Otherwise set to {.emph Inf}"
+    )
+    assertions::assert_number(max_similar_samples)
+
+    assertions::assert_non_null(
+      cohort_size,
+      msg = "Please set {.arg cohort_size} to the number of samples in the reference cohort that this sample was compared to (not including self)."
+    )
+    assertions::assert_number(cohort_size)
   }
 
   # Construct Object
@@ -112,6 +131,8 @@ signature_analysis_result <- function(
     signature_annotations = signature_annotations, # Annotations
     cohort_exposures = cohort_exposures,
     similarity_against_cohort = similarity_against_cohort,
+    max_similar_samples = max_similar_samples,
+    cohort_size = cohort_size,
     cohort_catalogues = cohort_catalogues,
     cohort_metadata = cohort_metadata,
     umap = umap
@@ -121,10 +142,3 @@ signature_analysis_result <- function(
   structure(ls, class = "signature_analysis_result")
 }
 
-is_error_free <- function(expr) {
-  !inherits(try(expr, silent = TRUE), "try-error")
-}
-
-signature_collection_loadable_by_sigstash <- function(dataset){
-  is_error_free(sigstash::sig_load(dataset))
-}
