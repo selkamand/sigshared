@@ -38,9 +38,9 @@ signature_analysis_result(
 
 \item{catalogue}{data.frame. Observed mutation catalogue of the sample. See \link{example_catalogue}.}
 
-\item{signatures}{The signature collection used for fitting, in sigstash format (see \code{\link[=example_signature_collection]{example_signature_collection()}} and \code{\link[sigstash:sig_load]{sigstash::sig_load()}})}
+\item{signatures}{The signature collection used for fitting, in sigstash format (see \code{\link[=example_signature_collection]{example_signature_collection()}} and \code{\link[sigstash:sig_load]{sigstash::sig_load()}}). Instead of supplying full signature dataset, can also be a string descibing a dataset name recognised by \code{\link[sigstash:sig_load]{sigstash::sig_load()}}.}
 
-\item{signature_annotations}{Signature annotations describing aetiology for signatures in signatures (see \code{\link[=example_annotations]{example_annotations()}} and \code{\link[sigstash:sig_load_annotations]{sigstash::sig_load_annotations()}})}
+\item{signature_annotations}{Signature annotations describing aetiology for signatures in signatures (see \code{\link[=example_annotations]{example_annotations()}} and \code{\link[sigstash:sig_load_annotations]{sigstash::sig_load_annotations()}}). Instead of supplying full signature annotation dataset, can also be a string descibing a dataset name recognised by \code{\link[sigstash:sig_load_annotations]{sigstash::sig_load_annotations()}}.}
 
 \item{analysis_details}{data.frame. describing the details of the analysis (software versions, thresholds, reference cohorts, etc).}
 
@@ -48,7 +48,7 @@ signature_analysis_result(
 
 \item{cohort_exposures}{data.frame. A cohort of signature analysis results used to produce cohort distribution dotplots. See \code{\link[=example_cohort_analysis]{example_cohort_analysis()}}}
 
-\item{similarity_against_cohort}{data.frame describing how similar the observed mutational catalogue is to other samples. See \code{\link[=example_similarity_against_cohort]{example_similarity_against_cohort()}}}
+\item{similarity_against_cohort}{data.frame describing how similar the observed mutational catalogue is to other samples. See \code{\link[=example_similarity_against_cohort]{example_similarity_against_cohort()}}.}
 
 \item{cohort_catalogues}{a sigverse collection of catalogues in the reference-cohort which the sample was compared against. Must at least include a decomposition for all samples in similarity_against_cohort. Used to create similar sample plots. See \code{\link[=example_catalogue_collection]{example_catalogue_collection()}} for example format.}
 
