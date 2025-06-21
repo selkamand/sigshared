@@ -150,8 +150,19 @@ check_signature_collection <- function(obj){
     return('{.arg {arg_name}} is {.strong NOT} a valid signature collection: No signatures are present in the collection')
   }
 
-  # Duplicated names
+
+  # No names
   signames = names(obj)
+  if(is.null(signames)){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature collection: list must be named.'))
+  }
+
+  # Some missing names
+  if(any(!nzchar(signames))){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature collection: found ', sum(!nzchar(signames)), '/', length(obj), ' signatures with empty/invalid names'))
+  }
+
+  # Duplicated names
   if(anyDuplicated(signames)){
     duplicated_signames = signames[duplicated(signames)]
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature collection: found duplicated signature names (',paste0(duplicated_signames, collapse = ", "), ')'))
@@ -170,6 +181,7 @@ check_signature_collection <- function(obj){
     }
   }
 
+
   # Return TRUE if passing
   return(invisible(TRUE))
 }
@@ -186,8 +198,24 @@ check_catalogue_collection <- function(obj){
     return('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: No catalogues are present in the collection')
   }
 
-  # Duplicated names
+  # No names
   signames = names(obj)
+  if(is.null(signames)){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: list must be named.'))
+  }
+
+  # Some missing names
+  if(any(!nzchar(signames))){
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: found ', sum(!nzchar(signames)), '/', length(obj), ' catalogues with empty/invalid names'))
+  }
+
+  # Duplicated names
+  if(anyDuplicated(signames)){
+    duplicated_signames = signames[duplicated(signames)]
+    return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: found duplicated catalogue names (',paste0(duplicated_signames, collapse = ", "), ')'))
+  }
+
+  # Duplicated names
   if(anyDuplicated(signames)){
     duplicated_signames = signames[duplicated(signames)]
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid catalogue collection: found duplicated catalogue names (',paste0(duplicated_signames, collapse = ", "), ')'))

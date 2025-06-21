@@ -40,6 +40,12 @@ test_that("assert_signature_collection works", {
   # Empty collection
   expect_error(assert_signature_collection(example_invalid_signature_collection_empty()), regexp = "valid signature collection: No signatures are present in the collection")
 
+  # Missing catalogue names
+  expect_error(assert_signature_collection(example_invalid_signature_collection_no_names()), regexp = "NOT a valid signature collection: list must be named")
+
+  # Some missing catalogue names
+  expect_error(assert_signature_collection(example_invalid_signature_collection_some_missing_names()), regexp = "NOT a valid signature collection: found 2/3 signatures with empty/invalid names")
+
   # Duplicated signature names
   expect_error(assert_signature_collection(example_invalid_signature_collection_duplicated_names()), regexp = "valid signature collection: found duplicated signature names")
 
@@ -83,6 +89,12 @@ test_that("assert_catalogue_collection works", {
 
   # Empty collection
   expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_empty()), regexp = "valid catalogue collection: No catalogues are present in the collection")
+
+  # Missing catalogue names
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_no_names()), regexp = "NOT a valid catalogue collection: list must be named")
+
+  # Some missing catalogue names
+  expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_some_missing_names()), regexp = "NOT a valid catalogue collection: found 2/3 catalogues with empty/invalid names")
 
   # Duplicated catalogue names
   expect_error(assert_catalogue_collection(example_invalid_catalogue_collection_duplicated_names()), regexp = "valid catalogue collection: found duplicated catalogue names")
