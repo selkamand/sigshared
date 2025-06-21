@@ -21,12 +21,12 @@
 #' @examples
 #' # Convert a signature collection
 #' collection <- example_signature_collection()
-#' mat <- convert_collection_to_matrix(collection)
+#' mat <- sig_collection_reformat_list_to_matrix(collection)
 #'
 #' # Convert a catalogue collection using counts
 #' catalogue <- example_catalogue_collection()
-#' mat_counts <- convert_collection_to_matrix(catalogue, values = "count")
-convert_collection_to_matrix <- function(signatures, values = c("fraction", "count")){
+#' mat_counts <- sig_collection_reformat_list_to_matrix(catalogue, values = "count")
+sig_collection_reformat_list_to_matrix <- function(signatures, values = c("fraction", "count")){
 
   assertions::assert_greater_than(length(signatures), minimum = 0)
   assert_signature_collection(signatures)
@@ -91,11 +91,11 @@ convert_collection_to_matrix <- function(signatures, values = c("fraction", "cou
 #'
 #' @examples
 #' sigs <- example_signature_collection()
-#' tidy_df <- convert_collection_to_tidy_dataframe(sigs)
+#' tidy_df <- sig_collection_reformat_list_to_tidy(sigs)
 #'
 #' cats <- example_catalogue_collection()
-#' tidy_cat <- convert_collection_to_tidy_dataframe(cats)
-convert_collection_to_tidy_dataframe <- function(signatures) {
+#' tidy_cat <- sig_collection_reformat_list_to_tidy(cats)
+sig_collection_reformat_list_to_tidy <- function(signatures) {
 
   # Validate that input is a well-formed signature or catalogue collection
   assert_signature_collection(signatures)
@@ -162,12 +162,12 @@ infer_collection_type <- function(collection){
 #'
 #' @examples
 #' tidysigs <- example_signature_collection_tidy()
-#' convert_tidy_dataframe_to_collection(tidysigs)
+#' sig_collection_reformat_tidy_to_list(tidysigs)
 #'
 #' tidycatalogues <- example_catalogue_collection_tidy()
-#' convert_tidy_dataframe_to_collection(tidycatalogues)
+#' sig_collection_reformat_tidy_to_list(tidycatalogues)
 #'
-convert_tidy_dataframe_to_collection <- function(signatures) {
+sig_collection_reformat_tidy_to_list <- function(signatures) {
 
   # Ensure input is a dataframe
   assertions::assert_dataframe(signatures)

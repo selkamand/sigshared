@@ -13,7 +13,7 @@ test_that("Custom error on mismatched channels", {
     )
   )
   expect_error(
-    convert_collection_to_matrix(sc),
+    sig_collection_reformat_list_to_matrix(sc),
     "All signatures must have identical channel ordering"
   )
 })
@@ -32,7 +32,7 @@ test_that("Fraction matrix returns correct structure", {
     )
   )
 
-  mx <- convert_collection_to_matrix(sc)
+  mx <- sig_collection_reformat_list_to_matrix(sc)
   expect_true(is.matrix(mx))
   expect_type(mx, "double")
   expect_equal(dim(mx), c(3, 2))
@@ -48,7 +48,7 @@ test_that("Fraction matrix returns correct structure", {
 
 test_that("Count matrix works for catalogue collection", {
   cc <- example_catalogue_collection()
-  mx <- convert_collection_to_matrix(cc, values = "count")
+  mx <- sig_collection_reformat_list_to_matrix(cc, values = "count")
   expect_type(mx, "double")
   expect_false(any(is.na(mx)))
 })
@@ -62,7 +62,7 @@ test_that("Single-signature collections return single-column matrix", {
     )
   )
 
-  mx <- convert_collection_to_matrix(sc)
+  mx <- sig_collection_reformat_list_to_matrix(sc)
   expect_equal(dim(mx), c(3, 1))
   expect_equal(colnames(mx), "sig1")
   expect_false(any(is.na(mx)))
@@ -72,20 +72,20 @@ test_that("Throws error with unnamed collection", {
   sc_unnamed <- example_signature_collection()
   names(sc_unnamed) <- NULL
 
-  expect_error(convert_collection_to_matrix(sc_unnamed), regexp = "must be named")
+  expect_error(sig_collection_reformat_list_to_matrix(sc_unnamed), regexp = "must be named")
 })
 
 # Collection to Tidy Dataframe --------------------------------------------
 test_that("Output is a data frame", {
   sc <- example_signature_collection()
-  tidy <- convert_collection_to_tidy_dataframe(sc)
+  tidy <- sig_collection_reformat_list_to_tidy(sc)
 
   expect_s3_class(tidy, "data.frame")
 })
 
 test_that("Signature collection returns correct columns", {
   sc <- example_signature_collection()
-  tidy <- convert_collection_to_tidy_dataframe(sc)
+  tidy <- sig_collection_reformat_list_to_tidy(sc)
 
   expect_named(tidy, c("signature", "type", "channel", "fraction"))
   expect_true(all(!is.na(tidy$fraction)))
@@ -94,7 +94,7 @@ test_that("Signature collection returns correct columns", {
 
 test_that("Catalogue collection returns correct columns", {
   cc <- example_catalogue_collection()
-  tidy <- convert_collection_to_tidy_dataframe(cc)
+  tidy <- sig_collection_reformat_list_to_tidy(cc)
 
   expect_named(tidy, c("catalogue", "type", "channel", "count", "fraction"))
   expect_true(all(!is.na(tidy$count)))
@@ -113,7 +113,7 @@ test_that("Single-signature collections are handled", {
   sc <- example_signature_collection()
   sc <- sc[1]  # single element
 
-  tidy <- convert_collection_to_tidy_dataframe(sc)
+  tidy <- sig_collection_reformat_list_to_tidy(sc)
   expect_equal(unique(tidy$signature), names(sc))
   expect_equal(ncol(tidy), 4)
 })
@@ -122,14 +122,14 @@ test_that("Function errors with unnamed elements", {
   sc <- example_signature_collection()
   names(sc) <- NULL
 
-  expect_error(convert_collection_to_tidy_dataframe(sc), regexp = "must be named")
+  expect_error(sig_collection_reformat_list_to_tidy(sc), regexp = "must be named")
 })
 
 
 # Reformat tidy dataframe to list ---------------------------------------------------
 test_that("Function handles tidy signature input", {
   tidy <- example_signature_collection_tidy()
-  out <- convert_tidy_dataframe_to_collection(tidy)
+  out <- sig_collection_reformat_tidy_to_list(tidy)
 
   expect_type(out, "list")
   expect_length(out, 2)
@@ -139,7 +139,7 @@ test_that("Function handles tidy signature input", {
 
 test_that("Function handles tidy catalogue input with count", {
   tidy <- example_catalogue_collection_tidy()
-  out <- convert_tidy_dataframe_to_collection(tidy)
+  out <- sig_collection_reformat_tidy_to_list(tidy)
 
   expect_type(out, "list")
   expect_length(out, 3)
@@ -150,48 +150,48 @@ test_that("Function handles tidy catalogue input with count", {
 test_that("Fails if no ID column is present", {
   tidy <- example_signature_collection_tidy()
   tidy$signature <- NULL
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "Failed to find an obvious ID column")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "Failed to find an obvious ID column")
 })
 
 test_that("Fails with multiple ID columns", {
   tidy <- example_signature_collection_tidy()
   tidy$catalogue <- tidy$signature
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "multiple potential ID columns")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "multiple potential ID columns")
 })
 
 test_that("Fails if fraction column is missing", {
   tidy <- example_signature_collection_tidy()
   tidy$fraction <- NULL
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "missing 1 required name:.*fraction")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "missing 1 required name:.*fraction")
 })
 
 test_that("Fails if fraction is non-numeric", {
   tidy <- example_signature_collection_tidy()
   tidy$fraction <- as.character(tidy$fraction)
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "must be numeric")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "must be numeric")
 })
 
 test_that("Fails if count is present but non-numeric", {
   tidy <- example_catalogue_collection_tidy()
   tidy$count <- as.character(tidy$count)
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "must be numeric")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "must be numeric")
 })
 
 test_that("Fails on duplicated (ID, channel) rows", {
   tidy <- example_signature_collection_tidy()
   tidy <- rbind(tidy, tidy[1, ])
-  expect_error(convert_tidy_dataframe_to_collection(tidy), "duplicated")
+  expect_error(sig_collection_reformat_tidy_to_list(tidy), "duplicated")
 })
 
 test_that("Output list names match ID column", {
   tidy <- example_signature_collection_tidy()
-  out <- convert_tidy_dataframe_to_collection(tidy)
+  out <- sig_collection_reformat_tidy_to_list(tidy)
   expect_equal(sort(names(out)), sort(unique(tidy$signature)))
 })
 
 test_that("Each element has expected columns only", {
   tidy <- example_catalogue_collection_tidy()
-  out <- convert_tidy_dataframe_to_collection(tidy)
+  out <- sig_collection_reformat_tidy_to_list(tidy)
 
   expect_true(all(c("type", "channel", "count", "fraction") %in% names(out[[1]])))
   expect_false("catalogue" %in% names(out[[1]]))  # ID col should be removed

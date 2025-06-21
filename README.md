@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:92%;">
+<table style="width:89%;">
 <colgroup>
-<col style="width: 45%" />
-<col style="width: 45%" />
+<col style="width: 44%" />
+<col style="width: 44%" />
 </colgroup>
 <thead>
 <tr>
@@ -301,46 +301,46 @@ example_bootstraps()
 #> 6         2 Signature3                    60         0.06
 
 example_catalogue()
-#>    channel type count  fraction
-#> 1 A[A->G]G  A>G     5 0.1851852
-#> 2 A[A->G]C  A>G    10 0.3703704
-#> 3 A[A->G]T  A>G    12 0.4444444
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
 example_catalogue_collection()
 #> $catalogue1
-#>    channel type count  fraction
-#> 1 A[A->G]G  A>G     5 0.1851852
-#> 2 A[A->G]C  A>G    10 0.3703704
-#> 3 A[A->G]T  A>G    12 0.4444444
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
 #> 
 #> $catalogue2
-#>    channel type count  fraction
-#> 1 A[A->G]G  A>G     5 0.1851852
-#> 2 A[A->G]C  A>G    10 0.3703704
-#> 3 A[A->G]T  A>G    12 0.4444444
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
 #> 
 #> $catalogue3
-#>    channel type count  fraction
-#> 1 A[A->G]G  A>G     5 0.1851852
-#> 2 A[A->G]C  A>G    10 0.3703704
-#> 3 A[A->G]T  A>G    12 0.4444444
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
 
 example_signature()
-#>    channel type fraction
-#> 1 A[A->G]G  A>G      0.4
-#> 2 A[A->G]C  A>G      0.1
-#> 3 A[A->G]T  A>G      0.5
+#>   channel type fraction
+#> 1 A[T>C]G  T>C      0.4
+#> 2 A[T>C]C  T>C      0.1
+#> 3 A[T>C]T  T>C      0.5
 example_signature_collection()
 #> $sig1
-#>    channel type fraction
-#> 1 A[A->G]G  A>G      0.4
-#> 2 A[A->G]C  A>G      0.1
-#> 3 A[A->G]T  A>G      0.5
+#>   channel type fraction
+#> 1 A[T>C]G  T>C      0.4
+#> 2 A[T>C]C  T>C      0.1
+#> 3 A[T>C]T  T>C      0.5
 #> 
 #> $sig2
-#>    channel type fraction
-#> 1 A[A->G]G  A>G      0.4
-#> 2 A[A->G]C  A>G      0.1
-#> 3 A[A->G]T  A>G      0.5
+#>   channel type fraction
+#> 1 A[T>C]G  T>C      0.4
+#> 2 A[T>C]C  T>C      0.1
+#> 3 A[T>C]T  T>C      0.5
 
 example_model()
 #> sig1 sig2 
@@ -412,6 +412,55 @@ head(example_bootstraps_colo829())
 #> 4      SBS4     Rep_1                0.0000  0.000000000
 #> 5      SBS5     Rep_1                0.0000  0.000000000
 #> 6      SBS6     Rep_1                0.0000  0.000000000
+```
+
+## Reformatting Signature/Catalogue Collections
+
+``` r
+# List of signatures -> matrix (rows = channels; columns = signatures; values = fractions)
+sig_collection_reformat_list_to_matrix(example_signature_collection())
+#>         sig1 sig2
+#> A[T>C]G  0.4  0.4
+#> A[T>C]C  0.1  0.1
+#> A[T>C]T  0.5  0.5
+#> attr(,"types")
+#>       T>C       T>C       T>C 
+#> "A[T>C]G" "A[T>C]C" "A[T>C]T"
+
+
+# List of signatures -> tidy data.frame
+sig_collection_reformat_list_to_tidy(example_signature_collection())
+#>   signature type channel fraction
+#> 1      sig1  T>C A[T>C]G      0.4
+#> 2      sig1  T>C A[T>C]C      0.1
+#> 3      sig1  T>C A[T>C]T      0.5
+#> 4      sig2  T>C A[T>C]G      0.4
+#> 5      sig2  T>C A[T>C]C      0.1
+#> 6      sig2  T>C A[T>C]T      0.5
+
+# Tidy data.frame -> list of signatures
+sig_collection_reformat_tidy_to_list(example_signature_collection_tidy())
+#> $sig1
+#>   type channel fraction
+#> 1  T>C A[T>C]G      0.4
+#> 2  T>C A[T>C]C      0.1
+#> 3  T>C A[T>C]T      0.5
+#> 
+#> $sig2
+#>   type channel fraction
+#> 4  T>C A[T>C]G      0.4
+#> 5  T>C A[T>C]C      0.1
+#> 6  T>C A[T>C]T      0.5
+
+# All the above methods work with catalogues
+sig_collection_reformat_list_to_matrix(example_catalogue_collection(), values = "count")
+#>         catalogue1 catalogue2 catalogue3
+#> A[T>C]G          5          5          5
+#> A[T>C]C         10         10         10
+#> A[T>C]T         12         12         12
+#> attr(,"types")
+#>       T>C       T>C       T>C 
+#> "A[T>C]G" "A[T>C]C" "A[T>C]T"
 ```
 
 ## Other Utility Functions
