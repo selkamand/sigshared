@@ -7,8 +7,8 @@
   #'
   #' @description
   #' **Signature**: A mutational signature profile represented as a `data.frame` with the following 3 columns:
-  #' - `type`: The type of mutation (e.g., A>G, C>T).
-  #' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
+  #' - `type`: The type of mutation (e.g., T>C, C>T).
+  #' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
   #' - `fraction`: The fraction of mutations attributed to this specific type and channel.
   NULL
 
@@ -41,8 +41,8 @@
   #'
   #' @description
   #' **Catalogue**: The mutational profile of a sample, represented as a `data.frame` with 4 required columns:
-  #' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
-  #' - `type`: The type of mutation (higher level classification of channel, e.g. A>G, C>T).
+  #' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
+  #' - `type`: The type of mutation (higher level classification of channel, e.g. T>C, C>T).
   #' - `fraction`: The fraction of mutations attributed to this channel.
   #' - `count`: The count of mutations for this channel.
   NULL
@@ -54,8 +54,8 @@
   #'
   #' @description
   #' **Catalogue Collections**: A list of catalogue `data.frames`, where each `data.frame` represents the mutational profile of a sample. Each entry in the list corresponds to a sample, and the name of each entry is the sample identifier. Each catalogue `data.frame` contains the following columns:
-  #' - `channel`: The mutational channel (e.g., A\\[A->G\\]G, C\\[C->T\\]G).
-  #' - `type`: The type of mutation (higher level classification of channel, e.g. A>G, C>T).
+  #' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
+  #' - `type`: The type of mutation (higher level classification of channel, e.g. T>C, C>T).
   #' - `fraction`: The fraction of mutations attributed to this channel.
   #' - `count`: The count of mutations for this channel.
   NULL
@@ -166,8 +166,8 @@
   #' @rdname signature
   example_signature <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.5)
     )
   }
@@ -177,8 +177,8 @@
   #' @export
   example_signature_empty <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0, 0, 0)
     )
   }
@@ -186,8 +186,8 @@
 
   example_invalid_signature_channeldup <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.2, 0.3)
     )
   }
@@ -195,39 +195,39 @@
   example_invalid_signature_numeric_channel = function(){
     data.frame(
       channel = c(1:4),
-      type = c('A>G', 'A>G', 'A>G', 'A>G'),
+      type = c('T>C', 'T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.2, 0.3)
     )
   }
 
   example_invalid_signature_factor_channel = function(){
     data.frame(
-      channel = factor(c('A[A->G]G', 'A[A->G]G', 'A[A->G]C', 'A[A->G]T')),
-      type = c('A>G', 'A>G', 'A>G', 'A>G'),
+      channel = factor(c('A[T>C]G', 'A[T>C]G', 'A[T>C]C', 'A[T>C]T')),
+      type = c('T>C', 'T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.2, 0.3)
     )
   }
 
   example_invalid_signature_missing = function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', NA),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', NA),
       fraction = c(0.4, 0.1, 0.2)
     )
   }
 
   example_invalid_signature_fraction_sum <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.6, 0.6, 0.2)
     )
   }
 
   example_invalid_signature_fraction_sum_below_one <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.1, 0.1, 0.2)
     )
   }
@@ -235,8 +235,8 @@
 
   example_invalid_signature_negative_fraction <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.4, -0.1, 0.2)
     )
   }
@@ -264,8 +264,8 @@
 
   example_invalid_signature_collection_not_list <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.2)
     )
   }
@@ -311,8 +311,8 @@
   #' @export
   example_catalogue <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       count = c(5, 10, 12),
       fraction = c(0.18518519, 0.37037037, 0.44444444)
     )
@@ -325,8 +325,8 @@
   #' @export
   example_catalogue_empty <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       count = c(0, 0, 0),
       fraction = c(0, 0, 0)
     )
@@ -335,8 +335,8 @@
 
   example_invalid_catalogue_nonsensical_fraction <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       count = c(5, 10, 12),
       fraction = c(0.2, 0.6, 0.2)
     )
@@ -344,8 +344,8 @@
 
   example_invalid_catalogue_missing <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       count = c(5, 10, NA),
       fraction = c(0.18518519, 0.37037037, 0.44444444)
     )
@@ -353,8 +353,8 @@
 
   example_invalid_catalogue_colname_typo <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      typeo = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      typeo = c('T>C', 'T>C', 'T>C'),
       count = c(5, 10, 12),
       fraction = c(0.18518519, 0.37037037, 0.44444444)
     )
@@ -362,8 +362,8 @@
 
   example_invalid_catalogue_channeldup <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]C', 'A[A->G]C'),
-      type = c('A>G', 'A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]C', 'A[T>C]C'),
+      type = c('T>C', 'T>C', 'T>C', 'T>C'),
       count = c(5, 10, 12, 10),
       fraction = c(0.13513514, 0.27027027, 0.32432432, 0.27027027)
     )
@@ -400,8 +400,8 @@
 
   example_invalid_catalogue_collection_not_list <- function(){
     data.frame(
-      channel = c('A[A->G]G', 'A[A->G]C', 'A[A->G]T'),
-      type = c('A>G', 'A>G', 'A>G'),
+      channel = c('A[T>C]G', 'A[T>C]C', 'A[T>C]T'),
+      type = c('T>C', 'T>C', 'T>C'),
       fraction = c(0.4, 0.1, 0.2)
     )
   }

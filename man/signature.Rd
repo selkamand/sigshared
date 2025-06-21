@@ -38,8 +38,8 @@ A data.frame representing a valid exemplar signature signature in the 'sigverse'
 \description{
 \strong{Signature}: A mutational signature profile represented as a \code{data.frame} with the following 3 columns:
 \itemize{
-\item \code{type}: The type of mutation (e.g., A>G, C>T).
-\item \code{channel}: The mutational channel (e.g., A\[A->G\]G, C\[C->T\]G).
+\item \code{type}: The type of mutation (e.g., T>C, C>T).
+\item \code{channel}: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
 \item \code{fraction}: The fraction of mutations attributed to this specific type and channel.
 }
 
