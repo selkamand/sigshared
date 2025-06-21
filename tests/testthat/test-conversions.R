@@ -105,8 +105,8 @@ test_that("Collection type detection distinguishes signature and catalogue", {
   sc <- example_signature_collection()
   cc <- example_catalogue_collection()
 
-  expect_equal(check_collection_type(sc), "signature")
-  expect_equal(check_collection_type(cc), "catalogue")
+  expect_equal(infer_collection_type(sc), "signature")
+  expect_equal(infer_collection_type(cc), "catalogue")
 })
 
 test_that("Single-signature collections are handled", {
