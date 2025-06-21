@@ -21,12 +21,12 @@
 #' @examples
 #' # Convert a signature collection
 #' collection <- example_signature_collection()
-#' mat <- sig_collection_to_matrix(collection)
+#' mat <- convert_collection_to_matrix(collection)
 #'
 #' # Convert a catalogue collection using counts
 #' catalogue <- example_catalogue_collection()
-#' mat_counts <- sig_collection_to_matrix(catalogue, values = "count")
-sig_collection_to_matrix <- function(signatures, values = c("fraction", "count")){
+#' mat_counts <- convert_collection_to_matrix(catalogue, values = "count")
+convert_collection_to_matrix <- function(signatures, values = c("fraction", "count")){
 
   assertions::assert_greater_than(length(signatures), minimum = 0)
   assert_signature_collection(signatures)
@@ -83,7 +83,7 @@ sig_collection_to_matrix <- function(signatures, values = c("fraction", "count")
 #' @return A tidy data frame with columns:
 #' - `signature` or `catalogue`: the name of the signature
 #' - `type`: the mutation type (e.g., "T>C")
-#' - `channel`: the channel (e.g., "A[T>C]G")
+#' - `channel`: the channel (e.g., "A[T>C\\]G")
 #' - `fraction`: the normalized mutation fraction
 #' - `count` (only for catalogue collections): the mutation count
 #'
@@ -91,18 +91,18 @@ sig_collection_to_matrix <- function(signatures, values = c("fraction", "count")
 #'
 #' @examples
 #' sigs <- example_signature_collection()
-#' tidy_df <- sig_collection_to_tidy(sigs)
+#' tidy_df <- convert_collection_to_tidy_dataframe(sigs)
 #'
 #' cats <- example_catalogue_collection()
-#' tidy_cat <- sig_collection_to_tidy(cats)
-sig_collection_to_tidy <- function(signatures) {
+#' tidy_cat <- convert_collection_to_tidy_dataframe(cats)
+convert_collection_to_tidy_dataframe <- function(signatures) {
 
   # Validate that input is a well-formed signature or catalogue collection
   assert_signature_collection(signatures)
 
   # Determine whether this is a 'signature' or 'catalogue' collection,
   # based on presence of a 'count' column
-  collection_type <- check_collection_type(signatures)
+  collection_type <- infer_collection_type(signatures)
 
   # Define the output columns, depending on collection type
   columns <- if (collection_type == "catalogue")
@@ -136,10 +136,77 @@ sig_collection_to_tidy <- function(signatures) {
 #'
 #' @param collection A validated signature or catalogue collection.
 #' @return A string: either `"catalogue"` or `"signature"`.
-check_collection_type <- function(collection){
+infer_collection_type <- function(collection){
   assert_signature_collection(collection)
   if("count" %in% colnames(collection[[1]]))
     "catalogue"
   else
     "signature"
 }
+
+#' Reformat Tidy Signature or Catalogue Data to List Format
+#'
+#' Converts a tidy data frame of mutational signatures or catalogues
+#' named list of data frames, each with columns `channel`, `type`, and `fraction`,
+#' and (for catalogues) `count`.
+#'
+#' The function supports input with an identifier column named `signature`, `catalogue`, or `sample`.
+#' The output is a named list of tibbles indexed by that identifier.
+#'
+#' @param signatures A tidy `data.frame` with columns: `type`, `channel`, `fraction`, and optionally `count`,
+#' and an ID column: `signature`, `catalogue`, or `sample`.
+#'
+#' @return A signature/catalogue collection (see [example_signature_collection()] and [example_catalogue_collection()])
+#'
+#' @export
+#'
+#' @examples
+#' tidysigs <- example_signature_collection_tidy()
+#' convert_tidy_dataframe_to_collection(tidysigs)
+#'
+#' tidycatalogues <- example_catalogue_collection_tidy()
+#' convert_tidy_dataframe_to_collection(tidycatalogues)
+#'
+convert_tidy_dataframe_to_collection <- function(signatures) {
+
+  # Ensure input is a dataframe
+  assertions::assert_dataframe(signatures)
+
+  # Identify column used to distinguish signatures/samples
+  id_col <- intersect(c("signature", "catalogue", "sample"), colnames(signatures))
+  assertions::assert_length_greater_than(
+    id_col, 0,
+    msg = "Failed to find an obvious ID column. Please add one of: 'signature', 'catalogue', or 'sample'."
+  )
+  assertions::assert_length(
+    id_col, 1,
+    msg = "Found multiple potential ID columns: {id_col}. Please remove all but one."
+  )
+
+  # Validate required columns
+  assertions::assert_names_include(signatures, c(id_col, "type", "channel", "fraction"))
+  assertions::assert_numeric(signatures[["fraction"]])
+  if ("count" %in% colnames(signatures)) {
+    assertions::assert_numeric(signatures[["count"]])
+  }
+
+  # Assert unique (ID + channel) combinations
+  assertions::assert_no_duplicates(signatures[c(id_col, "channel")])
+
+  # Convert the ID column to a factor to preserve order during split
+  signatures[[id_col]] <- factor(signatures[[id_col]], levels = unique(signatures[[id_col]]))
+
+  # Choose columns to include
+  data_cols <- c("type", "channel", "fraction")
+  if ("count" %in% colnames(signatures)) {
+    data_cols <- c(data_cols, "count")
+  }
+
+  # Split and convert
+  ls_data <- split(signatures[data_cols], signatures[[id_col]])
+  # ls_data <- lapply(ls_data, tibble::as_tibble)
+
+  return(ls_data)
+}
+
+

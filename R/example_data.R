@@ -305,6 +305,34 @@ example_invalid_signature_collection_invalid_signature <- function(){
 
 
 
+#' Exemplar collection of valid signatures
+#'
+#' This function returns an exemplar tidy dataframe following the 'sigverse' style.
+#'
+#' @return A `data.frame` with 4 columns:
+#' \describe{
+#'   \item{signature}{Name of the signature (e.g., `"sig1"`, `"sig2"`)}
+#'   \item{type}{Mutation type (e.g., `"T>C"`)}
+#'   \item{channel}{Mutation channel (e.g., `"A[T>C]G"`)}
+#'   \item{fraction}{Normalized mutation fraction (sums to 1 per signature)}
+#' }
+#'
+#'
+#' @examples
+#' example_signature_collection_tidy()
+#'
+#' @export
+#' @rdname signature_collection_tidy
+example_signature_collection_tidy <- function(){
+  data.frame(
+    signature = rep(c("sig1", "sig2"), each = 3L),
+    type = rep("T>C", 6L),
+    channel = rep(c("A[T>C]G", "A[T>C]C", "A[T>C]T"), 2),
+    fraction = rep(c(0.4, 0.1, 0.5), 2)
+  )
+}
+
+
 # Catalogues ----------------------------------------------------------
 
 
@@ -444,6 +472,37 @@ example_invalid_catalogue_collection_duplicated_names <- function(){
   list(
     'decomp1' = example_catalogue(),
     'decomp1' = example_catalogue()
+  )
+}
+
+#' Example Tidy Catalogue Collection
+#'
+#' Returns an example tidy data frame representing a mutational catalogue collection,
+#' in the 'sigverse' style. Each row corresponds to a mutation channel within a sample catalogue,
+#' with both raw counts and normalized fractions.
+#'
+#'
+#' @return A `data.frame` with 5 columns:
+#' \describe{
+#'   \item{catalogue}{Name of the catalogue/sample (e.g., `"catalogue1"`)}
+#'   \item{type}{Mutation type (e.g., `"T>C"`)}
+#'   \item{channel}{Mutation channel (e.g., `"A[T>C]G"`)}
+#'   \item{count}{Raw mutation count in each channel}
+#'   \item{fraction}{Normalized mutation fraction (sums to 1 per catalogue)}
+#' }
+#'
+#' @examples
+#' example_catalogue_collection_tidy()
+#'
+#' @export
+#' @rdname catalogue_collection_tidy
+example_catalogue_collection_tidy <- function(){
+  data.frame(
+    catalogue = rep(c("catalogue1", "catalogue2", "catalogue3"), each = 3L),
+    type = rep("T>C", 9L),
+    channel = rep(c("A[T>C]G", "A[T>C]C", "A[T>C]T"), 3),
+    count = rep(c(5, 10, 12), 3),
+    fraction = rep(c(0.18518519, 0.37037037, 0.44444444), 3)
   )
 }
 
