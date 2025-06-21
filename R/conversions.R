@@ -69,3 +69,77 @@ sig_collection_to_matrix <- function(signatures, values = c("fraction", "count")
 
   return(mx_wide)
 }
+
+#' Convert Signature or Catalogue Collection to a Tidy Data Frame
+#'
+#' Converts a collection of signatures or catalogues data frames into a single tidy data frame.
+#'
+#' The function automatically detects whether the input is a signature collection or a catalogue collection,
+#' and appends a column (named after the collection type) to identify the originating signature/catalogues.
+#'
+#' @param signatures A signature or catalogue collection. A named list of data frames, each containing
+#'   mutation information (see [example_signature_collection()] or [example_catalogue_collection()]).
+#'
+#' @return A tidy data frame with columns:
+#' - `signature` or `catalogue`: the name of the signature
+#' - `type`: the mutation type (e.g., "T>C")
+#' - `channel`: the channel (e.g., "A[T>C]G")
+#' - `fraction`: the normalized mutation fraction
+#' - `count` (only for catalogue collections): the mutation count
+#'
+#' @export
+#'
+#' @examples
+#' sigs <- example_signature_collection()
+#' tidy_df <- sig_collection_to_tidy(sigs)
+#'
+#' cats <- example_catalogue_collection()
+#' tidy_cat <- sig_collection_to_tidy(cats)
+sig_collection_to_tidy <- function(signatures) {
+
+  # Validate that input is a well-formed signature or catalogue collection
+  assert_signature_collection(signatures)
+
+  # Determine whether this is a 'signature' or 'catalogue' collection,
+  # based on presence of a 'count' column
+  collection_type <- check_collection_type(signatures)
+
+  # Define the output columns, depending on collection type
+  columns <- if (collection_type == "catalogue")
+    c(collection_type, "type", "channel", "count", "fraction")
+  else
+    c(collection_type, "type", "channel", "fraction")
+
+  # For each signature in the collection:
+  # - Add a column identifying the originating signature (named after collection type)
+  # - Return the updated data frame
+  signatures <- lapply(seq_along(signatures), FUN = \(i) {
+    signatures[[i]][[collection_type]] <- names(signatures)[i]
+    return(signatures[[i]])
+  })
+
+  # Combine all data frames into one tidy data frame
+  df <- do.call(rbind, signatures)
+  rownames(df) <- NULL
+
+  # Reorder columns to match expected tidy structure
+  df <- df[columns]
+
+  return(df)
+}
+
+
+#' Infer Collection Type
+#'
+#' Determines whether a collection is a catalogue or a signature collection,
+#' based on the presence of the 'count' column in its entries.
+#'
+#' @param collection A validated signature or catalogue collection.
+#' @return A string: either `"catalogue"` or `"signature"`.
+check_collection_type <- function(collection){
+  assert_signature_collection(collection)
+  if("count" %in% colnames(collection[[1]]))
+    "catalogue"
+  else
+    "signature"
+}

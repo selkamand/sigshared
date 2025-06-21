@@ -1,3 +1,4 @@
+# Collection to Matrix  --------------------------------------------
 test_that("Custom error on mismatched channels", {
   sc <- list(
     sig1 = data.frame(
@@ -66,3 +67,61 @@ test_that("Single-signature collections return single-column matrix", {
   expect_equal(colnames(mx), "sig1")
   expect_false(any(is.na(mx)))
 })
+
+test_that("Throws error with unnamed collection", {
+  sc_unnamed <- example_signature_collection()
+  names(sc_unnamed) <- NULL
+
+  expect_error(sig_collection_to_matrix(sc_unnamed), regexp = "must be named")
+})
+
+# Collection to Tidy Dataframe --------------------------------------------
+test_that("Output is a data frame", {
+  sc <- example_signature_collection()
+  tidy <- sig_collection_to_tidy(sc)
+
+  expect_s3_class(tidy, "data.frame")
+})
+
+test_that("Signature collection returns correct columns", {
+  sc <- example_signature_collection()
+  tidy <- sig_collection_to_tidy(sc)
+
+  expect_named(tidy, c("signature", "type", "channel", "fraction"))
+  expect_true(all(!is.na(tidy$fraction)))
+  expect_true(all(tidy$signature %in% names(sc)))
+})
+
+test_that("Catalogue collection returns correct columns", {
+  cc <- example_catalogue_collection()
+  tidy <- sig_collection_to_tidy(cc)
+
+  expect_named(tidy, c("catalogue", "type", "channel", "count", "fraction"))
+  expect_true(all(!is.na(tidy$count)))
+  expect_true(all(tidy$catalogue %in% names(cc)))
+})
+
+test_that("Collection type detection distinguishes signature and catalogue", {
+  sc <- example_signature_collection()
+  cc <- example_catalogue_collection()
+
+  expect_equal(check_collection_type(sc), "signature")
+  expect_equal(check_collection_type(cc), "catalogue")
+})
+
+test_that("Single-signature collections are handled", {
+  sc <- example_signature_collection()
+  sc <- sc[1]  # single element
+
+  tidy <- sig_collection_to_tidy(sc)
+  expect_equal(unique(tidy$signature), names(sc))
+  expect_equal(ncol(tidy), 4)
+})
+
+test_that("Function errors with unnamed elements", {
+  sc <- example_signature_collection()
+  names(sc) <- NULL
+
+  expect_error(sig_collection_to_tidy(sc), regexp = "must be named")
+})
+
