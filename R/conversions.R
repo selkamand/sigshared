@@ -44,7 +44,7 @@ sig_collection_reformat_list_to_matrix <- function(signatures, values = c("fract
   # - Extract the requested value column ('fraction' or 'count') as a single-column data frame
   # - Rename the column to the signature name for clarity
   # This prepares a list of aligned columns ready to be combined into a matrix
-  ls <- lapply(seq_along(signatures), FUN = \(i){
+  ls <- lapply(seq_along(signatures), function(i){
     sig <- signatures[[i]]
     assertions::assert_identical(
       first_sig_channel_order,
@@ -110,7 +110,7 @@ sig_collection_reformat_list_to_tidy <- function(signatures) {
   # For each signature in the collection:
   # - Add a column identifying the originating signature (named after collection type)
   # - Return the updated data frame
-  signatures <- lapply(seq_along(signatures), FUN = \(i) {
+  signatures <- lapply(seq_along(signatures),  function(i) {
     signatures[[i]][[collection_type]] <- names(signatures)[i]
     return(signatures[[i]])
   })
