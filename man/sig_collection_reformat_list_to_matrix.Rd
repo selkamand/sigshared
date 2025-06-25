@@ -30,7 +30,7 @@ Transforms a signature or catalogue collection into a matrix format,
 with channels as rows and signatures as columns.
 }
 \details{
-The resulting matrix includes an attribute \code{type}, a vector describing mutation type of each row (channel) in matrix.
+The resulting matrix includes an attribute \code{type}. This vector describing mutation type of each row (channel) in matrix.
 }
 \examples{
 # Convert a signature collection

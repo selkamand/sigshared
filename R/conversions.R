@@ -207,3 +207,136 @@ sig_collection_reformat_tidy_to_list <- function(signatures) {
 }
 
 
+#' Convert Matrix of Signatures or Catalogues to List Format
+#'
+#' Converts a matrix of mutational signatures or catalogues back into a named list of `data.frame`s
+#' in the sigverse format. Each column in the matrix is treated as one signature or catalogue.
+#'
+#' This is the inverse of [sig_collection_reformat_list_to_matrix()]. It supports both
+#' signature-style (fraction-only) and catalogue-style (count + fraction) output, depending on the
+#' `values` parameter and matrix content.
+#'
+#' A `type` attribute is optional but recommended on the matrix to map each channel to a mutation type.
+#' If `types` is not provided explicitly, the function uses this attribute or falls back to reusing
+#' channel names as `type`.
+#'
+#' @param mx A numeric matrix with:
+#'   - **Rows**: Channels (must be named and unique)
+#'   - **Columns**: Signatures or catalogues (must be named and unique)
+#'   - **Values**: Fractions (for signatures) or counts (for catalogues)
+#' @param values Either `"count"` or `"fraction"` (default = `"count"`). This determines how the matrix
+#'   values are interpreted. If `"count"` is chosen, `fraction` will be calculated automatically.
+#' @param types A character vector describing the mutation `type` of each row/channel`. If `NULL`, this is
+#'   inferred from the matrix's `type` attribute or defaulted to rownames.
+#' @param verbose Logical. If `TRUE` (default), emits a warning if the matrix values look inconsistent
+#'   with the chosen `values` argument (e.g., fractional-looking values with `values = "count"`).
+#'
+#' @return A named list of signature or catalogue `data.frame`s. Each `data.frame` will contain:
+#'   - `channel`: Row names of the matrix
+#'   - `type`: As provided or inferred
+#'   - `fraction`: Matrix column or computed from `count`
+#'   - `count`: Only included if `values = "count"`
+#'
+#' @seealso [sig_collection_reformat_list_to_matrix()], [sig_collection_reformat_list_to_tidy()], [sig_collection_reformat_tidy_to_list()]
+#'
+#' @examples
+#' # From matrix of signatures
+#' mx <- example_signature_collection_matrix()
+#' collection <- sig_collection_reformat_matrix_to_list(mx, values = "fraction")
+#'
+#' # From matrix of catalogues
+#' mx_cat <- example_catalogue_collection_matrix()
+#' collection_cat <- sig_collection_reformat_matrix_to_list(mx_cat, values = "count")
+#'
+#' # Edge case: matrix with no 'type' attribute
+#' # (will use channel names)
+#' mx_notyped <- example_signature_collection_matrix()
+#' attr(mx_notyped, "type") <- NULL
+#' sig_collection_reformat_matrix_to_list(mx_notyped, values = "fraction")
+#'
+#' # Custom types
+#' mx_min <- matrix(
+#'   c(0.1, 0.3, 0.6,
+#'     0.2, 0.5, 0.3),
+#'   nrow = 3,
+#'   ncol = 2,
+#'   dimnames = list(
+#'     c("C>A", "C>G", "C>T"),
+#'     c("S1", "S2")
+#'   )
+#' )
+#' attr(mx_min, "type") <- c("SNV", "SNV", "SNV")
+#' sig_collection_reformat_matrix_to_list(mx_min, values = "fraction")
+#' @export
+sig_collection_reformat_matrix_to_list <- function(mx, values = c("count", "fraction"), types=NULL, verbose = TRUE){
+
+  # Assertions
+  assertions::assert_matrix(mx)
+  assertions::assert_numeric(mx)
+  assertions::assert_non_null(rownames(mx))
+  assertions::assert_non_null(colnames(mx))
+  assertions::assert(all(nzchar(colnames(mx))), msg = "matrix to list conversion requires column names are all non-zero length strings")
+  assertions::assert(all(nzchar(rownames(mx))), msg = "matrix to list conversion requires row names are all non-zero length strings")
+  assertions::assert_no_duplicates(rownames(mx))
+  assertions::assert_no_duplicates(colnames(mx))
+  values = rlang::arg_match(values)
+  if(!is.null(types)) {
+    assertions::assert_character(types)
+    assertions::assert_length(types, length = nrow(mx))
+  }
+
+  channels <- rownames(mx)
+  samplenames <- colnames(mx)
+
+  values_look_fractional <- all(mx <= 1 & mx >= 0) & any(mx < 1 & mx > 0)
+
+  # Warnings to set values argument appropriately
+  if(verbose & values == "count" & values_look_fractional){
+    cli::cli_alert_warning("The matrix supplied contains only fractional values. If this matrix represents a signature collection, please remember to set {.emph values}='fraction'")
+  }
+
+  if(verbose & values == "fraction" & !values_look_fractional){
+    cli::cli_alert_warning("The matrix supplied does not contain fractional values between zero and one. If this matrix represents a catalogue collection, please remember to set {.emph values}='count'")
+  }
+
+  # If types are not specified, search for matrix attribute,
+  # and if thats not found, just use channel names
+  if(is.null(types)){
+    types <- attributes(mx)[["type"]]
+    if (is.null(types)) {
+      types <- rownames(mx)
+      if (verbose) cli::cli_alert_info("No 'type' attribute found; using channel names as types.")
+    }
+  }
+
+
+  # Split matrix into list
+  collection <- apply(
+    X = mx,
+    MARGIN = 2,
+    simplify = FALSE,
+    function(colvector){
+      if(values == "count"){
+        data.frame(
+          channel = channels,
+          type = types,
+          count = colvector,
+          fraction = compute_fraction(colvector),
+          row.names = NULL
+        )
+      }
+      else {
+        data.frame(
+          channel = channels,
+          type = types,
+          fraction = colvector,
+          row.names = NULL
+        )
+      }
+    }
+  )
+
+  names(collection) <- samplenames
+
+  return(collection)
+}

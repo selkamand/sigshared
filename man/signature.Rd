@@ -33,13 +33,13 @@ example_signature_empty()
 \value{
 Throws error if assertion fails, otherwise invisibly returns true
 
-A data.frame representing a valid exemplar signature signature in the 'sigverse' format.
+A data.frame representing a valid exemplar signature in the 'sigverse' format.
 }
 \description{
 \strong{Signature}: A mutational signature profile represented as a \code{data.frame} with the following 3 columns:
 \itemize{
 \item \code{type}: The type of mutation (e.g., T>C, C>T).
-\item \code{channel}: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
+\item \code{channel}: The mutational channel (e.g., A[T>C]G, C[C>T]G).
 \item \code{fraction}: The fraction of mutations attributed to this specific type and channel.
 }
 

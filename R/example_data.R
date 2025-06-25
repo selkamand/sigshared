@@ -8,8 +8,9 @@
 #' @description
 #' **Signature**: A mutational signature profile represented as a `data.frame` with the following 3 columns:
 #' - `type`: The type of mutation (e.g., T>C, C>T).
-#' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
+#' - `channel`: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
 #' - `fraction`: The fraction of mutations attributed to this specific type and channel.
+#'
 NULL
 
 ## Signature Collection -----------------------------------------------------------------
@@ -41,7 +42,7 @@ NULL
 #'
 #' @description
 #' **Catalogue**: The mutational profile of a sample, represented as a `data.frame` with 4 required columns:
-#' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
+#' - `channel`: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
 #' - `type`: The type of mutation (higher level classification of channel, e.g. T>C, C>T).
 #' - `fraction`: The fraction of mutations attributed to this channel.
 #' - `count`: The count of mutations for this channel.
@@ -54,7 +55,7 @@ NULL
 #'
 #' @description
 #' **Catalogue Collections**: A list of catalogue `data.frames`, where each `data.frame` represents the mutational profile of a sample. Each entry in the list corresponds to a sample, and the name of each entry is the sample identifier. Each catalogue `data.frame` contains the following columns:
-#' - `channel`: The mutational channel (e.g., A\\[T>C\\]G, C\\[C>T\\]G).
+#' - `channel`: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
 #' - `type`: The type of mutation (higher level classification of channel, e.g. T>C, C>T).
 #' - `fraction`: The fraction of mutations attributed to this channel.
 #' - `count`: The count of mutations for this channel.
@@ -153,7 +154,7 @@ NULL
 #'
 #' This function returns an exemplar signature with valid data following the 'sigverse' style.
 #'
-#' @return A data.frame representing a valid exemplar signature signature in the 'sigverse' format.
+#' @return A data.frame representing a valid exemplar signature in the 'sigverse' format.
 #'
 #' @examples
 #'
@@ -332,6 +333,38 @@ example_signature_collection_tidy <- function(){
   )
 }
 
+#' Example Signature Collection in Matrix Form
+#'
+#' Returns an example of a signature collection formatted as a matrix.
+#'
+#' In this matrix form:
+#' - **Rows** are mutation channels.
+#' - **Columns** are signature names.
+#' - **Values** are normalized mutation fractions.
+#'
+#' Includes an optional `"type"` attribute that describes the broader mutation type of each row (channel).
+#' This format is used by functions such as [sig_collection_reformat_matrix_to_list()].
+#'
+#' @return A numeric matrix of signature fractions with:
+#'   - rownames as channels,
+#'   - colnames as signature names,
+#'   - `type` attribute storing mutation type per channel.
+#'
+#' @examples
+#' example_signature_collection_matrix()
+#'
+#' @export
+#' @rdname signature_collection
+example_signature_collection_matrix <- function(){
+  matrix(
+    rep(c(0.4, 0.1, 0.5), 2),
+    nrow = 3L,
+    ncol = 2L,
+    dimnames = list(c("A[T>C]G", "A[T>C]C", "A[T>C]T"), c("sig1", "sig2"))
+  ) |>
+    structure(type = rep("T>C", 3L))
+}
+
 
 # Catalogues ----------------------------------------------------------
 
@@ -504,6 +537,39 @@ example_catalogue_collection_tidy <- function(){
     count = rep(c(5, 10, 12), 3),
     fraction = rep(c(0.18518519, 0.37037037, 0.44444444), 3)
   )
+}
+
+
+#' Example Catalogue Collection in Matrix Form
+#'
+#' Returns an example of a catalogue collection formatted as a matrix.
+#'
+#' In this matrix form:
+#' - **Rows** are mutation channels.
+#' - **Columns** are catalogue/sample names.
+#' - **Values** are mutation counts.
+#'
+#' Includes an optional `"type"` attribute that describes the broader mutation type of each row (channel).
+#' This format is used by functions such as [sig_collection_reformat_matrix_to_list()].
+#'
+#' @return A numeric matrix of mutation counts with:
+#'   - rows as channels,
+#'   - cols as signature names,
+#'   - `type` attribute storing mutation type per channel (character vector).
+#'
+#' @examples
+#' example_catalogue_collection_matrix()
+#'
+#' @export
+#' @rdname catalogue_collection
+example_catalogue_collection_matrix <- function(){
+  matrix(
+    rep(c(5, 10, 12), 3),
+    nrow = 3L,
+    ncol = 3L,
+    dimnames = list(c("A[T>C]G", "A[T>C]C", "A[T>C]T"), c("catalogue1", "catalogue2", "catalogue3"))
+  ) |>
+    structure(type = rep("T>C", 3L))
 }
 
 
