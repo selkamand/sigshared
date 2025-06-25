@@ -10,6 +10,7 @@
 assert_signature(
   obj,
   must_sum_to_one = TRUE,
+  allow_catalogues = TRUE,
   msg = NULL,
   call = rlang::caller_env(),
   arg_name = NULL
@@ -23,6 +24,8 @@ example_signature_empty()
 \item{obj}{object}
 
 \item{must_sum_to_one}{throw an error if the fraction column of the signature data.frame does NOT sum to one.}
+
+\item{allow_catalogues}{are catalogues (see \code{\link[=example_catalogue]{example_catalogue()}}) considered signatures?}
 
 \item{msg}{error message}
 

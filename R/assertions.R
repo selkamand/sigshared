@@ -14,7 +14,7 @@ p <- function(...){
 }
 
 # Check Functions ---------------------------------------------------------
-check_signature = function(obj, must_sum_to_one = TRUE){
+check_signature = function(obj, must_sum_to_one = TRUE, allow_catalogues=TRUE){
   required_cols = c('channel', 'type', 'fraction')
 
   # Not a data.frame
@@ -45,6 +45,7 @@ check_signature = function(obj, must_sum_to_one = TRUE){
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Found duplicated channels (',paste0(duplicated_channel, collapse = ", "), ')'))
   }
 
+
   # Missing Values
   if(anyNA(obj)){
     return('{.arg {arg_name}} is {.strong NOT} a valid signature: Found missing (NA) values')
@@ -63,6 +64,11 @@ check_signature = function(obj, must_sum_to_one = TRUE){
   # Even if fractions < 1 are allowed, ensure fraction is not > 1
   if(!must_sum_to_one & is_over_one(sum(obj[['fraction']]))) {
     return(paste0('{.arg {arg_name}} is {.strong NOT} a valid signature: Sum of fractions must be less than or equal to 1, not ', sum(obj[['fraction']])))
+  }
+
+  # Check if catalogue
+  if(!allow_catalogues & "count" %in% cols){
+    return('{.arg {arg_name}} is a catalogue, not a signature.')
   }
 
   return(invisible(TRUE))
@@ -599,6 +605,7 @@ check_similarity_against_cohort <- function(obj) {
 #' @param obj object
 #'
 #' @param must_sum_to_one throw an error if the fraction column of the signature data.frame does NOT sum to one.
+#' @param allow_catalogues are catalogues (see [example_catalogue()]) considered signatures?
 #' @param msg error message
 #' @param arg_name argument
 #' @param call internal paramater
