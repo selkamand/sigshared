@@ -10,6 +10,7 @@
 assert_signature(
   obj,
   must_sum_to_one = TRUE,
+  allow_catalogues = TRUE,
   msg = NULL,
   call = rlang::caller_env(),
   arg_name = NULL
@@ -24,6 +25,8 @@ example_signature_empty()
 
 \item{must_sum_to_one}{throw an error if the fraction column of the signature data.frame does NOT sum to one.}
 
+\item{allow_catalogues}{are catalogues (see \code{\link[=example_catalogue]{example_catalogue()}}) considered signatures?}
+
 \item{msg}{error message}
 
 \item{call}{internal paramater}
@@ -33,13 +36,13 @@ example_signature_empty()
 \value{
 Throws error if assertion fails, otherwise invisibly returns true
 
-A data.frame representing a valid exemplar signature signature in the 'sigverse' format.
+A data.frame representing a valid exemplar signature in the 'sigverse' format.
 }
 \description{
 \strong{Signature}: A mutational signature profile represented as a \code{data.frame} with the following 3 columns:
 \itemize{
 \item \code{type}: The type of mutation (e.g., T>C, C>T).
-\item \code{channel}: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
+\item \code{channel}: The mutational channel (e.g., A[T>C]G, C[C>T]G).
 \item \code{fraction}: The fraction of mutations attributed to this specific type and channel.
 }
 

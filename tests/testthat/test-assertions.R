@@ -26,7 +26,20 @@ test_that("assert_signature works", {
 
   # Fractions include negative values
   expect_error(assert_signature(example_invalid_signature_negative_fraction()), regexp = "Found negative fractions")
+
+  # Catalogue should pass when allow_catalogues = TRUE (default)
+  expect_no_error(assert_signature(example_catalogue()))
+
+  # Catalogue should fail when allow_catalogues = FALSE
+  expect_error(
+    assert_signature(example_catalogue(), allow_catalogues = FALSE),
+    regexp = "is a catalogue, not a signature"
+  )
+
+  # Signature passes irrespective of allow_catalogues
+  expect_no_error(assert_signature(example_signature(), allow_catalogues = FALSE))
 })
+
 
 # Test assert_signature_collection
 test_that("assert_signature_collection works", {

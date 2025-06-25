@@ -35,7 +35,7 @@ Assert object represents a catalogue
 
 \strong{Catalogue}: The mutational profile of a sample, represented as a \code{data.frame} with 4 required columns:
 \itemize{
-\item \code{channel}: The mutational channel (e.g., A\[T>C\]G, C\[C>T\]G).
+\item \code{channel}: The mutational channel (e.g., A[T>C]G, C[C>T]G).
 \item \code{type}: The type of mutation (higher level classification of channel, e.g. T>C, C>T).
 \item \code{fraction}: The fraction of mutations attributed to this channel.
 \item \code{count}: The count of mutations for this channel.

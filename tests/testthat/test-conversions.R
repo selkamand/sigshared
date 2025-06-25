@@ -40,10 +40,9 @@ test_that("Fraction matrix returns correct structure", {
   expect_equal(colnames(mx), c("sig1", "sig2"))
   expect_false(any(is.na(mx)))
 
-  types <- attr(mx, "types")
+  types <- attr(mx, "type")
   expect_type(types, "character")
-  expect_equal(names(types), rep("T>C", 3))
-  expect_equal(unname(types), c("A[T>C]G", "A[T>C]C", "A[T>C]T"))
+  expect_equal(types, rep("T>C", 3))
 })
 
 test_that("Count matrix works for catalogue collection", {
@@ -196,4 +195,101 @@ test_that("Each element has expected columns only", {
   expect_true(all(c("type", "channel", "count", "fraction") %in% names(out[[1]])))
   expect_false("catalogue" %in% names(out[[1]]))  # ID col should be removed
 })
+
+
+
+# Reformat Matrix to List -------------------------------------------------
+test_that("Signature matrix with fraction values returns expected structure", {
+  mx <- example_signature_collection_matrix()
+  expect_silent(out <- sig_collection_reformat_matrix_to_list(mx, values = "fraction"))
+
+  expect_type(out, "list")
+  expect_named(out)
+  expect_true(all(vapply(out, is.data.frame, logical(1))))
+  expect_true(all(c("channel", "type", "fraction") %in% colnames(out[[1]])))
+  expect_false("count" %in% colnames(out[[1]]))
+})
+
+test_that("Catalogue matrix with counts returns expected structure including computed fractions", {
+  mx <- example_catalogue_collection_matrix()
+  expect_silent(out <- sig_collection_reformat_matrix_to_list(mx, values = "count"))
+
+  expect_true(all(c("channel", "type", "count", "fraction") %in% colnames(out[[1]])))
+  expect_false(any(is.na(out[[1]]$fraction)))
+})
+
+test_that("Type attribute is respected and included", {
+  mx <- example_signature_collection_matrix()
+  attr(mx, "type") <- c("T>C", "C>T", "G>A")
+  out <- sig_collection_reformat_matrix_to_list(mx, values = "fraction")
+  expect_equal(out[[1]]$type, attr(mx, "type"))
+})
+
+test_that("Custom `types` argument overrides matrix attribute", {
+  mx <- example_signature_collection_matrix()
+  fake_types <- rep("X>X", nrow(mx))
+  out <- sig_collection_reformat_matrix_to_list(mx, types = fake_types, values = "fraction")
+  expect_equal(out[[1]]$type, fake_types)
+})
+
+test_that("No type attribute falls back to channel names and warns", {
+  mx <- example_signature_collection_matrix()
+  attr(mx, "type") <- NULL
+  expect_message(
+    out <- sig_collection_reformat_matrix_to_list(mx, values = "fraction", verbose = TRUE),
+    "using channel names as types"
+  )
+  expect_equal(out[[1]]$type, rownames(mx))
+})
+
+test_that("Matrix must be numeric with names", {
+  mx <- example_signature_collection_matrix()
+  mx_character <- as.matrix(as.character(mx))
+  expect_error(sig_collection_reformat_matrix_to_list(mx_character), "must be numeric")
+
+  colnames(mx) <- NULL
+  expect_error(sig_collection_reformat_matrix_to_list(mx), "colnames.*must not be NULL")
+
+  rownames(mx) <- NULL
+  expect_error(sig_collection_reformat_matrix_to_list(mx), "rownames.*must not be NULL")
+})
+
+test_that("Duplicate row or column names throw errors", {
+  mx <- example_signature_collection_matrix()
+  rownames(mx)[1] <- rownames(mx)[2]
+  expect_error(sig_collection_reformat_matrix_to_list(mx), "duplicated")
+
+  mx <- example_signature_collection_matrix()
+  colnames(mx)[1] <- colnames(mx)[2]
+  expect_error(sig_collection_reformat_matrix_to_list(mx), "duplicated")
+})
+
+test_that("Warnings emitted for mismatched values argument", {
+  mx <- example_signature_collection_matrix()
+  expect_message(
+    sig_collection_reformat_matrix_to_list(mx, values = "count", verbose = TRUE),
+    "contains only fractional values"
+  )
+
+  mx <- example_catalogue_collection_matrix()
+  expect_message(
+    sig_collection_reformat_matrix_to_list(mx, values = "fraction", verbose = TRUE),
+    "does not contain fractional values"
+  )
+})
+
+test_that("Single-column and single-row matrices work", {
+  mx <- example_signature_collection_matrix()
+  mx_single_col <- mx[, 1, drop = FALSE]
+  attr(mx_single_col, "type") <- attr(mx, "type")
+
+  expect_silent(out <- sig_collection_reformat_matrix_to_list(mx_single_col, values = "fraction"))
+  expect_length(out, 1)
+
+  mx_single_row <- mx[1, , drop = FALSE]
+  attr(mx_single_row, "type") <- attr(mx, "type")
+  expect_silent(out <- sig_collection_reformat_matrix_to_list(mx_single_row, values = "fraction"))
+  expect_true(all(lengths(lapply(out, \(x) unique(x$channel))) == 1))
+})
+
 

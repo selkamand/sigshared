@@ -4,6 +4,7 @@
 \alias{assert_signature_collection}
 \alias{signature_collection}
 \alias{example_signature_collection}
+\alias{example_signature_collection_matrix}
 \title{Signature Collections}
 \usage{
 assert_signature_collection(
@@ -14,6 +15,8 @@ assert_signature_collection(
 )
 
 example_signature_collection()
+
+example_signature_collection_matrix()
 }
 \arguments{
 \item{obj}{object}
@@ -26,6 +29,13 @@ example_signature_collection()
 }
 \value{
 A list containing multiple data.frames, each representing a valid signature.
+
+A numeric matrix of signature fractions with:
+\itemize{
+\item rownames as channels,
+\item colnames as signature names,
+\item \code{type} attribute storing mutation type per channel.
+}
 }
 \description{
 Assert object represents a signature collection
@@ -33,8 +43,23 @@ Assert object represents a signature collection
 \strong{Signature Collections}: A list of signature \code{data.frames}, where each list entry represents a signature, and the name of each entry corresponds to the signature’s name.
 
 This function returns a list of exemplar signatures with valid data following the 'sigverse' style. The list represents a collection of valid signatures.
+
+Returns an example of a signature collection formatted as a matrix.
+}
+\details{
+In this matrix form:
+\itemize{
+\item \strong{Rows} are mutation channels.
+\item \strong{Columns} are signature names.
+\item \strong{Values} are normalized mutation fractions.
+}
+
+Includes an optional \code{"type"} attribute that describes the broader mutation type of each row (channel).
+This format is used by functions such as \code{\link[=sig_collection_reformat_matrix_to_list]{sig_collection_reformat_matrix_to_list()}}.
 }
 \examples{
 example_signature_collection()
+
+example_signature_collection_matrix()
 
 }
