@@ -243,43 +243,52 @@ kable(sig_aetiology_classes())
 
 ### For Developers
 
-#### Argument Naming
+#### Argument Naming Conventions
 
-*Catalogue*
+- **`catalogue`**  
+  A single mutational catalogue for a sample. A `data.frame` with
+  columns: `channel`, `type`, `fraction`, `count`. Catalogues may be
+  empirical (observed) or simulated.  
+  *See*: `sigshared::example_catalogue()`
 
-    catalogue: The mutational profile of a sample, described by tallying mutations belonging to each mutational channel. Catalogues are not always observational. They can also be simulated from signature models. Must be a sigverse-style data.frame (contain colums: channel, type, fraction, count). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+- **`signature`**  
+  A mutational signature profile. A `data.frame` with columns: `type`,
+  `channel`, `fraction`.  
+  *See*: `sigshared::example_signature()`
 
-*Signature*
+- **`signatures`**  
+  A collection of signatures. A named list of `signature` data.frames.  
+  *See*: `sigshared::example_signature_collection()`
 
-    signature: The profile of a mutational signature. Must be a data.frame (with columns: type, channel & fraction). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+- **`catalogues`**  
+  A collection of catalogues. A named list of `catalogue` data.frames.  
+  *See*: `sigshared::example_catalogue_collection()`
 
-*Signature collection*
+- **`model`**  
+  A named numeric vector describing a signature mixture. Names are
+  signature IDs, values are their proportional contributions (e.g.,
+  `c(SBS1 = 0.6, SBS5 = 0.4)`).  
+  *See*: `sigshared::example_model()`
 
-    signatures:     A sigverse signature collection. A named list of sigstash signature data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+- **`cohort`**  
+  A data.frame describing signature contributions per sample. Columns:
+  `sample`, `signature`, `contribution_absolute`, `contribution`.  
+  *See*: `sigshared::example_cohort()`
 
-*Catalogue collection*
+- **`cohort_metadata`**  
+  Sample-level metadata as a data.frame. Must include columns: `sample`,
+  `disease`. Can include others.  
+  *See*: `sigshared::example_metadata()`
 
-    catalogues: A sigverse-style catalogue collection. A named list of sigstash catalogue data.frames. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
+- **`similarity_against_cohort`**  
+  A data.frame summarizing pairwise similarity between a sample and all
+  others in the cohort. Columns: `sample`, `cosine_similarity`.  
+  *See*: `sigshared::example_similarity_against_cohort()`
 
-*Cohort Signature Analysis Results*
-
-    cohort: A sigverse-style data.frame describing the contributions of signatures in each sample (must contain columns: sample, signature contribution_absolute, contribution). See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
-
-*Signature Model Specification*
-
-    model: A named numeric vector where names represent signatures and values represent their proportional contribution to the model. See \href{https://github.com/selkamand/sigshared?tab=readme-ov-file#sigverse-data-types}{sigshared readme} for details.
-
-*Cohort Metadata*
-
-    cohort_metadata: A data frame describing sample-level metadata. Requires the following columns: sample, disease. Can include additional columns with other metadata. See the sigshared readme for details.
-
-*Similarity Against Cohort*
-
-    similarity_against_cohort: A data frame that describes how similar a specific sample catalogue is to others in the cohort. Two columns: sample (no duplicates or missing values), cosine_similarity (numeric). See the sigshared readme for details.
-
-*UMAP*
-
-    umap: A data frame representing the UMAP created based on sample catalogues. Requires the following columns: sample (no duplicates or missing values), dim1 (numeric), dim2 (numeric). See the sigshared readme for details.
+- **`umap`**  
+  A 2D UMAP projection of catalogue similarities. A data.frame with
+  columns: `sample`, `dim1`, `dim2`.  
+  *See*: `sigshared::example_umap()`
 
 ## Example Data
 
