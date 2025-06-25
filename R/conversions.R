@@ -3,8 +3,7 @@
 #' Transforms a signature or catalogue collection into a matrix format,
 #' with channels as rows and signatures as columns.
 #'
-#' The resulting matrix includes an attribute `types`, which maps each channel to its corresponding mutation type.
-#' This is a named character vector: names are mutation types, and values are channel labels.
+#' The resulting matrix includes an attribute `type`. This vector describing mutation type of each row (channel) in matrix.
 #'
 #' @param signatures A sigverse signature or catalogue collection. A named list of sigstash signature data.frames.
 #' See [example_signature_collection()] or [example_catalogue_collection()].
@@ -63,9 +62,7 @@ sig_collection_reformat_list_to_matrix <- function(signatures, values = c("fract
   rownames(mx_wide) <- first_sig_channel_order
 
   # Attach 'types' attribute: names are mutation types, values are corresponding channels
-  channels <- first_sig_channel_order
-  names(channels) <- first_sig_type_order
-  attr(mx_wide, which = "types") <- channels
+  attr(mx_wide, which = "type") <- first_sig_type_order
 
   return(mx_wide)
 }

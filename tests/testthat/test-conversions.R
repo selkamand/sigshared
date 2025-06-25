@@ -40,10 +40,9 @@ test_that("Fraction matrix returns correct structure", {
   expect_equal(colnames(mx), c("sig1", "sig2"))
   expect_false(any(is.na(mx)))
 
-  types <- attr(mx, "types")
+  types <- attr(mx, "type")
   expect_type(types, "character")
-  expect_equal(names(types), rep("T>C", 3))
-  expect_equal(unname(types), c("A[T>C]G", "A[T>C]C", "A[T>C]T"))
+  expect_equal(types, rep("T>C", 3))
 })
 
 test_that("Count matrix works for catalogue collection", {
