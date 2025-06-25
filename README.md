@@ -33,10 +33,10 @@ devtools::install_github("selkamand/sigshared")
 
 ## Sigverse Data Types
 
-<table style="width:89%;">
+<table style="width:86%;">
 <colgroup>
-<col style="width: 44%" />
-<col style="width: 44%" />
+<col style="width: 43%" />
+<col style="width: 43%" />
 </colgroup>
 <thead>
 <tr>
@@ -100,19 +100,21 @@ a sample identifier.</td>
 <ol type="1">
 <li><p><strong>sample</strong></p></li>
 <li><p><strong>signature</strong></p></li>
-<li><p><strong>contribution_absolute</strong></p></li>
+</ol>
+<p>3 . <strong>contribution_absolute</strong></p>
+<ol start="4" type="1">
 <li><p><strong>contribution</strong></p></li>
 <li><p><strong>p_value</strong> (see `?sigstats::sig_com p</p></li>
 </ol>
-<p>ute_experimental_p_value()`)</p></td>
+<p>u te_experimental_p_value()`)</p></td>
 </tr>
 <tr>
 <td><strong>Bootstraps</strong></td>
 <td><p>data.frame with 1 row per signature per bootstrap</p>
 <ol type="1">
 <li><strong>bootstrap</strong></li>
-<li><strong>signature</strong></li>
-<li><strong>contribution_absolute</strong></li>
+<li><strong>signature</strong> 3 .
+<strong>contribution_absolute</strong></li>
 <li><strong>contribution</strong> (percentage)</li>
 </ol></td>
 </tr>
@@ -423,10 +425,23 @@ sig_collection_reformat_list_to_matrix(example_signature_collection())
 #> A[T>C]G  0.4  0.4
 #> A[T>C]C  0.1  0.1
 #> A[T>C]T  0.5  0.5
-#> attr(,"types")
-#>       T>C       T>C       T>C 
-#> "A[T>C]G" "A[T>C]C" "A[T>C]T"
+#> attr(,"type")
+#> [1] "T>C" "T>C" "T>C"
 
+# Matrix -> List of signatures
+sig_collection_reformat_matrix_to_list(example_signature_collection_matrix(),
+                                       values = "fraction")
+#> $sig1
+#>   channel type fraction
+#> 1 A[T>C]G  T>C      0.4
+#> 2 A[T>C]C  T>C      0.1
+#> 3 A[T>C]T  T>C      0.5
+#> 
+#> $sig2
+#>   channel type fraction
+#> 1 A[T>C]G  T>C      0.4
+#> 2 A[T>C]C  T>C      0.1
+#> 3 A[T>C]T  T>C      0.5
 
 # List of signatures -> tidy data.frame
 sig_collection_reformat_list_to_tidy(example_signature_collection())
@@ -452,15 +467,36 @@ sig_collection_reformat_tidy_to_list(example_signature_collection_tidy())
 #> 5  T>C A[T>C]C      0.1
 #> 6  T>C A[T>C]T      0.5
 
+
+
 # All the above methods work with catalogues
 sig_collection_reformat_list_to_matrix(example_catalogue_collection(), values = "count")
 #>         catalogue1 catalogue2 catalogue3
 #> A[T>C]G          5          5          5
 #> A[T>C]C         10         10         10
 #> A[T>C]T         12         12         12
-#> attr(,"types")
-#>       T>C       T>C       T>C 
-#> "A[T>C]G" "A[T>C]C" "A[T>C]T"
+#> attr(,"type")
+#> [1] "T>C" "T>C" "T>C"
+
+sig_collection_reformat_matrix_to_list(example_catalogue_collection_matrix(), 
+                                       values = "count")
+#> $catalogue1
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
+#> 
+#> $catalogue2
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
+#> 
+#> $catalogue3
+#>   channel type count  fraction
+#> 1 A[T>C]G  T>C     5 0.1851852
+#> 2 A[T>C]C  T>C    10 0.3703704
+#> 3 A[T>C]T  T>C    12 0.4444444
 ```
 
 ## Other Utility Functions
@@ -494,6 +530,10 @@ bselect(mtcars, c("mpg"))
 # Evaluate code with a specific random seed
 with_seed(seed = 123, { runif(1) })
 #> [1] 0.2875775
+
+# Compute fraction from count vector
+compute_fraction(c(1, 100, 10, 40))
+#> [1] 0.006622517 0.662251656 0.066225166 0.264900662
 ```
 
 ## S3 classes
