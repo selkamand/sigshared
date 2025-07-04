@@ -22,6 +22,20 @@ NULL
 #' **Signature Collections**: A list of signature `data.frames`, where each list entry represents a signature, and the name of each entry corresponds to the signature’s name.
 NULL
 
+## Signature Collection Matrix -----------------------------------------------------------------
+#' @name signature_collection_matrix
+#' @title Signature Collection Matrix
+#' @description
+#' **Signature Collection Matrix**: A numeric matrix representing a set of mutational signatures.
+#' - **Rows**: mutation channels (character rownames, no duplicates or NAs)
+#' - **Columns**: signature names (character colnames, no duplicates or NAs)
+#' - **Values**: normalized mutation fractions per signature (each column sums to 1)
+#' - An optional "type" attribute: character vector of length nrow describing each channel's mutation type
+#'
+#' Used in functions such as [example_signature_collection_matrix()], [sig_collection_reformat_matrix_to_list()], and [assert_signature_collection_matrix()].
+NULL
+
+
 ## Signature Annotation -----------------------------------------------------------------
 #' @name signature_annotation
 #'
@@ -335,26 +349,22 @@ example_signature_collection_tidy <- function(){
 
 #' Example Signature Collection in Matrix Form
 #'
-#' Returns an example of a signature collection formatted as a matrix.
+#' [example_signature_collection_matrix()] returns an example of a signature collection formatted as a matrix.
 #'
-#' In this matrix form:
-#' - **Rows** are mutation channels.
-#' - **Columns** are signature names.
-#' - **Values** are normalized mutation fractions.
 #'
 #' Includes an optional `"type"` attribute that describes the broader mutation type of each row (channel).
 #' This format is used by functions such as [sig_collection_reformat_matrix_to_list()].
 #'
-#' @return A numeric matrix of signature fractions with:
-#'   - rownames as channels,
-#'   - colnames as signature names,
-#'   - `type` attribute storing mutation type per channel.
+#' @return [example_signature_collection_matrix()] Returns a numeric matrix of signature fractions where:
+#' - **Rows** are mutation channels.
+#' - **Columns** are signature names.
+#' - **Values** are normalized mutation fractions.
 #'
 #' @examples
 #' example_signature_collection_matrix()
 #'
 #' @export
-#' @rdname signature_collection
+#' @rdname signature_collection_matrix
 example_signature_collection_matrix <- function(){
   matrix(
     rep(c(0.4, 0.1, 0.5), 2),
@@ -544,18 +554,13 @@ example_catalogue_collection_tidy <- function(){
 #'
 #' Returns an example of a catalogue collection formatted as a matrix.
 #'
-#' In this matrix form:
-#' - **Rows** are mutation channels.
-#' - **Columns** are catalogue/sample names.
-#' - **Values** are mutation counts.
-#'
 #' Includes an optional `"type"` attribute that describes the broader mutation type of each row (channel).
 #' This format is used by functions such as [sig_collection_reformat_matrix_to_list()].
 #'
-#' @return A numeric matrix of mutation counts with:
-#'   - rows as channels,
-#'   - cols as signature names,
-#'   - `type` attribute storing mutation type per channel (character vector).
+#' @return A numeric matrix of mutation counts where:
+#' - **Rows** are mutation channels.
+#' - **Columns** are catalogue/sample names.
+#' - **Values** are mutation counts.
 #'
 #' @examples
 #' example_catalogue_collection_matrix()
