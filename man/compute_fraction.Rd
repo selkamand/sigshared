@@ -2,23 +2,49 @@
 % Please edit documentation in R/computations.R
 \name{compute_fraction}
 \alias{compute_fraction}
-\title{Convert counts into fractions of total counts}
+\title{Convert Raw Counts to Fractional Representation}
 \usage{
-compute_fraction(counts)
+compute_fraction(counts, zero.method = c("zero", "uniform"), validate = TRUE)
 }
 \arguments{
-\item{counts}{a numeric vector of counts}
+\item{counts}{Numeric vector of counts. Negative values are treated as absolute values.}
+
+\item{zero.method}{Character; one of \code{c("zero", "uniform")}.
+Specifies behavior when \code{sum(abs(counts)) == 0}:
+\itemize{
+\item \code{"zero"}: return a zero vector.
+\item \code{"uniform"}: return a uniform probability vector.
+Default: \code{"zero"}.
+}}
+
+\item{validate}{Logical; if \code{TRUE} (default), inputs are checked for being numeric, non-NA,
+and finite.  If \code{FALSE}, those checks are skipped (for performance when you know inputs are clean).}
 }
 \value{
-a numeric vector of fractions
+A numeric vector of the same length as \code{counts}:
+\itemize{
+\item If \code{sum(abs(counts)) > 0}, returns \code{abs(counts) / sum(abs(counts))}.
+\item Otherwise, returns either all zeros or a uniform distribution, as specified.
+}
 }
 \description{
-Convert counts into fractions of total counts, dealing with zero sum counts by setting to zero instead of Inf
+Takes a numeric vector of counts and returns the absolute values divided by the total count.
+If the sum of absolute counts is zero, the \code{zero.method} argument controls how to handle that case:
+\itemize{
+\item \code{"zero"} (default): returns a vector of zeros
+\item \code{"uniform"}: returns a uniform distribution (each element = 1/length(counts))
 }
-\details{
-Uses absolute value of counts for computing fractions.
 }
 \examples{
+# Standard case
 compute_fraction(c(10, 2, 1000, 50, 250))
 
+# All-zero input with default behavior
+compute_fraction(c(0, 0, 0))
+
+# All-zero input, uniform fallback
+compute_fraction(c(0, 0, 0), zero.method = "uniform")
+
+# Skip input validation for speed
+compute_fraction(c(1,2,3), validate = FALSE)
 }
