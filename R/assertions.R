@@ -244,6 +244,62 @@ check_catalogue_collection <- function(obj){
   return(invisible(TRUE))
 }
 
+check_signature_collection_matrix <- function(obj, tolerance = 5e-7, must_sum_to_one = FALSE) {
+
+  # Check matrix
+  if (!is.matrix(obj))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: object is not a matrix")
+
+  # Must be numeric
+  if (!is.numeric(obj))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: matrix must be numeric")
+
+  # Check rownames
+  if (is.null(rownames(obj)) || anyNA(rownames(obj)) || any(!nzchar(rownames(obj))))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: missing, empty, or NA rownames")
+  if (anyDuplicated(rownames(obj)))
+    return(p("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: found duplicated rownames (",
+             toString(rownames(obj)[duplicated(rownames(obj))]), ")"))
+
+  # Check colnames
+  if (is.null(colnames(obj)) || anyNA(colnames(obj)) || any(!nzchar(colnames(obj))))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: missing, empty, or NA colnames")
+  if (anyDuplicated(colnames(obj)))
+    return(p("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: found duplicated colnames (",
+             toString(colnames(obj)[duplicated(colnames(obj))]), ")"))
+
+  # Check missing values in matrix
+  if (anyNA(obj))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: matrix contains missing (NA) values")
+
+  # Check for negative values
+  if (any(obj < 0))
+    return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: matrix contains negative fractions")
+
+  # Fractions per column must sum to 1
+  if(must_sum_to_one){
+    col_sums <- colSums(obj)
+    if (any(!vapply(col_sums, is_one, logical(1), tolerance = tolerance))) {
+      bad_cols <- which(!vapply(col_sums, is_one, logical(1), tolerance = tolerance))
+      colnames_bad <- colnames(obj)[bad_cols]
+      msg <- p("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: columns [",
+               paste0(colnames_bad, collapse = ", "),
+               "] do not sum to 1")
+      return(msg)
+    }
+  }
+
+  # If "type" attribute present, must be character, length == nrow, no NA
+  if (!is.null(attr(obj, "type"))) {
+    types <- attr(obj, "type")
+    if (!is.character(types) || length(types) != nrow(obj) || anyNA(types))
+      return("{.arg {arg_name}} is {.strong NOT} a valid signature collection matrix: invalid 'type' attribute (must be character vector of length nrow with no NA)")
+  }
+
+  return(invisible(TRUE))
+}
+
+
 check_signature_annotation <- function(obj, required_signatures = NULL){
   required_cols = c('signature', 'aetiology', 'class', 'subclass')
 
@@ -758,3 +814,12 @@ assert_umap <- assertions::assert_create(check_umap)
 assert_similarity_against_cohort <- assertions::assert_create(check_similarity_against_cohort)
 
 
+#' Assert object is a valid signature collection matrix
+#'
+#' @inheritParams assert_signature
+#' @param tolerance numerical tolerance for column sums (default: 5e-7)
+#'
+#' @return [assert_signature_collection_matrix()] Throws error if assertion fails, otherwise invisibly returns TRUE
+#' @export
+#' @rdname signature_collection_matrix
+assert_signature_collection_matrix <- assertions::assert_create(check_signature_collection_matrix)

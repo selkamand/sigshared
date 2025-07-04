@@ -7,24 +7,17 @@
 example_catalogue_collection_matrix()
 }
 \value{
-A numeric matrix of mutation counts with:
+A numeric matrix of mutation counts where:
 \itemize{
-\item rows as channels,
-\item cols as signature names,
-\item \code{type} attribute storing mutation type per channel (character vector).
+\item \strong{Rows} are mutation channels.
+\item \strong{Columns} are catalogue/sample names.
+\item \strong{Values} are mutation counts.
 }
 }
 \description{
 Returns an example of a catalogue collection formatted as a matrix.
 }
 \details{
-In this matrix form:
-\itemize{
-\item \strong{Rows} are mutation channels.
-\item \strong{Columns} are catalogue/sample names.
-\item \strong{Values} are mutation counts.
-}
-
 Includes an optional \code{"type"} attribute that describes the broader mutation type of each row (channel).
 This format is used by functions such as \code{\link[=sig_collection_reformat_matrix_to_list]{sig_collection_reformat_matrix_to_list()}}.
 }

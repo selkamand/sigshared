@@ -363,3 +363,116 @@ test_that("assert_similarity_against_cohort works", {
 })
 
 
+test_that("assert_signature_collection_matrix works", {
+
+  # Valid matrix
+  expect_no_error(assert_signature_collection_matrix(example_signature_collection_matrix()))
+
+  # Not a matrix
+  expect_error(assert_signature_collection_matrix(as.data.frame(example_signature_collection_matrix())),
+               regexp = "object is not a matrix")
+
+  # Not numeric
+  m <- example_signature_collection_matrix()
+  m_char <- matrix(as.character(m), nrow = 3)
+  rownames(m_char) <- rownames(m)
+  colnames(m_char) <- colnames(m)
+  expect_error(assert_signature_collection_matrix(m_char),
+               regexp = "matrix must be numeric")
+
+  # Missing rownames
+  m <- example_signature_collection_matrix()
+  rownames(m) <- NULL
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA rownames")
+
+  # NA rownames
+  m <- example_signature_collection_matrix()
+  rownames(m)[1] <- NA
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA rownames")
+
+  # Empty rownames
+  m <- example_signature_collection_matrix()
+  rownames(m)[1] <- ""
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA rownames")
+
+  # Duplicated rownames
+  m <- example_signature_collection_matrix()
+  rownames(m)[2] <- rownames(m)[1]
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "duplicated rownames")
+
+  # Missing colnames
+  m <- example_signature_collection_matrix()
+  colnames(m) <- NULL
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA colnames")
+
+  # NA colnames
+  m <- example_signature_collection_matrix()
+  colnames(m)[1] <- NA
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA colnames")
+
+  # Empty colnames
+  m <- example_signature_collection_matrix()
+  colnames(m)[1] <- ""
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "missing, empty, or NA colnames")
+
+  # Duplicated colnames
+  m <- example_signature_collection_matrix()
+  colnames(m)[2] <- colnames(m)[1]
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "duplicated colnames")
+
+  # NA in matrix
+  m <- example_signature_collection_matrix()
+  m[1, 1] <- NA
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "matrix contains missing")
+
+  # Negative values
+  m <- example_signature_collection_matrix()
+  m[1, 1] <- -0.1
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "matrix contains negative")
+
+  # Columns do not sum to 1 when required
+  m <- example_signature_collection_matrix()
+  m[, 1] <- m[, 1] * 0.5
+  expect_error(assert_signature_collection_matrix(m, must_sum_to_one = TRUE),
+               regexp = "do not sum to 1")
+
+  # Columns sum to 1 within tolerance
+  m <- example_signature_collection_matrix()
+  m[, 1] <- m[, 1] + c(1e-8, -1e-8, 0)
+  expect_no_error(assert_signature_collection_matrix(m, must_sum_to_one = TRUE))
+
+  # Valid 'type' attribute
+  m <- example_signature_collection_matrix()
+  attr(m, "type") <- rep("T>C", nrow(m))
+  expect_no_error(assert_signature_collection_matrix(m))
+
+  # Invalid 'type': NA
+  m <- example_signature_collection_matrix()
+  attr(m, "type") <- c("T>C", NA, "T>C")
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "invalid 'type' attribute")
+
+  # Invalid 'type': wrong length
+  m <- example_signature_collection_matrix()
+  attr(m, "type") <- c("T>C", "T>C")
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "invalid 'type' attribute")
+
+  # Invalid 'type': not character
+  m <- example_signature_collection_matrix()
+  attr(m, "type") <- 1:3
+  expect_error(assert_signature_collection_matrix(m),
+               regexp = "invalid 'type' attribute")
+})
+
+

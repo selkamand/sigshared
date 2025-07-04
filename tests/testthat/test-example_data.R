@@ -28,6 +28,10 @@ test_that("All exported example_* functions run without error and return expecte
   expect_no_error(example_signature_collection_tidy())
   expect_s3_class(example_signature_collection_tidy(), "data.frame")
 
+  expect_no_error(example_signature_collection_matrix())
+  expect_true(is.matrix(example_signature_collection_matrix()))
+  expect_no_error(assert_signature_collection_matrix(example_signature_collection_matrix()))
+
   # Catalogues
   expect_no_error(example_catalogue())
   expect_s3_class(example_catalogue(), "data.frame")
@@ -41,6 +45,10 @@ test_that("All exported example_* functions run without error and return expecte
 
   expect_no_error(example_catalogue_collection_tidy())
   expect_s3_class(example_catalogue_collection_tidy(), "data.frame")
+
+  expect_no_error(example_catalogue_collection_matrix())
+  expect_true(is.matrix(example_catalogue_collection_matrix()))
+  expect_no_error(assert_signature_collection_matrix(example_signature_collection_matrix(), must_sum_to_one = FALSE))
 
   # Annotations
   expect_no_error(example_annotations())
